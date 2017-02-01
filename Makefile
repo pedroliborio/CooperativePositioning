@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for locvanet
+# OMNeT++/OMNEST Makefile for CooperativePositioning
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep -O out -I../veins/src -I../veins/src/veins/modules/mobility/traci -L../veins/out/$$\(CONFIGNAME\)/src -lproj -lveins -KVEINS_PROJ=../veins
 #
 
 # Name of target to be created (-o option)
-TARGET = locvanet$(EXE_SUFFIX)
+TARGET = CooperativePositioning$(EXE_SUFFIX)
 
 # User interface (uncomment one) (-u option)
 USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LIBS)
@@ -190,7 +190,7 @@ smheaders: $(SMFILES:.sm=_sm.h)
 clean:
 	$(qecho) Cleaning...
 	$(Q)-rm -rf $O
-	$(Q)-rm -f locvanet locvanet.exe liblocvanet.so liblocvanet.a liblocvanet.dll liblocvanet.dylib
+	$(Q)-rm -f CooperativePositioning CooperativePositioning.exe libCooperativePositioning.so libCooperativePositioning.a libCooperativePositioning.dll libCooperativePositioning.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h ./*_sm.cc ./*_sm.h
 	$(Q)-rm -f Types/*_m.cc Types/*_m.h Types/*_sm.cc Types/*_sm.h
 	$(Q)-rm -f communication/*_m.cc communication/*_m.h communication/*_sm.cc communication/*_sm.h

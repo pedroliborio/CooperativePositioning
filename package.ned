@@ -1,3 +1,3 @@
-package com.liborio.locvanet;
+package com.liborio.cooperativepositioning;
 
 @license(LGPL);

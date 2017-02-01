@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package com.liborio.locvanet.communication;
+package com.liborio.cooperativepositioning.communication;
 
 import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
