@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+        <vType accel="1.0" decel="5.0" id="Car" length="3.5" maxSpeed="16.67" sigma="0.0" color="1,1,0"/>    
+
+        <route id="tunnel_route" edges="23874453"/>
+
+        <flow id="flow_tunnel" departLane="random" route="tunnel_route" begin="0.0" end="10.0" vehsPerHour="3600" departSpeed="max"  />
+</routes>

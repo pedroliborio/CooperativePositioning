@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+        <vType accel="1.0" decel="5.0" id="Car" length="3.5" maxSpeed="16.67" sigma="0.0" />    
+
+        <route id="RIO450EntranceExit" edges="372924399#0 372924399#1 372924399#2 372924399#3 372924399#4 372924399#5 372924399#6 372924399#7 30989127#0 30989127#1 65583216#0 65583216#1 130347317#0 130347317#1 130347317#2 130347317#3 130347317#4 130347317#5 130347317#6 130347317#7 130347317#8 130347317#9 130347317#10 130347317#11 130347319 30989136 251211066 173419300 252028893 422049769 173419316 173419311 176407075 194996847"/>
+
+        <flow id="flowEntranceExit" departLane="random" route="RIO450EntranceExit" begin="0.0" end="60.0" vehsPerHour="3600" departSpeed="max" color="1,0,0" />
+</routes>

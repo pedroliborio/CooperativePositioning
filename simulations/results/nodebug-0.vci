@@ -1,0 +1,105 @@
+file 13220 1479152399                                           
+version 2
+run nodebug-0-20160919-16:50:01-15274
+attr configname nodebug
+attr datetime 20160919-16:50:01
+attr experiment nodebug
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network com.liborio.locvanet.LocScenario
+attr processid 15274
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.coreDebug false
+param **.debug false
+param *.**.nic.mac1609_4.bitrate 18Mbps
+param *.**.nic.mac1609_4.txPower 20mW
+param *.**.nic.mac1609_4.useServiceChannel false
+param *.**.nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.sensitivity -89dBm
+param *.**.nic.phy80211p.thermalNoise -110dBm
+param *.**.nic.phy80211p.usePropagationDelay true
+param *.**.nic.phy80211p.useThermalNoise true
+param *.annotations.draw false
+param *.connectionManager.alpha 2.0
+param *.connectionManager.carrierFrequency "5.890e9 Hz"
+param *.connectionManager.pMax 20mW
+param *.connectionManager.sat -89dBm
+param *.connectionManager.sendDirect true
+param *.manager.autoShutdown true
+param *.manager.host "\"localhost\""
+param *.manager.launchConfig "xmldoc(\"tunnel.launchd.xml\")"
+param *.manager.margin 25
+param *.manager.moduleDisplayString "\"\""
+param *.manager.moduleName "\"node\""
+param *.manager.moduleType "\"org.car2x.veins.nodes.Car\""
+param *.manager.port 9999
+param *.manager.updateInterval 0.1s
+param *.node[*].appl.beaconInterval 1s
+param *.node[*].appl.beaconPriority 3
+param *.node[*].appl.dataOnSch false
+param *.node[*].appl.dataPriority 2
+param *.node[*].appl.debug false
+param *.node[*].appl.headerLength "256 bit"
+param *.node[*].appl.maxOffset 0.005s
+param *.node[*].appl.sendBeacons true
+param *.node[*].appl.sendData true
+param *.node[*].applType "\"LocAppCom\""
+param *.node[*].mobilityType "\"TraCIMobility\""
+param *.node[*].mobilityType.debug true
+param *.node[*].veinsmobility.x 0
+param *.node[*].veinsmobility.y 0
+param *.node[*].veinsmobility.z 1.895
+param *.node[*].veinsmobilityType "\"org.car2x.veins.modules.mobility.traci.TraCIMobility\""
+param *.node[*].veinsmobilityType.debug true
+param *.playgroundSizeX 5000m
+param *.playgroundSizeY 5000m
+param *.playgroundSizeZ 50m
+param *.world.use2D false
+param *.world.useTorus false
+vector 2  LocScenario.node[0].veinsmobility  posx  ETV
+2	3504 868 2 138 0.1 3.5 35 26.697598627787 27.314987659305 944.90744537577 25511.239955645
+vector 3  LocScenario.node[0].veinsmobility  posy  ETV
+3	4372 872 2 138 0.1 3.5 35 350.19106546536 416.34012864494 13447.811872887 5181169.2028833
+vector 4  LocScenario.node[0].veinsmobility  speed  ETV
+4	5244 845 3 138 0.2 3.5 34 19.992779615424 20.110765312368 681.50998018458 13660.510221806
+vector 5  LocScenario.node[0].veinsmobility  acceleration  ETV
+5	6089 875 4 138 0.3 3.5 33 -1.0897478351137 1.1109287468717 -0.40268001148942 9.1137069394004
+vector 6  LocScenario.node[0].veinsmobility  co2emission  ETV
+6	6964 764 4 138 0.3 3.5 33 0.57339435374697 8.2158535193553 103.65843077748 458.70646555623
+vector 9  LocScenario.node[1].veinsmobility  posx  ETV
+9	7728 628 21 138 1.1 3.5 25 26.697598627787 27.101707700796 672.26656194837 18078.08697175
+vector 10  LocScenario.node[1].veinsmobility  posy  ETV
+10	8356 651 21 138 1.1 3.5 25 373.04257193882 416.34012864494 9891.3660396776 3918085.1126503
+vector 11  LocScenario.node[1].veinsmobility  speed  ETV
+11	9007 627 22 138 1.2 3.5 24 18.566314861134 19.110770106139 452.09725903416 8517.0209110579
+vector 12  LocScenario.node[1].veinsmobility  acceleration  ETV
+12	9634 635 23 138 1.3 3.5 23 -0.69961136599655 1.5384814842876 5.4445524500541 7.804271911546
+vector 13  LocScenario.node[1].veinsmobility  co2emission  ETV
+13	10269 572 23 138 1.3 3.5 23 0.72835671801143 9.6622923283032 88.245185644076 454.93360515443
+vector 16  LocScenario.node[2].veinsmobility  posx  ETV
+16	10841 396 61 138 2.1 3.5 15 23.397598627787 23.640933064573 352.66664151116 8291.6775140932
+vector 17  LocScenario.node[2].veinsmobility  posy  ETV
+17	11237 397 61 138 2.1 3.5 15 390.22927420053 416.30025728988 6062.0797222016 2450994.1344869
+vector 18  LocScenario.node[2].veinsmobility  speed  ETV
+18	11634 369 62 138 2.2 3.5 14 19.99719304058 20.117557326257 280.72029685653 5628.8711576975
+vector 19  LocScenario.node[2].veinsmobility  acceleration  ETV
+19	12003 366 63 138 2.3 3.5 13 -0.77129770177418 1.0903897058451 -0.74815849929586 3.6946862677711
+vector 20  LocScenario.node[2].veinsmobility  co2emission  ETV
+20	12369 304 63 138 2.3 3.5 13 0.73554913338781 8.1143890934944 37.216406808435 172.70941812217
+vector 23  LocScenario.node[3].veinsmobility  posx  ETV
+23	12673 135 134 138 3.1 3.5 5 26.697598627787 26.753851545064 133.60052946014 3569.8226857906
+vector 24  LocScenario.node[3].veinsmobility  posy  ETV
+24	12808 135 134 138 3.1 3.5 5 410.31300864605 416.34012864494 2069.6431367888 856711.995052
+vector 25  LocScenario.node[3].veinsmobility  speed  ETV
+25	12943 108 135 138 3.2 3.5 4 20.061506501357 20.102421637475 80.334226839393 1613.3983215248
+vector 26  LocScenario.node[3].veinsmobility  acceleration  ETV
+26	13051 88 136 138 3.3 3.5 3 -0.30785834854466 -0.01879369767849 -0.40915136118418 0.10193610281011
+vector 27  LocScenario.node[3].veinsmobility  co2emission  ETV
+27	13139 81 136 138 3.3 3.5 3 1.3359031786226 2.7388418944639 6.4995128677193 15.165391083413

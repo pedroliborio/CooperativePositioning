@@ -1,0 +1,1 @@
+683301.07 5914754.73 +proj=utm +zone=29 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"

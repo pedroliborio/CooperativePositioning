@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- debug config -->
+<launch>
+	<copy file="tunnel.net.xml" />
+	<copy file="tunnel.rou.xml" />
+	<!--<copy file="erlangen.poly.xml" /> -->
+	<copy file="tunnel.sumo.cfg" type="config" />
+</launch>

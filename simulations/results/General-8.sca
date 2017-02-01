@@ -1,0 +1,265 @@
+version 2
+run General-8-20161208-15:07:08-758
+attr configname General
+attr datetime 20161208-15:07:08
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=8
+attr measurement ""
+attr network com.liborio.locvanet.LocScenario
+attr processid 758
+attr repetition 8
+attr replication #8
+attr resultdir results
+attr runnumber 8
+attr seedset 8
+param **.coreDebug false
+param **.debug false
+param *.**.nic.mac1609_4.bitrate 18Mbps
+param *.**.nic.mac1609_4.txPower 20mW
+param *.**.nic.mac1609_4.useServiceChannel false
+param *.**.nic.phy80211p.analogueModels "xmldoc(\"config_trgi.xml\")"
+param *.**.nic.phy80211p.decider "xmldoc(\"config_trgi.xml\")"
+param *.**.nic.phy80211p.sensitivity -89dBm
+param *.**.nic.phy80211p.thermalNoise -110dBm
+param *.**.nic.phy80211p.usePropagationDelay true
+param *.**.nic.phy80211p.useThermalNoise true
+param *.annotations.draw false
+param *.connectionManager.alpha 2.0
+param *.connectionManager.carrierFrequency "5.890e9 Hz"
+param *.connectionManager.pMax 20mW
+param *.connectionManager.sat -89dBm
+param *.connectionManager.sendDirect true
+param *.manager.autoShutdown true
+param *.manager.host "\"localhost\""
+param *.manager.launchConfig "xmldoc(\"tunnel.launchd.xml\")"
+param *.manager.margin 25
+param *.manager.moduleDisplayString "\"\""
+param *.manager.moduleName "\"node\""
+param *.manager.moduleType "\"org.car2x.veins.nodes.Car\""
+param *.manager.port 9999
+param *.manager.updateInterval 0.1s
+param *.node[*].appl.beaconInterval 0.1s
+param *.node[*].appl.beaconPriority 3
+param *.node[*].appl.dataOnSch false
+param *.node[*].appl.dataPriority 2
+param *.node[*].appl.debug false
+param *.node[*].appl.headerLength "256 bit"
+param *.node[*].appl.maxOffset 0.005s
+param *.node[*].appl.sendBeacons true
+param *.node[*].appl.sendData true
+param *.node[*].applType "\"LocAppCom\""
+param *.node[*].mobilityType "\"TraCIMobility\""
+param *.node[*].mobilityType.debug true
+param *.node[*].veinsmobility.x 0
+param *.node[*].veinsmobility.y 0
+param *.node[*].veinsmobility.z 1.895
+param *.node[*].veinsmobilityType "\"org.car2x.veins.modules.mobility.traci.TraCIMobility\""
+param *.node[*].veinsmobilityType.debug true
+param *.playgroundSizeX 5000m
+param *.playgroundSizeY 5000m
+param *.playgroundSizeZ 50m
+param *.world.use2D false
+param *.world.useTorus false
+
+scalar LocScenario.node[0].nic.phy80211p 	busyTime 	0.0048269387755103
+scalar LocScenario.node[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	ReceivedBroadcasts 	1314
+scalar LocScenario.node[0].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[0].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TimesIntoBackoff 	196
+scalar LocScenario.node[0].nic.mac1609_4 	SlotsBackoff 	322
+scalar LocScenario.node[0].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[0].nic.mac1609_4 	totalBusyTime 	0.108916
+scalar LocScenario.node[0].veinsmobility 	startTime 	0.1
+scalar LocScenario.node[0].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[0].veinsmobility 	stopTime 	19.7
+scalar LocScenario.node[0].veinsmobility 	minSpeed 	19.991482452259
+scalar LocScenario.node[0].veinsmobility 	maxSpeed 	20.119903293701
+scalar LocScenario.node[0].veinsmobility 	totalDistance 	391.09546122029
+scalar LocScenario.node[0].veinsmobility 	totalCO2Emission 	61.198331890539
+scalar LocScenario.node[1].nic.phy80211p 	busyTime 	0.0051304522613066
+scalar LocScenario.node[1].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	ReceivedBroadcasts 	1418
+scalar LocScenario.node[1].nic.mac1609_4 	SentPackets 	199
+scalar LocScenario.node[1].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TimesIntoBackoff 	199
+scalar LocScenario.node[1].nic.mac1609_4 	SlotsBackoff 	322
+scalar LocScenario.node[1].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[1].nic.mac1609_4 	totalBusyTime 	0.116623
+scalar LocScenario.node[1].veinsmobility 	startTime 	1.1
+scalar LocScenario.node[1].veinsmobility 	totalTime 	19.8
+scalar LocScenario.node[1].veinsmobility 	stopTime 	21
+scalar LocScenario.node[1].veinsmobility 	minSpeed 	18.582198969278
+scalar LocScenario.node[1].veinsmobility 	maxSpeed 	20.119056466829
+scalar LocScenario.node[1].veinsmobility 	totalDistance 	389.47961388331
+scalar LocScenario.node[1].veinsmobility 	totalCO2Emission 	68.286088065131
+scalar LocScenario.node[2].nic.phy80211p 	busyTime 	0.0053414778325124
+scalar LocScenario.node[2].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[2].nic.mac1609_4 	ReceivedBroadcasts 	1506
+scalar LocScenario.node[2].nic.mac1609_4 	SentPackets 	203
+scalar LocScenario.node[2].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[2].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[2].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[2].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[2].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[2].nic.mac1609_4 	TimesIntoBackoff 	203
+scalar LocScenario.node[2].nic.mac1609_4 	SlotsBackoff 	316
+scalar LocScenario.node[2].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[2].nic.mac1609_4 	totalBusyTime 	0.123251
+scalar LocScenario.node[2].veinsmobility 	startTime 	2.1
+scalar LocScenario.node[2].veinsmobility 	totalTime 	20.2
+scalar LocScenario.node[2].veinsmobility 	stopTime 	22.4
+scalar LocScenario.node[2].veinsmobility 	minSpeed 	17.158547226619
+scalar LocScenario.node[2].veinsmobility 	maxSpeed 	20.103798426292
+scalar LocScenario.node[2].veinsmobility 	totalDistance 	390.00306251746
+scalar LocScenario.node[2].veinsmobility 	totalCO2Emission 	75.769183500407
+scalar LocScenario.node[4].nic.phy80211p 	busyTime 	0.0056351020408165
+scalar LocScenario.node[4].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[4].nic.mac1609_4 	ReceivedBroadcasts 	1534
+scalar LocScenario.node[4].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[4].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[4].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[4].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[4].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[4].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[4].nic.mac1609_4 	TimesIntoBackoff 	196
+scalar LocScenario.node[4].nic.mac1609_4 	SlotsBackoff 	323
+scalar LocScenario.node[4].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[4].nic.mac1609_4 	totalBusyTime 	0.124756
+scalar LocScenario.node[4].veinsmobility 	startTime 	4.1
+scalar LocScenario.node[4].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[4].veinsmobility 	stopTime 	23.7
+scalar LocScenario.node[4].veinsmobility 	minSpeed 	19.482689690952
+scalar LocScenario.node[4].veinsmobility 	maxSpeed 	20.119458524568
+scalar LocScenario.node[4].veinsmobility 	totalDistance 	389.66314166457
+scalar LocScenario.node[4].veinsmobility 	totalCO2Emission 	92.447031757046
+scalar LocScenario.node[3].nic.phy80211p 	busyTime 	0.005457391304348
+scalar LocScenario.node[3].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[3].nic.mac1609_4 	ReceivedBroadcasts 	1569
+scalar LocScenario.node[3].nic.mac1609_4 	SentPackets 	207
+scalar LocScenario.node[3].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[3].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[3].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[3].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[3].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[3].nic.mac1609_4 	TimesIntoBackoff 	207
+scalar LocScenario.node[3].nic.mac1609_4 	SlotsBackoff 	298
+scalar LocScenario.node[3].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[3].nic.mac1609_4 	totalBusyTime 	0.128079
+scalar LocScenario.node[3].veinsmobility 	startTime 	3.1
+scalar LocScenario.node[3].veinsmobility 	totalTime 	20.6
+scalar LocScenario.node[3].veinsmobility 	stopTime 	23.8
+scalar LocScenario.node[3].veinsmobility 	minSpeed 	15.859231451064
+scalar LocScenario.node[3].veinsmobility 	maxSpeed 	20.098536968781
+scalar LocScenario.node[3].veinsmobility 	totalDistance 	390.62244543987
+scalar LocScenario.node[3].veinsmobility 	totalCO2Emission 	83.388285021027
+scalar LocScenario.node[5].nic.phy80211p 	busyTime 	0.0055701492537315
+scalar LocScenario.node[5].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[5].nic.mac1609_4 	ReceivedBroadcasts 	1555
+scalar LocScenario.node[5].nic.mac1609_4 	SentPackets 	201
+scalar LocScenario.node[5].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[5].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[5].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[5].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[5].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[5].nic.mac1609_4 	TimesIntoBackoff 	201
+scalar LocScenario.node[5].nic.mac1609_4 	SlotsBackoff 	306
+scalar LocScenario.node[5].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[5].nic.mac1609_4 	totalBusyTime 	0.126633
+scalar LocScenario.node[5].veinsmobility 	startTime 	5.1
+scalar LocScenario.node[5].veinsmobility 	totalTime 	20
+scalar LocScenario.node[5].veinsmobility 	stopTime 	25.2
+scalar LocScenario.node[5].veinsmobility 	minSpeed 	18.744486846741
+scalar LocScenario.node[5].veinsmobility 	maxSpeed 	20.112223229399
+scalar LocScenario.node[5].veinsmobility 	totalDistance 	390.92096201928
+scalar LocScenario.node[5].veinsmobility 	totalCO2Emission 	77.349633827858
+scalar LocScenario.node[6].nic.phy80211p 	busyTime 	0.0055836734693879
+scalar LocScenario.node[6].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[6].nic.mac1609_4 	ReceivedBroadcasts 	1520
+scalar LocScenario.node[6].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[6].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[6].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[6].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[6].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[6].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[6].nic.mac1609_4 	TimesIntoBackoff 	196
+scalar LocScenario.node[6].nic.mac1609_4 	SlotsBackoff 	294
+scalar LocScenario.node[6].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[6].nic.mac1609_4 	totalBusyTime 	0.123748
+scalar LocScenario.node[6].veinsmobility 	startTime 	6.1
+scalar LocScenario.node[6].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[6].veinsmobility 	stopTime 	25.7
+scalar LocScenario.node[6].veinsmobility 	minSpeed 	19.990622387533
+scalar LocScenario.node[6].veinsmobility 	maxSpeed 	20.118304662388
+scalar LocScenario.node[6].veinsmobility 	totalDistance 	391.09071354448
+scalar LocScenario.node[6].veinsmobility 	totalCO2Emission 	63.157439541813
+scalar LocScenario.node[7].nic.phy80211p 	busyTime 	0.0054367346938777
+scalar LocScenario.node[7].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[7].nic.mac1609_4 	ReceivedBroadcasts 	1480
+scalar LocScenario.node[7].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[7].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[7].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[7].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[7].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[7].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[7].nic.mac1609_4 	TimesIntoBackoff 	196
+scalar LocScenario.node[7].nic.mac1609_4 	SlotsBackoff 	297
+scalar LocScenario.node[7].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[7].nic.mac1609_4 	totalBusyTime 	0.120868
+scalar LocScenario.node[7].veinsmobility 	startTime 	7.1
+scalar LocScenario.node[7].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[7].veinsmobility 	stopTime 	26.7
+scalar LocScenario.node[7].veinsmobility 	minSpeed 	19.990442528576
+scalar LocScenario.node[7].veinsmobility 	maxSpeed 	20.119142618137
+scalar LocScenario.node[7].veinsmobility 	totalDistance 	391.10358194212
+scalar LocScenario.node[7].veinsmobility 	totalCO2Emission 	61.744954622126
+scalar LocScenario.node[8].nic.phy80211p 	busyTime 	0.0052163265306124
+scalar LocScenario.node[8].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[8].nic.mac1609_4 	ReceivedBroadcasts 	1420
+scalar LocScenario.node[8].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[8].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[8].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[8].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[8].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[8].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[8].nic.mac1609_4 	TimesIntoBackoff 	353
+scalar LocScenario.node[8].nic.mac1609_4 	SlotsBackoff 	534
+scalar LocScenario.node[8].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[8].nic.mac1609_4 	totalBusyTime 	0.116548
+scalar LocScenario.node[8].veinsmobility 	startTime 	8.1
+scalar LocScenario.node[8].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[8].veinsmobility 	stopTime 	27.7
+scalar LocScenario.node[8].veinsmobility 	minSpeed 	19.990017749025
+scalar LocScenario.node[8].veinsmobility 	maxSpeed 	20.119583614457
+scalar LocScenario.node[8].veinsmobility 	totalDistance 	390.9808632759
+scalar LocScenario.node[8].veinsmobility 	totalCO2Emission 	63.459510375627
+scalar LocScenario.node[9].nic.phy80211p 	busyTime 	0.0049224489795919
+scalar LocScenario.node[9].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[9].nic.mac1609_4 	ReceivedBroadcasts 	1340
+scalar LocScenario.node[9].nic.mac1609_4 	SentPackets 	196
+scalar LocScenario.node[9].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[9].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[9].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[9].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[9].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[9].nic.mac1609_4 	TimesIntoBackoff 	196
+scalar LocScenario.node[9].nic.mac1609_4 	SlotsBackoff 	272
+scalar LocScenario.node[9].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[9].nic.mac1609_4 	totalBusyTime 	0.110788
+scalar LocScenario.node[9].veinsmobility 	startTime 	9.1
+scalar LocScenario.node[9].veinsmobility 	totalTime 	19.5
+scalar LocScenario.node[9].veinsmobility 	stopTime 	28.7
+scalar LocScenario.node[9].veinsmobility 	minSpeed 	19.990355642573
+scalar LocScenario.node[9].veinsmobility 	maxSpeed 	20.119206570967
+scalar LocScenario.node[9].veinsmobility 	totalDistance 	391.02757739717
+scalar LocScenario.node[9].veinsmobility 	totalCO2Emission 	63.546736109528
