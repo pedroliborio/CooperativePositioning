@@ -32,6 +32,10 @@ void LocAppCom::initialize(int stage){
         traciVehicle = mobility->getVehicleCommandInterface();
         timeSeed = time(0);
 
+
+        //FIXME Only for tests
+        RecognizeEdges();
+
         //Initialize Projection...
         //size of (EntranceExit or ExitEntrance ) == 12
         projection = new Projection( traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) ) );
@@ -102,7 +106,8 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
     switch (msg->getKind()) {
         case SEND_BEACON_EVT: {
             WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-            Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
+            //Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
+            Coord currentPos = mobility->getCurrentPosition();
 
             lastSUMOUTMPos = atualSUMOUTMPos;
             lastSUMOGeoPos = atualSUMOGeoPos;
@@ -114,7 +119,6 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             //Real Position
             wsm->setSenderRealPos(atualSUMOUTMPos);
             outageModule->ControlOutage(&atualSUMOUTMPos);
-
             //antes da queda
             if(!outageModule->isInOutage() && !outageModule->isInRecover()){
                 wsm->setInOutage(false);
@@ -201,7 +205,8 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
 
     //FIXME It's necessary actualize the tracking of the ego vehicle before
     //continue the process same as handleselfmessage.
-    Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
+    //Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
+    Coord currentPos = mobility->getCurrentPosition();
     //make the multilateration
 
     /*std::cout <<"VEHICLE"<< myId << "\n\n";
@@ -459,6 +464,34 @@ void LocAppCom::getAnchorNode(int id, AnchorNode *anchorNode){
     }
 
 }
+
+void LocAppCom::RecognizeEdges(void){
+    //FIXME Support Method that uses traciVehicle to recognize edges ids and generate files
+    //These files will be used to generate the mechanismo of outages and after the MM and GPS error...
+    std::cout <<"Current Road:" << endl;
+    std::cout << traciVehicle->getRoadId() << endl;
+    std::cout << traciVehicle->getRouteId() << endl;
+    std::cout <<"road ids:" << endl;
+    std::list<std::string> roadIds = traciVehicle->getPlannedRoadIds();
+    /*for(std::list<std::string>::iterator it=roadIds.begin(); it!= roadIds.end(); ++it){
+        std::cout << *it << endl;
+    }*/
+    std::string path = "../localization/Graphs/"+traciVehicle->getRouteId()+".txt";
+    std::cout << path;
+    std::fstream fileEdges(path.c_str(), std::fstream::out);
+    if (!fileEdges){
+        std::cout << "para o baba" << endl;
+        exit(0);
+    }
+    for(std::list<std::string>::iterator it=roadIds.begin(); it!= roadIds.end(); ++it){
+        fileEdges << *it << endl;
+    }
+
+    if(myId > 1){
+        exit(0);
+    }
+}
+
 
 
 //We not using data messages in our approach :)

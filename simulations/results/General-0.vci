@@ -1,15 +1,15 @@
-                                                                
+file 113475 1486079462                                          
 version 2
-run General-0-20170201-13:07:11-13223
+run General-0-20170202-18:50:57-24500
 attr configname General
-attr datetime 20170201-13:07:11
+attr datetime 20170202-18:50:57
 attr experiment General
 attr inifile omnetpp.ini
 attr iterationvars ""
 attr iterationvars2 $repetition=0
 attr measurement ""
-attr network com.liborio.locvanet.LocScenario
-attr processid 13223
+attr network com.liborio.cooperativepositioning.LocScenario
+attr processid 24500
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -34,7 +34,7 @@ param *.connectionManager.sat -89dBm
 param *.connectionManager.sendDirect true
 param *.manager.autoShutdown true
 param *.manager.host "\"localhost\""
-param *.manager.launchConfig "xmldoc(\"dmat.launchd.xml\")"
+param *.manager.launchConfig "xmldoc(\"ybt.launchd.xml\")"
 param *.manager.margin 25
 param *.manager.moduleDisplayString "\"\""
 param *.manager.moduleName "\"node\""
@@ -74,37 +74,13 @@ vector 5  LocScenario.node[0].veinsmobility  acceleration  ETV
 vector 6  LocScenario.node[0].veinsmobility  co2emission  ETV
 vector 12  LocScenario.node[1].veinsmobility  acceleration  ETV
 vector 13  LocScenario.node[1].veinsmobility  co2emission  ETV
-vector 16  LocScenario.node[2].veinsmobility  posx  ETV
-vector 17  LocScenario.node[2].veinsmobility  posy  ETV
-vector 23  LocScenario.node[3].veinsmobility  posx  ETV
-vector 24  LocScenario.node[3].veinsmobility  posy  ETV
-vector 18  LocScenario.node[2].veinsmobility  speed  ETV
-vector 25  LocScenario.node[3].veinsmobility  speed  ETV
-vector 19  LocScenario.node[2].veinsmobility  acceleration  ETV
-vector 20  LocScenario.node[2].veinsmobility  co2emission  ETV
-vector 26  LocScenario.node[3].veinsmobility  acceleration  ETV
-vector 27  LocScenario.node[3].veinsmobility  co2emission  ETV
-vector 30  LocScenario.node[4].veinsmobility  posx  ETV
-vector 31  LocScenario.node[4].veinsmobility  posy  ETV
-vector 37  LocScenario.node[5].veinsmobility  posx  ETV
-vector 38  LocScenario.node[5].veinsmobility  posy  ETV
-vector 32  LocScenario.node[4].veinsmobility  speed  ETV
-vector 39  LocScenario.node[5].veinsmobility  speed  ETV
-vector 33  LocScenario.node[4].veinsmobility  acceleration  ETV
-vector 34  LocScenario.node[4].veinsmobility  co2emission  ETV
-vector 40  LocScenario.node[5].veinsmobility  acceleration  ETV
-vector 41  LocScenario.node[5].veinsmobility  co2emission  ETV
-vector 44  LocScenario.node[6].veinsmobility  posx  ETV
-vector 45  LocScenario.node[6].veinsmobility  posy  ETV
-vector 51  LocScenario.node[7].veinsmobility  posx  ETV
-vector 52  LocScenario.node[7].veinsmobility  posy  ETV
-vector 46  LocScenario.node[6].veinsmobility  speed  ETV
-vector 53  LocScenario.node[7].veinsmobility  speed  ETV
-vector 47  LocScenario.node[6].veinsmobility  acceleration  ETV
-vector 48  LocScenario.node[6].veinsmobility  co2emission  ETV
-vector 54  LocScenario.node[7].veinsmobility  acceleration  ETV
-vector 55  LocScenario.node[7].veinsmobility  co2emission  ETV
-vector 58  LocScenario.node[8].veinsmobility  posx  ETV
-vector 59  LocScenario.node[8].veinsmobility  posy  ETV
-vector 65  LocScenario.node[9].veinsmobility  posx  ETV
-vector 66  LocScenario.node[9].veinsmobility  posy  ETV
+6	2937 10200 40 7583 0.3 40 398 0.26343476261865 9.4196548854984 1423.7900761788 7309.5841335366
+5	13137 11491 40 7583 0.3 40 398 -1.2033815236064 1.1522277325392 0.26195503533817 113.13302366027
+4	24628 10888 21 7583 0.2 40 399 22.220149889628 22.349389587329 8891.9797111454 198164.23089018
+3	35516 10914 2 7583 0.1 40 400 3452.7650537482 4126.0815160712 1517183.9663138 5770059612.3622
+2	46430 10925 2 7583 0.1 40 400 23.952668823968 600.62266818514 125814.95775923 50603652.867336
+13	57355 10710 40 7583 0.3 40 398 0.25234954386603 9.7932134022827 1399.6088868185 7154.6321848668
+12	68065 11896 40 7583 0.3 40 398 -1.2341583414469 1.2205989548936 0.418172407127 107.27966227941
+11	79961 11283 21 7583 0.2 40 399 22.220611056471 22.349992804453 8891.0602914485 198123.23202716
+10	91244 11323 2 7583 0.1 40 400 18.988643722286 160.97957743061 33194.964878023 3471578.19843
+9	102567 10908 2 7583 0.1 40 400 4723.1978816529 5599.3036387901 2064524.0676367 10681463399.854

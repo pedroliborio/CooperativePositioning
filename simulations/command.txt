@@ -1,3 +1,3 @@
-../locvanet -u Cmdenv -r 0 -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp.ini > saida.txt
+../CooperativePositioning -u Cmdenv -r 0 -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp.ini
 
 opp_runall -j6 ../locvanet -r 0..10 -u Cmdenv -n ..:../../veins-RSSI/examples/veins:../../veins-RSSI/src/veins --image-path=../../veins-RSSI/images -l ../../veins-RSSI/src/veins-RSSI --debug-on-errors=true omnetpp.ini > saida.txt

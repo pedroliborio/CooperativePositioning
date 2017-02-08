@@ -39,8 +39,8 @@ void Projection::FromUTMToLonLat(void){
     projLP geo_coord;
     projXY coord_utm;
 
-    coord_utm.u = utmCoord.x + netOffset.u;
-    coord_utm.v = utmCoord.y + netOffset.v;
+    coord_utm.u = utmCoord.x - netOffset.u;
+    coord_utm.v = utmCoord.y - netOffset.v;
 
     geo_coord = pj_inv(coord_utm,pj_utm);
 
@@ -63,8 +63,8 @@ void Projection::FromLonLatToUTM(void){
 
     coord_utm = pj_fwd(geo_coord,pj_utm);
 
-    utmCoord.x = coord_utm.u - netOffset.u;
-    utmCoord.y = coord_utm.v - netOffset.v;
+    utmCoord.x = coord_utm.u + netOffset.u;
+    utmCoord.y = coord_utm.v + netOffset.v;
 }
 
 } /* namespace Localization */

@@ -53,7 +53,7 @@ using Veins::TraCICoord;
 //Localization namespace
 using namespace Localization;
 using namespace GeographicLib;
-using namespace Veins;
+//using namespace Veins;
 
 /**
  * Communication approach for localization based on beaconing
@@ -144,6 +144,7 @@ protected:
     void GetOutageDataFromFile(std::string path);
     bool RecognizeOutage();
     bool RecognizeRecover();
+    void RecognizeEdges(void);
     std::string GetTunnelString();
 
 

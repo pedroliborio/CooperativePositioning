@@ -26,11 +26,15 @@ INCLUDE_PATH = \
     -Ilocalization/Filters \
     -Ilocalization/GPS \
     -Ilocalization/GPS/outages \
+    -Ilocalization/GPS/outagesxy \
     -Ilocalization/GeographicLib \
     -Ilocalization/GeographicLib/doc \
     -Ilocalization/GeographicLib/include \
     -Ilocalization/GeographicLib/include/GeographicLib \
     -Ilocalization/GeographicLib/src \
+    -Ilocalization/Graphs \
+    -Ilocalization/Graphs/out \
+    -Ilocalization/MapMatching \
     -Ilocalization/Multilateration \
     -Ilocalization/Outage \
     -Ilocalization/Projections \
@@ -98,6 +102,7 @@ OBJS = \
     $O/localization/GeographicLib/src/GARS.o \
     $O/localization/GeographicLib/src/Accumulator.o \
     $O/localization/GeographicLib/src/Georef.o \
+    $O/localization/MapMatching/MapMatching.o \
     $O/localization/Multilateration/Multilateration.o \
     $O/localization/Outage/Outage.o \
     $O/localization/Projections/Projection.o \
@@ -199,11 +204,15 @@ clean:
 	$(Q)-rm -f localization/Filters/*_m.cc localization/Filters/*_m.h localization/Filters/*_sm.cc localization/Filters/*_sm.h
 	$(Q)-rm -f localization/GPS/*_m.cc localization/GPS/*_m.h localization/GPS/*_sm.cc localization/GPS/*_sm.h
 	$(Q)-rm -f localization/GPS/outages/*_m.cc localization/GPS/outages/*_m.h localization/GPS/outages/*_sm.cc localization/GPS/outages/*_sm.h
+	$(Q)-rm -f localization/GPS/outagesxy/*_m.cc localization/GPS/outagesxy/*_m.h localization/GPS/outagesxy/*_sm.cc localization/GPS/outagesxy/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/*_m.cc localization/GeographicLib/*_m.h localization/GeographicLib/*_sm.cc localization/GeographicLib/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/doc/*_m.cc localization/GeographicLib/doc/*_m.h localization/GeographicLib/doc/*_sm.cc localization/GeographicLib/doc/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/include/*_m.cc localization/GeographicLib/include/*_m.h localization/GeographicLib/include/*_sm.cc localization/GeographicLib/include/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/include/GeographicLib/*_m.cc localization/GeographicLib/include/GeographicLib/*_m.h localization/GeographicLib/include/GeographicLib/*_sm.cc localization/GeographicLib/include/GeographicLib/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/src/*_m.cc localization/GeographicLib/src/*_m.h localization/GeographicLib/src/*_sm.cc localization/GeographicLib/src/*_sm.h
+	$(Q)-rm -f localization/Graphs/*_m.cc localization/Graphs/*_m.h localization/Graphs/*_sm.cc localization/Graphs/*_sm.h
+	$(Q)-rm -f localization/Graphs/out/*_m.cc localization/Graphs/out/*_m.h localization/Graphs/out/*_sm.cc localization/Graphs/out/*_sm.h
+	$(Q)-rm -f localization/MapMatching/*_m.cc localization/MapMatching/*_m.h localization/MapMatching/*_sm.cc localization/MapMatching/*_sm.h
 	$(Q)-rm -f localization/Multilateration/*_m.cc localization/Multilateration/*_m.h localization/Multilateration/*_sm.cc localization/Multilateration/*_sm.h
 	$(Q)-rm -f localization/Outage/*_m.cc localization/Outage/*_m.h localization/Outage/*_sm.cc localization/Outage/*_sm.h
 	$(Q)-rm -f localization/Projections/*_m.cc localization/Projections/*_m.h localization/Projections/*_sm.cc localization/Projections/*_sm.h
@@ -219,7 +228,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/outages/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Types/Types.o: Types/Types.cc \
@@ -349,6 +358,13 @@ $O/localization/GeographicLib/src/TransverseMercator.o: localization/GeographicL
 $O/localization/GeographicLib/src/TransverseMercatorExact.o: localization/GeographicLib/src/TransverseMercatorExact.cc
 $O/localization/GeographicLib/src/UTMUPS.o: localization/GeographicLib/src/UTMUPS.cc
 $O/localization/GeographicLib/src/Utility.o: localization/GeographicLib/src/Utility.cc
+$O/localization/MapMatching/MapMatching.o: localization/MapMatching/MapMatching.cc \
+	Types/Types.h \
+	localization/MapMatching/MapMatching.h \
+	$(VEINS_PROJ)/src/veins/base/utils/Coord.h \
+	$(VEINS_PROJ)/src/veins/base/utils/FWMath.h \
+	$(VEINS_PROJ)/src/veins/base/utils/MiXiMDefs.h \
+	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h
 $O/localization/Multilateration/Multilateration.o: localization/Multilateration/Multilateration.cc \
 	Types/Types.h \
 	localization/Multilateration/Multilateration.h \
