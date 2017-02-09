@@ -39,7 +39,8 @@
 #include <RSSI/TwoRayInterferenceModel.h>
 #include <Projections/Projection.h>
 #include <Outage/Outage.h>
-#include<Filters/Filters.h>
+#include <Filters/Filters.h>
+#include <MapMatching/MapMatching.h>
 
 //Veins namespace
 using Veins::TraCIMobility;
@@ -92,6 +93,9 @@ private:
 
     //***************Multilateration methods
     Multilateration *multilateration;
+
+    //*******MapMatching
+    MapMatching *mapMatching;
 
     //*************Error Variables
     double errorGPSOut, errorGPSRec, errorGDR;

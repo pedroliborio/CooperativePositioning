@@ -24,7 +24,7 @@ private:
     double distGPSMM;//distance between P_GPS, P_Mp
 
     std::vector<Edge> listEdges;//Edges extracted from .net file
-    float Magnitude( Coord *A, Coord *B );
+    double Magnitude( Coord *A, Coord *B );
     int DistancePointLine(Coord *A, Coord *B, Coord *P, Coord *intersection, double *distance);
 public:
     MapMatching();

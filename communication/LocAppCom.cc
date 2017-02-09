@@ -19,23 +19,27 @@ const simsignalwrap_t LocAppCom::mobilityStateChangedSignal = simsignalwrap_t(MI
 
 Define_Module(LocAppCom);
 
-//TraCIConnection* conn = FindModule<TraCIConnection*>::findSubModule(getParentModule)
-
-
-
 void LocAppCom::initialize(int stage){
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
+        std::cout << "ola";
         mobility = TraCIMobilityAccess().get(getParentModule());
         //connection = FindModule<TraCIConnection*>::findSubModule(getParentModule());
         traci = mobility->getCommandInterface();
         traciVehicle = mobility->getVehicleCommandInterface();
         timeSeed = time(0);
 
+        //Initializing MapMatching Module
+        mapMatching = new MapMatching(traciVehicle->getRouteId());
+        //FIXME Teste with one point of dataset //100.0351298 37.04802561
+        Coord coord;
+        coord.x = 100.0351298;
+        coord.y = 37.04802561;
+        mapMatching->DoMapMatching(traciVehicle->getRoadId(),coord);
+        std::cout << mapMatching->getMatchPoint() << endl;
+        std::cout << std::setprecision(10) << mapMatching->getDistGpsmm() << endl;
 
-        //FIXME Only for tests
-        RecognizeEdges();
-
+        exit(0);
         //Initialize Projection...
         //size of (EntranceExit or ExitEntrance ) == 12
         projection = new Projection( traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) ) );
@@ -58,6 +62,7 @@ void LocAppCom::initialize(int stage){
         projection->setGeoCoord(gpsModule->getGpsRecGeoPos());
         projection->FromLonLatToUTM();
         gpsModule->setGpsRecUtmPos(projection->getUtmCoord());
+
 
         /*std::cout << "GPS: "
         <<" - "<< myId
@@ -467,7 +472,7 @@ void LocAppCom::getAnchorNode(int id, AnchorNode *anchorNode){
 
 void LocAppCom::RecognizeEdges(void){
     //FIXME Support Method that uses traciVehicle to recognize edges ids and generate files
-    //These files will be used to generate the mechanismo of outages and after the MM and GPS error...
+    //These files will be used to generate the mechanism of outages and after the MM and GPS error...
     std::cout <<"Current Road:" << endl;
     std::cout << traciVehicle->getRoadId() << endl;
     std::cout << traciVehicle->getRouteId() << endl;

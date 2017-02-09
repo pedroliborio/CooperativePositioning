@@ -243,6 +243,7 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	localization/DeadReckoning/DeadReckoning.h \
 	localization/Filters/Filters.h \
 	localization/GPS/GPS.h \
+	localization/MapMatching/MapMatching.h \
 	localization/Multilateration/Multilateration.h \
 	localization/Outage/Outage.h \
 	localization/Projections/Projection.h \

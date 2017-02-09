@@ -38,19 +38,27 @@ MapMatching::MapMatching(std::string route) {
 //TODO http://stackoverflow.com/questions/3120357/get-closest-point-to-a-line
 // Thanks for Paul Bourke http://paulbourke.net/geometry/pointlineplane/
 
-float MapMatching::Magnitude( Coord *A, Coord *B )
+double MapMatching::Magnitude( Coord *A, Coord *B )
 {
-    return (float)sqrt( ( (B->x - A->x) * (B->x - A->x) ) + ((B->y - A->y) * (B->y - A->y) ) );
+    std::cout << *A << *B << endl;
+    return sqrt( ( (B->x - A->x) * (B->x - A->x) ) + ((B->y - A->y) * (B->y - A->y) ) );
 }
 
 int MapMatching::DistancePointLine(Coord *A, Coord *B, Coord *P, Coord *intersection, double *distance){
-    float magnitude;
-    float U;
+
+    std::cout << *A << *B << *P <<"\n\n";
+
+    double magnitude;
+    double U;
     magnitude = Magnitude(A,B);
 
-    U = ( ( (P->x - A->x) * (B->x - A->x) ) + ( (P->y - A->y) * (B->y - A->y) ) ) / magnitude * magnitude;
+    U = ( ( (P->x - A->x) * (B->x - A->x) ) +
+          ( (P->y - A->y) * (B->y - A->y) ) )
+        / (magnitude * magnitude);
 
-    if( U < double(0.0) || U > double(1.0)){
+    std::cout << U <<"****\n";
+
+    if( U < (double) 0.0 || U > (double) 1.0){
         return 0; //closest point does not fall within the line segment
     }
 
@@ -64,21 +72,22 @@ int MapMatching::DistancePointLine(Coord *A, Coord *B, Coord *P, Coord *intersec
 
 
 void MapMatching::DoMapMatching(std::string edgeID, Coord pGPS){
-    int i;
-    Coord *A,*B, *P;
+    uint i;
+    Coord A, B, P;
 
     for(std::vector<Edge>::iterator it = listEdges.begin(); it!= listEdges.end(); ++it){
         if(it->id == edgeID){
             for(i=1; i < it->shape.size(); i++){
-                *A = it->shape.at(i-1);
-                *B = it->shape.at(i);
-                *P = pGPS;
-                if( DistancePointLine(A, B, P, &matchPoint, &distGPSMM) ){
-                    std::cout << "Computado com sucesso!";
+                A = it->shape.at(i-1);
+                B = it->shape.at(i);
+                P = pGPS;
+
+                if( DistancePointLine( &A, &B, &P, &matchPoint, &distGPSMM) ){
+                    std::cout << "Computado com sucesso!\n\n";
                     break;
                 }
                 else{
-                    std::cout << "Aresta nao encontrada!";
+                    std::cout << "Aresta nao encontrada!\n\n";
                 }
             }
             break;
