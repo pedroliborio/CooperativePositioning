@@ -34,9 +34,10 @@ MapMatching::MapMatching(std::string route) {
     }
 }
 
-//TODO Calcular menor distancia ponto reta http://stackoverflow.com/questions/12132352/distance-from-a-point-to-a-line-segment
-//TODO http://stackoverflow.com/questions/3120357/get-closest-point-to-a-line
-// Thanks for Paul Bourke http://paulbourke.net/geometry/pointlineplane/
+//Calcular menor distancia ponto reta http://stackoverflow.com/questions/12132352/distance-from-a-point-to-a-line-segment
+//http://stackoverflow.com/questions/3120357/get-closest-point-to-a-line
+//Thanks for Paul Bourke http://paulbourke.net/geometry/pointlineplane/
+//FIXME Calculate in 3D Space anyway.
 
 double MapMatching::Magnitude( Coord *A, Coord *B )
 {
