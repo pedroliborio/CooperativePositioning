@@ -10,6 +10,7 @@
 
 #include <Types.h>
 #include <limits>
+#include <fstream>
 
 namespace Localization {
 
@@ -23,7 +24,7 @@ private:
     double distRecover = std::numeric_limits<double>::max();
 public:
     Outage();
-    Outage(Coord outPos, Coord recPos);
+    Outage(std::string outagesFile);
     virtual ~Outage();
     void ControlOutage(Coord *sumoPos);
 

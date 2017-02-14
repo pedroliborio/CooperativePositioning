@@ -47,6 +47,14 @@ public:
     const Coord& getLastKnowPosUtm() const {
         return lastKnowPosUTM;
     }
+
+    void setLastKnowPosGeo(const LonLat& lastKnowPosGeo) {
+        this->lastKnowPosGeo = lastKnowPosGeo;
+    }
+
+    void setLastKnowPosUtm(const Coord& lastKnowPosUtm) {
+        lastKnowPosUTM = lastKnowPosUtm;
+    }
 };
 
 } /* namespace Localization */

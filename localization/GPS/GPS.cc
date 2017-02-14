@@ -15,16 +15,48 @@ GPS::GPS() {
 }
 
 GPS::GPS(std::string outagesFile) {
-    GetOutageInformation(outagesFile);
+    GetDataSetMeanSTD(outagesFile);
 }
 
 GPS::~GPS() {
     // TODO Auto-generated destructor stub
 }
 
-void GPS::GetOutageInformation(std::string outagesFile){
+void GPS::GetDataSetMeanSTD(std::string outagesFile){
+    std::string path = "../localization/GPS/mean_std_dev/"+outagesFile+".txt";
+    std::fstream file(path);
+    std::cout << path << endl;
+    file >> this->mean >> this->std;
+    //std::cout << "Mean, STD:"<< this->mean <<" , "<< this->std << endl;
+    file.close();
+}
+
+
+void GPS::CompPosition(Coord *realCoord){
+    //FIXME Maybe is necessary use the sumo seed... verify
+    double diff = (RNGCONTEXT normal(mean, std));
+
+    position.x = realCoord->x + diff;
+    position.y = realCoord->y + diff;
+    position.z = realCoord->z + diff;
+
+    CompError(realCoord);
+
+    //std::cout <<"Real Coord: "<< *realCoord<< endl;
+    //std::cout <<"GPS Position: "<< position << endl;
+    //std::cout <<"Error: "<< error << endl;
+
+}
+
+void GPS::CompError(Coord *realCoord){
+    error = position.distance(*realCoord);
+}
+
+
+//FIXME This method will be migrated to Outages Module
+/*void GPS::GetOutageInformation(std::string outagesFile){
     std::string date, time, line;
-    std::string path = "../localization/GPS/outages/"+outagesFile+".txt";
+    std::string path = "../localization/GPS/outagesxy/"+outagesFile+".txt";
     std::fstream file(path);
     //FIXME probably need to indicate that the second file is to output verify it
     std::fstream fileOut("temp.txt");
@@ -44,7 +76,7 @@ void GPS::GetOutageInformation(std::string outagesFile){
 
     fileOut.close();
     file.close();
-}
+}*/
 
 
 } /* namespace Localization */

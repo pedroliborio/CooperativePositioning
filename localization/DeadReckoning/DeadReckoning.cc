@@ -54,7 +54,7 @@ void DeadReckoning::setErrorLonLat(LonLat *atualSUMOPos){
 }
 
 void DeadReckoning::setErrorUTM(Coord *atualSUMOPos){
-    this->errorUTM = this->lastKnowPosUTM.sqrdist(*atualSUMOPos);
+    this->errorUTM = this->lastKnowPosUTM.distance(*atualSUMOPos);
 }
 
 

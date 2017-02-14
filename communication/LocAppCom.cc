@@ -22,46 +22,61 @@ Define_Module(LocAppCom);
 void LocAppCom::initialize(int stage){
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
-        std::cout << "ola";
+        Coord coord;//Vehicle's position in SUMO coordinates
         mobility = TraCIMobilityAccess().get(getParentModule());
-        //connection = FindModule<TraCIConnection*>::findSubModule(getParentModule());
         traci = mobility->getCommandInterface();
         traciVehicle = mobility->getVehicleCommandInterface();
         timeSeed = time(0);
 
+        //Convert from OMNET to TRACI/SUMO
+        coord = traci->getTraCIXY(mobility->getCurrentPosition());
+
+        //Initialize Outage Module
+        outageModule =  new Outage(traciVehicle->getRouteId());
+        std::cout <<"Outage OUT: "<< outageModule->getOutagePos() << endl;
+        std::cout <<"Outage REc: "<< outageModule->getRecoverPos() << endl;
+
+        //Initializing GPS Module
+        gpsModule = new GPS(traciVehicle->getRouteId());
+        gpsModule->CompPosition(&coord);
+
+        std::cout <<"GPS: "<< gpsModule->getPosition() << endl;
+        std::cout <<"GPS: "<< std::setprecision(10)<< gpsModule->getError() << endl;
+
+        //Initializing DR Module
+        projection->setUtmCoord(gpsModule->getPosition());
+        projection->FromUTMToLonLat();
+        drModule = new DeadReckoning(projection->getGeoCoord());
+
         //Initializing MapMatching Module
         mapMatching = new MapMatching(traciVehicle->getRouteId());
-        //FIXME Teste with one point of dataset //100.0351298 37.04802561
-        Coord coord;
-        coord.x = 100.0351298;
-        coord.y = 37.04802561;
-        mapMatching->DoMapMatching(traciVehicle->getRoadId(),coord);
-        std::cout << mapMatching->getMatchPoint() << endl;
-        std::cout << std::setprecision(10) << mapMatching->getDistGpsmm() << endl;
+        mapMatching->DoMapMatching(traciVehicle->getRoadId(),gpsModule->getPosition());
 
-        exit(0);
+        std::cout <<"MM: "<< mapMatching->getMatchPoint() << endl;
+        std::cout <<"MM: "<< std::setprecision(10) << mapMatching->getDistGpsmm() << endl;
+
         //Initialize Projection...
         //size of (EntranceExit or ExitEntrance ) == 12
         projection = new Projection( traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) ) );
 
         //Initialize SUMO Positions tracker
-        lastSUMOUTMPos = traci->getTraCIXY(mobility->getCurrentPosition());
+        lastSUMOUTMPos = coord;
         atualSUMOUTMPos = lastSUMOUTMPos;
-        projection->setUtmCoord(lastSUMOUTMPos);
+        /*projection->setUtmCoord(lastSUMOUTMPos);
         projection->FromUTMToLonLat();
         lastSUMOGeoPos = projection->getGeoCoord();
-        atualSUMOGeoPos = lastSUMOGeoPos;
+        atualSUMOGeoPos = lastSUMOGeoPos;*/
 
         //Using the route of vehicle to get the information on dataset
         //The name of the route is the same of the equivalent outages dataset.
-        gpsModule = new GPS(traciVehicle->getRouteId());
+        /*gpsModule = new GPS(traciVehicle->getRouteId());
 
         projection->setGeoCoord(gpsModule->getGpsOutGeoPos());
         projection->FromLonLatToUTM();
         gpsModule->setGpsOutUtmPos(projection->getUtmCoord());
         projection->setGeoCoord(gpsModule->getGpsRecGeoPos());
         projection->FromLonLatToUTM();
-        gpsModule->setGpsRecUtmPos(projection->getUtmCoord());
+        gpsModule->setGpsRecUtmPos(projection->getUtmCoord());*/
 
 
         /*std::cout << "GPS: "
@@ -74,7 +89,7 @@ void LocAppCom::initialize(int stage){
         <<" - "<< std::setprecision(10) << gpsModule->getErrorGpsRec()
         << "\n\n";*/
 
-        outageModule = new Outage(gpsModule->getGpsOutUtmPos(), gpsModule->getGpsRecUtmPos());
+        //outageModule = new Outage(gpsModule->getGpsOutUtmPos(), gpsModule->getGpsRecUtmPos());
 
         /*std::cout << "Outage: "
                     <<" - "<< myId
@@ -85,10 +100,10 @@ void LocAppCom::initialize(int stage){
                     << "\n\n";*/
 
         //GDR Module
-        drModule =  new DeadReckoning(gpsModule->getGpsOutGeoPos());
+        /*drModule =  new DeadReckoning(gpsModule->getGpsOutGeoPos());
         projection->setGeoCoord(drModule->getLastKnowPosGeo());
         projection->FromLonLatToUTM();
-        drModule->setUTMPos(projection->getUtmCoord());
+        drModule->setUTMPos(projection->getUtmCoord())*/;
 
         //Filters
         filter = new Filters();
@@ -111,26 +126,35 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
     switch (msg->getKind()) {
         case SEND_BEACON_EVT: {
             WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-            //Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
-            Coord currentPos = mobility->getCurrentPosition();
+
+            //Convert from OMNET to TRACI/SUMO
+            Coord coord = traci->getTraCIXY(mobility->getCurrentPosition());
 
             lastSUMOUTMPos = atualSUMOUTMPos;
-            lastSUMOGeoPos = atualSUMOGeoPos;
-            atualSUMOUTMPos = currentPos;
-            projection->setUtmCoord(atualSUMOUTMPos);
-            projection->FromUTMToLonLat();
-            atualSUMOGeoPos = projection->getGeoCoord();
+            atualSUMOUTMPos = coord;
+
 
             //Real Position
             wsm->setSenderRealPos(atualSUMOUTMPos);
+            //Detect if in a outage stage...
             outageModule->ControlOutage(&atualSUMOUTMPos);
+
             //antes da queda
             if(!outageModule->isInOutage() && !outageModule->isInRecover()){
+
+                //Put in WSM that this vehicle isn't in outage stage
                 wsm->setInOutage(false);
-                wsm->setSenderGPSPos(gpsModule->getGpsOutUtmPos());
-                wsm->setErrorGPS(gpsModule->getErrorGpsOut());
-                wsm->setSenderDRPos(drModule->getLastKnowPosUtm());
-                wsm->setErrorDR(drModule->getErrorUtm());
+
+                //Compute GPS Position and Error
+                gpsModule->CompPosition(&atualSUMOUTMPos);
+
+                wsm->setSenderGPSPos(gpsModule->getPosition());
+                wsm->setErrorGPS(gpsModule->getError());
+
+                //Only Update Dead Reckoning Module with last GPS Position
+                projection->setUtmCoord(gpsModule->getPosition());
+                projection->FromUTMToLonLat();
+                drModule->setLastKnowPosGeo(projection->getGeoCoord());
 
                 /*std::cout << "Before Outage: "
                 <<" - "<< myId
@@ -154,15 +178,31 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                     <<" - "<< outageModule->isInOutage()
                     <<" - "<< outageModule->isInRecover()
                     << "\n\n";*/
+                    //Put in WSM that this vehicle is in outage stage
                     wsm->setInOutage(true);
+
+                    //Covert from UTM to Lat Lon Coordinates from SUMO positions (last and actual) for use in GDR
+                    projection->setUtmCoord(lastSUMOUTMPos);
+                    projection->FromUTMToLonLat();
+                    lastSUMOGeoPos = projection->getGeoCoord();
+
+                    projection->setUtmCoord(atualSUMOUTMPos);
+                    projection->FromUTMToLonLat();
+                    atualSUMOGeoPos = projection->getGeoCoord();
+
+                    //Compute GDR position.
                     drModule->setGeoPos(&lastSUMOGeoPos, &atualSUMOGeoPos);
-                    drModule->setErrorLonLat(&atualSUMOGeoPos);
+                    //Convert from Lon Lat to UTM coordinates
                     projection->setGeoCoord(drModule->getLastKnowPosGeo());
                     projection->FromLonLatToUTM();
+                    //Update in UTM Coordinates in DR Module
                     drModule->setUTMPos(projection->getUtmCoord());
                     drModule->setErrorUTM(&atualSUMOUTMPos);
                     wsm->setSenderDRPos(drModule->getLastKnowPosUtm());
                     wsm->setErrorDR(drModule->getErrorUtm());
+
+                    //UPDATE GPS error considering last position before outage
+                    gpsModule->CompError(&atualSUMOUTMPos);
                 }
                 else{
                     /*std::cout << "After Outage: "
@@ -174,12 +214,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                     <<" - "<< outageModule->isInOutage()
                     <<" - "<< outageModule->isInRecover()
                     << "\n\n";*/
-                    //apos a queda
+                    //Put in WSM that this vehicle isn't in outage stage anymore
                     wsm->setInOutage(false);
-                    wsm->setSenderGPSPos(gpsModule->getGpsRecUtmPos());
-                    wsm->setErrorGPS(gpsModule->getErrorGpsRec());
-                    wsm->setSenderDRPos(drModule->getLastKnowPosUtm());
-                    wsm->setErrorDR(drModule->getErrorUtm());
+                    gpsModule->CompPosition(&atualSUMOUTMPos);
+                    wsm->setSenderGPSPos(gpsModule->getPosition());
+                    wsm->setErrorGPS(gpsModule->getError());
                 }
             }
 
@@ -211,7 +250,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     //FIXME It's necessary actualize the tracking of the ego vehicle before
     //continue the process same as handleselfmessage.
     //Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
-    Coord currentPos = mobility->getCurrentPosition();
+    Coord coord = traci->getTraCIXY(mobility->getCurrentPosition());
     //make the multilateration
 
     /*std::cout <<"VEHICLE"<< myId << "\n\n";
@@ -227,19 +266,18 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     anchorNode.inOutage = wsm->getInOutage();
 
     anchorNode.realPos = wsm->getSenderPos();
-    anchorNode.realDist = anchorNode.realPos.distance(currentPos);
+    anchorNode.realDist = anchorNode.realPos.distance(coord);
 
     //TODO Talvez aplicar o RSSI direto nas distancias DR ou sobre o erro?
     anchorNode.deadReckPos = wsm->getSenderDRPos();
     anchorNode.errorDR = wsm->getErrorDR();
-    anchorNode.deadReckDist = anchorNode.deadReckPos.distance(currentPos);
+    anchorNode.deadReckDist = anchorNode.deadReckPos.distance(coord);
 
     anchorNode.gpsPos = wsm->getSenderGPSPos();
     anchorNode.errorGPS = wsm->getErrorGPS();
-    anchorNode.gpsDist = anchorNode.gpsPos.distance(currentPos);
+    anchorNode.gpsDist = anchorNode.gpsPos.distance(coord);
 
     //TODO Mecanismo para minimizar o erro ou seja utlizar nós anchoras com erro minimo
-    //So utilizar na mutilateração nós ancoras em queda.
 
     //Calculating RSSI using Real Distances
     fsModel->setRSSI(anchorNode.realDist, this->pTx, this->alpha, this->lambda);
@@ -294,7 +332,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
         coopPosReal.z = mobility->getCurrentPosition().z;
 
         std::cout <<"atualSUMOPos "<< atualSUMOUTMPos<< endl;
-        std::cout <<"curPos "<< currentPos<< endl;
+        std::cout <<"curPos "<< coord << endl;
         std::cout <<"CoopPos "<< coopPosReal << endl;
 
         exit(0);

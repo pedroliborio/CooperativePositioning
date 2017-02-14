@@ -15,62 +15,34 @@
 namespace Localization {
 
 class GPS {
+protected:
+    double std;
+    double mean;
 private:
-    LonLat gpsOutGeoPos, gpsRecGeoPos; //GPS outage and recovery positions...
-    Coord gpsOutUTMPos, gpsRecUTMPos;
-    double errorGPSOut, errorGPSRec; //Errors at points of outage and recovery
+    Coord position;
+    double error;
 public:
     GPS();
     GPS(std::string outagesFile);
     virtual ~GPS();
-    void GetOutageInformation(std::string outagesFile);
+    void GetDataSetMeanSTD(std::string outagesFile);
+    void CompPosition(Coord *realCoord);
+    void CompError(Coord *realCoord);
 
-    double getErrorGpsOut() const {
-        return errorGPSOut;
+    double getError() const {
+        return error;
     }
 
-    void setErrorGpsOut(double errorGpsOut) {
-        errorGPSOut = errorGpsOut;
+    void setError(double error) {
+        this->error = error;
     }
 
-    double getErrorGpsRec() const {
-        return errorGPSRec;
+    const Coord& getPosition() const {
+        return position;
     }
 
-    void setErrorGpsRec(double errorGpsRec) {
-        errorGPSRec = errorGpsRec;
-    }
-
-    const LonLat& getGpsOutGeoPos() const {
-        return gpsOutGeoPos;
-    }
-
-    void setGpsOutGeoPos(const LonLat& gpsOutGeoPos) {
-        this->gpsOutGeoPos = gpsOutGeoPos;
-    }
-
-    const Coord& getGpsOutUtmPos() const {
-        return gpsOutUTMPos;
-    }
-
-    void setGpsOutUtmPos(const Coord& gpsOutUtmPos) {
-        gpsOutUTMPos = gpsOutUtmPos;
-    }
-
-    const LonLat& getGpsRecGeoPos() const {
-        return gpsRecGeoPos;
-    }
-
-    void setGpsRecGeoPos(const LonLat& gpsRecGeoPos) {
-        this->gpsRecGeoPos = gpsRecGeoPos;
-    }
-
-    const Coord& getGpsRecUtmPos() const {
-        return gpsRecUTMPos;
-    }
-
-    void setGpsRecUtmPos(const Coord& gpsRecUtmPos) {
-        gpsRecUTMPos = gpsRecUtmPos;
+    void setPosition(const Coord& position) {
+        this->position = position;
     }
 };
 

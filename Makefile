@@ -25,6 +25,7 @@ INCLUDE_PATH = \
     -Ilocalization/DeadReckoning \
     -Ilocalization/Filters \
     -Ilocalization/GPS \
+    -Ilocalization/GPS/mean_std_dev \
     -Ilocalization/GPS/outages \
     -Ilocalization/GPS/outagesxy \
     -Ilocalization/GeographicLib \
@@ -203,6 +204,7 @@ clean:
 	$(Q)-rm -f localization/DeadReckoning/*_m.cc localization/DeadReckoning/*_m.h localization/DeadReckoning/*_sm.cc localization/DeadReckoning/*_sm.h
 	$(Q)-rm -f localization/Filters/*_m.cc localization/Filters/*_m.h localization/Filters/*_sm.cc localization/Filters/*_sm.h
 	$(Q)-rm -f localization/GPS/*_m.cc localization/GPS/*_m.h localization/GPS/*_sm.cc localization/GPS/*_sm.h
+	$(Q)-rm -f localization/GPS/mean_std_dev/*_m.cc localization/GPS/mean_std_dev/*_m.h localization/GPS/mean_std_dev/*_sm.cc localization/GPS/mean_std_dev/*_sm.h
 	$(Q)-rm -f localization/GPS/outages/*_m.cc localization/GPS/outages/*_m.h localization/GPS/outages/*_sm.cc localization/GPS/outages/*_sm.h
 	$(Q)-rm -f localization/GPS/outagesxy/*_m.cc localization/GPS/outagesxy/*_m.h localization/GPS/outagesxy/*_sm.cc localization/GPS/outagesxy/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/*_m.cc localization/GeographicLib/*_m.h localization/GeographicLib/*_sm.cc localization/GeographicLib/*_sm.h
@@ -228,7 +230,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Types/Types.o: Types/Types.cc \

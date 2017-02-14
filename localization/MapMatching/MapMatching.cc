@@ -80,7 +80,9 @@ void MapMatching::DoMapMatching(std::string edgeID, Coord pGPS){
         if(it->id == edgeID){
             for(i=1; i < it->shape.size(); i++){
                 A = it->shape.at(i-1);
+                A.z = pGPS.z;
                 B = it->shape.at(i);
+                B.z = pGPS.z;
                 P = pGPS;
 
                 if( DistancePointLine( &A, &B, &P, &matchPoint, &distGPSMM) ){
