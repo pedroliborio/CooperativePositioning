@@ -34,11 +34,30 @@ void GPS::GetDataSetMeanSTD(std::string outagesFile){
 
 void GPS::CompPosition(Coord *realCoord){
     //FIXME Maybe is necessary use the sumo seed... verify
-    double diff = (RNGCONTEXT normal(mean, std));
+    //Here we generate a random number in teh perimeter of an circle
+    double diff, angle, radius;
+
+    diff = (RNGCONTEXT normal(mean, std));
 
     position.x = realCoord->x + diff;
     position.y = realCoord->y + diff;
-    position.z = realCoord->z + diff;
+    position.z = realCoord->z;
+
+    radius = realCoord->distance(position);
+
+    angle = ( RNGCONTEXT normal(0,osg::PI*2) );
+
+    position.x = realCoord->x + cos(angle)*radius;
+    position.y = realCoord->y + sin(angle)*radius;
+
+    /*if(position.x < 1){
+        position.x = 0;
+    }
+    if(position.y < 1){
+        position.y = 0;
+    }*/
+    //TODO Decides after if will use a 3D approach...
+    //3D position.z = realCoord->z + diff;i
 
     CompError(realCoord);
 

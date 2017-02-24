@@ -12,6 +12,8 @@
 #include <Types.h>
 #include <fstream>
 
+using namespace std;
+
 namespace Localization {
 
 class GPS {

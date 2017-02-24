@@ -53,7 +53,7 @@ void Multilateration::LeastSquares(void){
         x = qrFact.solve(b);
 
         if(x.dim1() == 0){
-            std::cout << "Que bosta!" << endl;
+            std::cout << "Error in last Squares!" << endl;
         }
 
         estPosition.x = x[0];

@@ -38,10 +38,15 @@ Outage::Outage(std::string outagesFile) {
         file >> date >> time >> outagePos.x >> outagePos.y >> error;
         file >> date >> time >> recoverPos.x >> recoverPos.y >> error;
     }
+
     fileCount.close();
     file.close();
 
     fileCount.open(pathCount.c_str(),std::fstream::out);
+    if(!fileCount){
+        std::cout << "Error in Class Outage: files!" << endl;
+        exit(0);
+    }
     fileCount << numOutage++ <<'\t'<< totalOutage<<'\n';
     fileCount.close();
 

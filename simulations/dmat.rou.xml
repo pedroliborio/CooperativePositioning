@@ -7,7 +7,9 @@
 
         <route id="DMATExitEntrance" edges="161493573 59766629 59766617 59766616 59766615 59766608 59766570 59766528 399402797 396959337 59766456"/>
 
-        <flow id="flowEntranceExit" departLane="random" route="DMATEntranceExit" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" />
+        <flow id="flowEntranceExit" departLane="random" route="DMATEntranceExit" begin="0.0" end="30.0" vehsPerHour="1" departSpeed="max" />
 
-        <flow id="flowExitEntrance" departLane="random" route="DMATExitEntrance" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" />
+        <!--<flow id="flowEntranceExit" departLane="random" route="DMATEntranceExit" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" />-->
+
+        <!--<flow id="flowExitEntrance" departLane="random" route="DMATExitEntrance" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" />-->
 </routes>
