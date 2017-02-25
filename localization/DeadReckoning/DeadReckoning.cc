@@ -21,7 +21,7 @@ DeadReckoning::DeadReckoning(LonLat lastGPSPos) {
     this->errorUTM = 0;
     this->errorGeo = 0;
     this->timeDR=0;
-    this->sigma_theta=1;
+    this->error=0;
 }
 
 DeadReckoning::~DeadReckoning() {
@@ -41,18 +41,29 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
     timeDR+=0.1;
 
     //update sigma_theta with the sources of noise
-    sigma_theta = ANGLE_RANDOM_WALK_NOISE * sqrt(timeDR);
+    arw = ANGLE_RANDOM_WALK_NOISE * sqrt(timeDR);
 
-    sigma_theta += OFFSET * timeDR;
+    arw = RNGCONTEXT normal(0,arw);
 
-    sigma_theta += NON_LINEARITY * sqrt(timeDR);
+    offset = OFFSET * timeDR;
+
+    offset = RNGCONTEXT normal(0,offset);
+
+    nonLinearity = NON_LINEARITY * sqrt(timeDR);
+
+    nonLinearity = RNGCONTEXT normal(0,nonLinearity);
+
+    error = arw + offset + nonLinearity;
 
     //std::cout << "sigma: " << std::setprecision(8) << sigma_theta << "\n\n";
 
     //FIXME After each one second use ine filter to minimize the error
 
+    this->angle = azi_1;
+
     //Put the noise on the angle (azimuth)
-    azi_1 += RNGCONTEXT normal(0,sigma_theta);
+    //azi_1 += RNGCONTEXT normal(0,error);
+    azi_1 += error;
 
     //calc new GDR position
     geod.Direct(lastKnowPosGeo.lat, lastKnowPosGeo.lon, azi_1, s_12, lat, lon);

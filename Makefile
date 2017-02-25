@@ -44,6 +44,7 @@ INCLUDE_PATH = \
     -Ilocalization/jama_tnt \
     -Isimulations \
     -Isimulations/results \
+    -Isimulations/results/results-old \
     -Isumoscenarios
 
 # Additional object and library files to link with
@@ -223,6 +224,7 @@ clean:
 	$(Q)-rm -f localization/jama_tnt/*_m.cc localization/jama_tnt/*_m.h localization/jama_tnt/*_sm.cc localization/jama_tnt/*_sm.h
 	$(Q)-rm -f simulations/*_m.cc simulations/*_m.h simulations/*_sm.cc simulations/*_sm.h
 	$(Q)-rm -f simulations/results/*_m.cc simulations/results/*_m.h simulations/results/*_sm.cc simulations/results/*_sm.h
+	$(Q)-rm -f simulations/results/results-old/*_m.cc simulations/results/results-old/*_m.h simulations/results/results-old/*_sm.cc simulations/results/results-old/*_sm.h
 	$(Q)-rm -f sumoscenarios/*_m.cc sumoscenarios/*_m.h sumoscenarios/*_sm.cc sumoscenarios/*_sm.h
 
 cleanall: clean
@@ -230,7 +232,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc simulations/results/results-old/*.cc sumoscenarios/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Types/Types.o: Types/Types.cc \

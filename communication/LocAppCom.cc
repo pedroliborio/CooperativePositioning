@@ -237,7 +237,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             }
             //FIXME Only for debug
             std::cout
-            <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.x
+            << std::setprecision(10) << lastSUMOUTMPos.x
             <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.y
             <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.z
             <<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x
@@ -252,6 +252,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << drModule->getLastKnowPosUtm().z
             <<'\t'<< std::setprecision(10) << drModule->getLastKnowPosGeo().lat
             <<'\t'<< std::setprecision(10) << drModule->getLastKnowPosGeo().lon
+            <<'\t'<< std::setprecision(10) << drModule->getAngle()
+            <<'\t'<< std::setprecision(10) << std::showpoint << drModule->getArw()
+            <<'\t'<< std::setprecision(10) << std::showpoint << drModule->getOffset()
+            <<'\t'<< std::setprecision(10) << std::showpoint << drModule->getNonLinearity()
+            <<'\t'<< std::setprecision(10) << drModule->getError()
             <<'\t'<< std::setprecision(10) << drModule->getErrorUtm()
             <<'\t'<< std::setprecision(10) << outageModule->isInOutage()
             <<'\t'<< std::setprecision(10) << wsm->getTimestamp()

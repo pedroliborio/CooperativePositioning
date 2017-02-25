@@ -37,7 +37,11 @@ private:
 
     //This simulate one of teh error sources in a gyroscope and is added to the angle
     //given by sumo in UTM coordinates and Geographiclib in lat lon corrdinates
-    double sigma_theta;
+    double error;
+    double arw;//ARW
+    double offset;//epsilon
+    double nonLinearity;//non linearity
+
 public:
     DeadReckoning();
     DeadReckoning(LonLat lastGPSPos);
@@ -78,6 +82,54 @@ public:
 
     void setErrorUtm(double errorUtm) {
         errorUTM = errorUtm;
+    }
+
+    double getTimeDr() const {
+        return timeDR;
+    }
+
+    void setTimeDr(double timeDr) {
+        timeDR = timeDr;
+    }
+
+    double getAngle() const {
+        return angle;
+    }
+
+    void setAngle(double angle) {
+        this->angle = angle;
+    }
+
+    double getError() const {
+        return error;
+    }
+
+    void setError(double error) {
+        this->error = error;
+    }
+
+    double getArw() const {
+        return arw;
+    }
+
+    void setArw(double arw) {
+        this->arw = arw;
+    }
+
+    double getNonLinearity() const {
+        return nonLinearity;
+    }
+
+    void setNonLinearity(double nonLinearity) {
+        this->nonLinearity = nonLinearity;
+    }
+
+    double getOffset() const {
+        return offset;
+    }
+
+    void setOffset(double offset) {
+        this->offset = offset;
     }
 };
 
