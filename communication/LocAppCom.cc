@@ -257,6 +257,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << std::showpoint << drModule->getOffset()
             <<'\t'<< std::setprecision(10) << std::showpoint << drModule->getNonLinearity()
             <<'\t'<< std::setprecision(10) << drModule->getError()
+            <<'\t'<< std::setprecision(10) << drModule->getLPFTheta().getLpf()
             <<'\t'<< std::setprecision(10) << drModule->getErrorUtm()
             <<'\t'<< std::setprecision(10) << outageModule->isInOutage()
             <<'\t'<< std::setprecision(10) << wsm->getTimestamp()
@@ -339,9 +340,9 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     trgiModel->setDistance(anchorNode.drRSSITRGI,anchorNode.deadReckDist,this->pTx,this->lambda, this->ht,this->hr, this->epsilonR);
     anchorNode.drRSSIDistTRGI = trgiModel->getDistance();
 
-    //Avg Filter applied in distance measurements
+    //FIXME Avg Filter applied in distance measurements
     //Above Real Dists
-    anchorNode.k++;//Increment k_th iteration
+    /*anchorNode.k++;//Increment k_th iteration
     filter->setAverageFilter(anchorNode.k, anchorNode.realRSSIDistAvgFilterFS, anchorNode.realRSSIDistFS);
     anchorNode.realRSSIDistAvgFilterFS = filter->getAvgFilter();
     filter->setAverageFilter(anchorNode.k, anchorNode.realRSSIDistAvgFilterTRGI, anchorNode.realRSSIDistTRGI);
@@ -350,7 +351,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     filter->setAverageFilter(anchorNode.k, anchorNode.drRSSIDistAvgFilterFS, anchorNode.drRSSIDistFS);
     anchorNode.drRSSIDistAvgFilterFS = filter->getAvgFilter();
     filter->setAverageFilter(anchorNode.k, anchorNode.drRSSIDistAvgFilterTRGI, anchorNode.drRSSIDistTRGI);
-    anchorNode.drRSSIDistAvgFilterTRGI = filter->getAvgFilter();
+    anchorNode.drRSSIDistAvgFilterTRGI = filter->getAvgFilter();*/
 
     //Update new values at the list
     //Somente utilizamos a multilateração com a posição dos nós em queda
@@ -604,10 +605,11 @@ void LocAppCom::receiveSignal(cComponent* source, simsignal_t signalID, cObject*
 
 void LocAppCom::finish(){
     BaseWaveApplLayer::finish();
-    if(myId == 0){
+    /*if(myId == 0){
         exit(0);
-    }
+    }*/
     //FIXME Probably when reach the total of outages (last vehicles pass)
+    //WARNING Dont use exit(0) because the scalars not writed
     //call some method to finish the simulation
     //FIXME another way repeat outages in dataset up to a determined time
 

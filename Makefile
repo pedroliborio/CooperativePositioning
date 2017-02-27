@@ -65,6 +65,7 @@ OBJS = \
     $O/communication/LocAppCom.o \
     $O/localization/DeadReckoning/DeadReckoning.o \
     $O/localization/Filters/Filters.o \
+    $O/localization/Filters/LowPassFilter.o \
     $O/localization/GPS/GPS.o \
     $O/localization/GeographicLib/src/GeodesicLineExact.o \
     $O/localization/GeographicLib/src/CircularEngine.o \
@@ -246,6 +247,7 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	communication/LocAppCom.h \
 	localization/DeadReckoning/DeadReckoning.h \
 	localization/Filters/Filters.h \
+	localization/Filters/LowPassFilter.h \
 	localization/GPS/GPS.h \
 	localization/MapMatching/MapMatching.h \
 	localization/Multilateration/Multilateration.h \
@@ -312,12 +314,15 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 $O/localization/DeadReckoning/DeadReckoning.o: localization/DeadReckoning/DeadReckoning.cc \
 	Types/Types.h \
 	localization/DeadReckoning/DeadReckoning.h \
+	localization/Filters/LowPassFilter.h \
 	$(VEINS_PROJ)/src/veins/base/utils/Coord.h \
 	$(VEINS_PROJ)/src/veins/base/utils/FWMath.h \
 	$(VEINS_PROJ)/src/veins/base/utils/MiXiMDefs.h \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h
 $O/localization/Filters/Filters.o: localization/Filters/Filters.cc \
 	localization/Filters/Filters.h
+$O/localization/Filters/LowPassFilter.o: localization/Filters/LowPassFilter.cc \
+	localization/Filters/LowPassFilter.h
 $O/localization/GPS/GPS.o: localization/GPS/GPS.cc \
 	Types/Types.h \
 	localization/GPS/GPS.h \

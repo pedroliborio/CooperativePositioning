@@ -53,7 +53,9 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
 
     nonLinearity = RNGCONTEXT normal(0,nonLinearity);
 
-    error = arw + offset + nonLinearity;
+    error += arw + offset + nonLinearity;
+
+    lPFTheta.DoLowPassFilter(error);
 
     //std::cout << "sigma: " << std::setprecision(8) << sigma_theta << "\n\n";
 

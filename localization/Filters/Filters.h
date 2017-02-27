@@ -13,6 +13,7 @@ namespace Localization {
 class Filters {
 private:
     double avgFilter;
+    long int k;
 public:
     Filters();
     virtual ~Filters();

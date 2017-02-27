@@ -23,4 +23,6 @@ void Filters::setAverageFilter(int k, double mean, double x_k){
     avgFilter = (alpha * mean) + (1-alpha) * x_k;
 }
 
+
+
 } /* namespace Localization */

@@ -25,12 +25,24 @@ Outage::Outage(std::string outagesFile) {
     std::string pathCount = "../localization/GPS/outagesxy/"+outagesFile+"Count.txt";
 
     std::fstream file(pathGPS.c_str());
-    std::fstream fileCount;
-    fileCount.open(pathCount.c_str());
+    std::fstream fileCount(pathCount.c_str());
+
+    if(!file.is_open()){
+        std::cout << "Outages.cc: GPS FILE Error" << endl;
+        exit(0);
+    }
+    else{
+        if(!fileCount.is_open()){
+            std::cout << "Outages.cc: Counter FILE Error" << endl;
+            exit(0);
+        }
+    }
 
     fileCount >> numOutage >> totalOutage;//read counter of outages
     //FiXME verify if numoutage reaches totoutages condicao de parada do bagui
-    //if numoutage == totaloutage ? -- : ---
+    if (numOutage == totalOutage){
+        numOutage = 0;
+    }
 
     getline(file, line); // get header GPS outages file
 
@@ -38,16 +50,22 @@ Outage::Outage(std::string outagesFile) {
         file >> date >> time >> outagePos.x >> outagePos.y >> error;
         file >> date >> time >> recoverPos.x >> recoverPos.y >> error;
     }
+    std:: cout << "Outage" <<endl;
+    std::cout << outagePos << endl;
+    std::cout << recoverPos << endl;
 
     fileCount.close();
     file.close();
 
     fileCount.open(pathCount.c_str(),std::fstream::out);
-    if(!fileCount){
+    if(!fileCount.is_open()){
         std::cout << "Error in Class Outage: files!" << endl;
         exit(0);
     }
-    fileCount << numOutage++ <<'\t'<< totalOutage<<'\n';
+
+    numOutage++;
+
+    fileCount << numOutage <<'\t'<< totalOutage<<'\n';
     fileCount.close();
 
     //initialize outage recover flags
@@ -55,9 +73,6 @@ Outage::Outage(std::string outagesFile) {
     inRecover = false;
 }
 
-Outage::~Outage() {
-    // TODO Auto-generated destructor stub
-}
 
 void Outage::ControlOutage(Coord *sumoPos){
     double dist;
@@ -82,6 +97,10 @@ void Outage::ControlOutage(Coord *sumoPos){
             }
         }
     }
+}
+
+Outage::~Outage() {
+    // TODO Auto-generated destructor stub
 }
 
 } /* namespace Localization */

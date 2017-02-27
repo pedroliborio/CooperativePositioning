@@ -11,6 +11,7 @@
 #include <Types.h>
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
+#include <localization/Filters/LowPassFilter.h>
 #include <limits.h>
 #include <iomanip>
 
@@ -32,15 +33,16 @@ private:
     double angle;
     double errorGeo;
     double errorUTM;
-    double timeDR;
-    //double angularError; // constant bias
-
-    //This simulate one of teh error sources in a gyroscope and is added to the angle
+    double timeDR;//unity of time same as update_interval
+    //This simulate the error sources in a gyroscope and is added to the angle
     //given by sumo in UTM coordinates and Geographiclib in lat lon corrdinates
     double error;
     double arw;//ARW
     double offset;//epsilon
     double nonLinearity;//non linearity
+
+    //LowPassFilter for filter the error
+    LowPassFilter lPFTheta;
 
 public:
     DeadReckoning();
@@ -130,6 +132,14 @@ public:
 
     void setOffset(double offset) {
         this->offset = offset;
+    }
+
+    const LowPassFilter& getLPFTheta() const {
+        return lPFTheta;
+    }
+
+    void setLPFTheta(const LowPassFilter& pfTheta) {
+        lPFTheta = pfTheta;
     }
 };
 
