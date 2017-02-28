@@ -25,7 +25,7 @@ GPS::~GPS() {
 void GPS::GetDataSetMeanSTD(std::string outagesFile){
     std::string path = "../localization/GPS/mean_std_dev/"+outagesFile+".txt";
     std::fstream file(path);
-    std::cout << path << endl;
+    //std::cout << path << endl;
     file >> this->mean >> this->std;
     //std::cout << "Mean, STD:"<< this->mean <<" , "<< this->std << endl;
     file.close();

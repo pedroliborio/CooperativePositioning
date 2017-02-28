@@ -41,13 +41,13 @@ MapMatching::MapMatching(std::string route) {
 
 double MapMatching::Magnitude( Coord *A, Coord *B )
 {
-    std::cout << *A << *B << endl;
+    //std::cout << *A << *B << endl;
     return sqrt( ( (B->x - A->x) * (B->x - A->x) ) + ((B->y - A->y) * (B->y - A->y) ) );
 }
 
 int MapMatching::DistancePointLine(Coord *A, Coord *B, Coord *P, Coord *intersection, double *distance){
 
-    std::cout << *A << *B << *P <<"\n\n";
+    //std::cout << *A << *B << *P <<"\n\n";
 
     double magnitude;
     double U;
@@ -57,7 +57,7 @@ int MapMatching::DistancePointLine(Coord *A, Coord *B, Coord *P, Coord *intersec
           ( (P->y - A->y) * (B->y - A->y) ) )
         / (magnitude * magnitude);
 
-    std::cout << U <<"****\n";
+    //std::cout << U <<"****\n";
 
     if( U < (double) 0.0 || U > (double) 1.0){
         return 0; //closest point does not fall within the line segment
@@ -86,7 +86,7 @@ void MapMatching::DoMapMatching(std::string edgeID, Coord pGPS){
                 P = pGPS;
 
                 if( DistancePointLine( &A, &B, &P, &matchPoint, &distGPSMM) ){
-                    std::cout << "Computado com sucesso!\n\n";
+                    //std::cout << "Computado com sucesso!\n\n";
                     break;
                 }
                 else{

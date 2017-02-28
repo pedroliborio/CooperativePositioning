@@ -123,6 +123,8 @@ void LocAppCom::initialize(int stage){
 }
 
 void LocAppCom::handleSelfMsg(cMessage* msg){
+    std::cout << "HSM: "<< myId << '\t'<< simTime() << "\n";
+
     //TODO Verify if last and atual positions is diferents if not fix it and make GDR work
     switch (msg->getKind()) {
         case SEND_BEACON_EVT: {
@@ -217,6 +219,9 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
 
                     //UPDATE GPS error considering last position before outage
                     gpsModule->CompError(&atualSUMOUTMPos);
+
+                    wsm->setSenderGPSPos(gpsModule->getPosition());
+                    wsm->setErrorGPS(gpsModule->getError());
                 }
                 else{
                     /*std::cout << "After Outage: "
@@ -235,9 +240,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                     wsm->setErrorGPS(gpsModule->getError());
                 }
             }
-            //FIXME Only for debug
+            /*//FIXME Only for debug
             std::cout
-            << std::setprecision(10) << lastSUMOUTMPos.x
+            << std::setprecision(10) << myId
+            <<'\t'<< simTime()
+            <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.x
             <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.y
             <<'\t'<< std::setprecision(10) << lastSUMOUTMPos.z
             <<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x
@@ -261,7 +268,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << drModule->getErrorUtm()
             <<'\t'<< std::setprecision(10) << outageModule->isInOutage()
             <<'\t'<< std::setprecision(10) << wsm->getTimestamp()
-            << endl;
+            << endl;*/
             sendWSM(wsm);
             //Draw annotation
             //findHost()->getDisplayString().updateWith("r=16,blue");
@@ -279,22 +286,20 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
 }
 
 void  LocAppCom::onBeacon(WaveShortMessage* wsm){
-
-
+    std::cout << "Onb: "<< myId <<'\t'<< simTime() << "\n";
     //Draw annotation"
     //findHost()->getDisplayString().updateWith("r=16,blue");
     //annotations->scheduleErase(1, annotations->drawLine(wsm->getSenderPos(), mobility->getPositionAt(simTime()), "blue"));
     //annotations->scheduleErase(1,annotations->drawLine(wsm->getSenderPos(), mobility->getCurrentPosition(),"blue"));
 
-    //FIXME It's necessary actualize the tracking of the ego vehicle before
+    //FIXME It's necessary update the tracking of the ego vehicle before
     //continue the process same as handleselfmessage.
-    //Coord currentPos = traci->getTraCIXY(mobility->getCurrentPosition());
     Coord coord = traci->getTraCIXY(mobility->getCurrentPosition());
     //make the multilateration
 
-    /*std::cout <<"VEHICLE"<< myId << "\n\n";
-    std::cout <<"POS 1"<< currentPos << "\n\n";
-    std::cout <<"POS 2"<< atualSUMOUTMPos << "\n\n";*/
+    std::cout <<"VEHICLE"<< myId << "\n";
+    std::cout <<"POS 1"<< coord << "\n";
+    std::cout <<"POS 2"<< atualSUMOUTMPos << "\n\n";
 
     AnchorNode anchorNode;
     //If the anchorNode already exists it will be get to be update
@@ -304,10 +309,14 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     anchorNode.timestamp = wsm->getTimestamp();
     anchorNode.inOutage = wsm->getInOutage();
 
+    //FIXME Here the distance need to be calculated with my best estimation
+    // This can be CP, DR or GPS position
+    // The hipotese is that as the DR will increase the error and up some threshold
+    // The CP will be best to use
+
     anchorNode.realPos = wsm->getSenderRealPos();
     anchorNode.realDist = anchorNode.realPos.distance(coord);
 
-    //TODO Talvez aplicar o RSSI direto nas distancias DR ou sobre o erro?
     anchorNode.deadReckPos = wsm->getSenderDRPos();
     anchorNode.errorDR = wsm->getErrorDR();
     anchorNode.deadReckDist = anchorNode.deadReckPos.distance(coord);
@@ -319,7 +328,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     //TODO Mecanismo para minimizar o erro ou seja utlizar nós anchoras com erro minimo
 
     //Calculating RSSI using Real Distances
-    fsModel->setRSSI(anchorNode.realDist, this->pTx, this->alpha, this->lambda);
+    /*fsModel->setRSSI(anchorNode.realDist, this->pTx, this->alpha, this->lambda);
     anchorNode.realRSSIFS = fsModel->getRSSI();
     fsModel->setDistance(anchorNode.realRSSIFS, this->pTx, this->alpha, this->lambda);
     anchorNode.realRSSIDistFS = fsModel->getDistance();
@@ -338,7 +347,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     trgiModel->setRSSI(anchorNode.deadReckDist, this->pTx, this->lambda, this->ht, this->hr, this->epsilonR);
     anchorNode.drRSSITRGI = trgiModel->getRSSI();
     trgiModel->setDistance(anchorNode.drRSSITRGI,anchorNode.deadReckDist,this->pTx,this->lambda, this->ht,this->hr, this->epsilonR);
-    anchorNode.drRSSIDistTRGI = trgiModel->getDistance();
+    anchorNode.drRSSIDistTRGI = trgiModel->getDistance();*/
 
     //FIXME Avg Filter applied in distance measurements
     //Above Real Dists
@@ -370,15 +379,15 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
         coopPosReal = multilateration->getEstPosition();
         coopPosReal.z = mobility->getCurrentPosition().z;
 
-        std::cout <<"atualSUMOPos "<< atualSUMOUTMPos<< endl;
-        std::cout <<"curPos "<< coord << endl;
-        std::cout <<"CoopPos "<< coopPosReal << endl;
+        //std::cout <<"atualSUMOPos "<< atualSUMOUTMPos<< endl;
+        //std::cout <<"curPos "<< coord << endl;
+        //std::cout <<"CoopPos "<< coopPosReal << endl;
 
         //exit(0);
 
         /*multilateration->DoMultilateration(&anchorNodes,multilateration->DR_POS, multilateration->DR_DIST);
         coopPosDR = multilateration->getEstPosition();
-        coopPosDR.z = mobility->getCurrentPosition().z;*/
+        coopPosDR.z = mobility->getCurrentPosition().z;
 
         multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->FS_DIST);
         coopPosRSSIFS = multilateration->getEstPosition();
@@ -386,7 +395,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
 
         multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->TRGI_DIST);
         coopPosRSSITRGI = multilateration->getEstPosition();
-        coopPosRSSITRGI.z = mobility->getCurrentPosition().z;
+        coopPosRSSITRGI.z = mobility->getCurrentPosition().z;*/
 
     }
     else{
@@ -405,8 +414,13 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     //std::cout << coordTraCI.first << ' '<< coordTraCI.second << endl;
     //std::pair<double,double> lonlat = traci->getLonLat(mobility->getCurrentPosition());
     std::fstream beaconLogFile(std::to_string(myId)+'-'+std::to_string(timeSeed)+".txt", std::fstream::app);
+    /*if ( beaconLogFile.peek() == std::ifstream::traits_type::eof() )
+    {
+       //Put Header
+    }*/
     beaconLogFile
-                /*00*/<< anchorNode.vehID
+                << std::setprecision(10) << simTime()
+                /*00*/<<'\t'<< anchorNode.vehID
                 /*01*/<<'\t'<< anchorNode.timestamp
                 /*02*/<<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x
                 /*03*/<<'\t'<< std::setprecision(10) << atualSUMOUTMPos.y
@@ -572,8 +586,8 @@ void LocAppCom::RecognizeEdges(void){
     std::string path = "../localization/Graphs/"+traciVehicle->getRouteId()+".txt";
     std::cout << path;
     std::fstream fileEdges(path.c_str(), std::fstream::out);
-    if (!fileEdges){
-        std::cout << "para o baba" << endl;
+    if (!fileEdges.is_open()){
+        std::cout << "Error.." << endl;
         exit(0);
     }
     for(std::list<std::string>::iterator it=roadIds.begin(); it!= roadIds.end(); ++it){

@@ -50,9 +50,9 @@ Outage::Outage(std::string outagesFile) {
         file >> date >> time >> outagePos.x >> outagePos.y >> error;
         file >> date >> time >> recoverPos.x >> recoverPos.y >> error;
     }
-    std:: cout << "Outage" <<endl;
+    /*std:: cout << "Outage" <<endl;
     std::cout << outagePos << endl;
-    std::cout << recoverPos << endl;
+    std::cout << recoverPos << endl;*/
 
     fileCount.close();
     file.close();

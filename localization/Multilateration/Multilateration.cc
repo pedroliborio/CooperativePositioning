@@ -22,10 +22,10 @@ void Multilateration::LeastSquares(void){
         int i;
         //Minus one because the last line of the matrix will be subtracted by the others lines
         int size = positions.size();
-        std::cout << size << endl;
+        //std::cout << size << endl;
         size--;
 
-        std::cout << size << endl;
+        //std::cout << size << endl;
 
         //Create matrixes using the TNT library
         //Composing the Linear Equation Ax - b to be solved by LeastSquares
@@ -37,7 +37,7 @@ void Multilateration::LeastSquares(void){
         //distToSubtract = (double) distances->at(size);
 
         for(i=0; i < size; i++){
-            std::cout << positions.at(i) << "\t" << distances.at(i) << endl;
+            //std::cout << positions.at(i) << "\t" << distances.at(i) << endl;
             A[i][0] =  2.0 * (positions.at(i).x - positions.at(size).x);
             A[i][1] =  2.0 * (positions.at(i).y - positions.at(size).y);
 
@@ -46,7 +46,7 @@ void Multilateration::LeastSquares(void){
                    ( pow(positions.at(i).y,2) - pow(positions.at(size).y,2) );
         }
 
-        std::cout << positions.at(size) << "\t" << distances.at(size) << endl;
+        //std::cout << positions.at(size) << "\t" << distances.at(size) << endl;
 
         JAMA::QR<double> qrFact(A);
 
@@ -60,7 +60,7 @@ void Multilateration::LeastSquares(void){
         estPosition.y = x[1];
         estPosition.z = 0;
 
-        for(std::vector<double>::iterator it = distances.begin(); it!= distances.end(); ++it ){
+        /*for(std::vector<double>::iterator it = distances.begin(); it!= distances.end(); ++it ){
             std::cout << std::setprecision(10) << *it << endl;
         }
 
@@ -68,7 +68,7 @@ void Multilateration::LeastSquares(void){
             std::cout << *it << endl;
         }
 
-        std::cout << estPosition << endl;
+        std::cout << estPosition << endl;*/
 }
 
 void Multilateration::getDistList(std::list<AnchorNode> *anchorNodes, const int DIST_TYPE){
