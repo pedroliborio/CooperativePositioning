@@ -71,6 +71,9 @@ private:
     bool isInOutage; //Flag that indicates the begins of outage;
     bool isInRecover; //Flag that Indicates the begins of recover;
     std::list<AnchorNode> anchorNodes;//list of neighbor vehicles
+    double residual; //sum of residuals
+    bool IsMultOk; //Flag that indicates success in multilateration
+    time_t timer = 0;
 
     //**************Position Variables
     Coord coopPosRSSIFS; //CP FS
@@ -78,6 +81,7 @@ private:
     Coord coopPosRSSIDR; //CP DR
     Coord coopPosDR;
     Coord coopPosReal;
+    double errorCPReal;
     LonLat lastSUMOGeoPos, atualSUMOGeoPos;
     Coord lastSUMOUTMPos, atualSUMOUTMPos;
 
@@ -137,9 +141,10 @@ protected:
     virtual void onBeacon(WaveShortMessage* wsm);
     //This method crate a beacon with vehicle kinematics information
     virtual void handleSelfMsg(cMessage* msg);
+    void PutInNeighborList(AnchorNode *anchorNode);
     void UpdateNeighborList(AnchorNode *anchorNode);
     void UpdateNeighborListDistances(void);
-    void PrintNeighborList(AnchorNode *anchorNode);
+    void PrintNeighborList();
     void PrintAnchorNode(AnchorNode *anchorNode);
     void GeodesicDRModule(void);
     void VehicleKinematicsModule(void);
@@ -150,6 +155,16 @@ protected:
     bool RecognizeRecover();
     void RecognizeEdges(void);
     std::string GetTunnelString();
+
+    void DiscardOldBeacons();
+
+    bool IsAGoodBeacon(AnchorNode * anchorNode);
+
+    void UpdateRange();
+
+    void SortByResidual();
+
+    double SetResidual();
 
 
 

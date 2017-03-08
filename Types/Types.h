@@ -50,6 +50,10 @@ struct AnchorNode_t{
             int k = 0; //Actual Iteration for the Avg Filter
             bool inOutage;
 
+            double residual;//Residual information (Diference between the distance by rssi and distance after multilateration)
+
+            Coord myPosition;//My Position when I received this beacon
+
 };typedef struct AnchorNode_t AnchorNode;
 
 namespace Localization {

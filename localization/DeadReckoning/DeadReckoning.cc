@@ -65,7 +65,7 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
 
     //Put the noise on the angle (azimuth)
     //azi_1 += RNGCONTEXT normal(0,error);
-    azi_1 += error;
+    azi_1 += lPFTheta.getLpf();
 
     //calc new GDR position
     geod.Direct(lastKnowPosGeo.lat, lastKnowPosGeo.lon, azi_1, s_12, lat, lon);

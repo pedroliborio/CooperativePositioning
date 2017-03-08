@@ -43,7 +43,23 @@ INCLUDE_PATH = \
     -Ilocalization/RSSI \
     -Ilocalization/jama_tnt \
     -Isimulations \
+    -Isimulations/analysis \
+    -Isimulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST \
+    -Isimulations/analysis/Old \
+    -Isimulations/analysis/Old/DB_0.5 \
+    -Isimulations/analysis/Old/EAB \
+    -Isimulations/analysis/Old/EAB_DB_0.5 \
+    -Isimulations/analysis/Old/RES_DB_0.5 \
+    -Isimulations/analysis/RealDist \
+    -Isimulations/analysis/RealDist/DB_0.5_FILTER_REALDIST \
+    -Isimulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST \
+    -Isimulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST \
+    -Isimulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST \
+    -Isimulations/analysis/files \
     -Isimulations/results \
+    -Isimulations/rv \
+    -Isimulations/rv/figs \
+    -Isimulations/rv/files \
     -Isumoscenarios
 
 # Additional object and library files to link with
@@ -223,7 +239,23 @@ clean:
 	$(Q)-rm -f localization/RSSI/*_m.cc localization/RSSI/*_m.h localization/RSSI/*_sm.cc localization/RSSI/*_sm.h
 	$(Q)-rm -f localization/jama_tnt/*_m.cc localization/jama_tnt/*_m.h localization/jama_tnt/*_sm.cc localization/jama_tnt/*_sm.h
 	$(Q)-rm -f simulations/*_m.cc simulations/*_m.h simulations/*_sm.cc simulations/*_sm.h
+	$(Q)-rm -f simulations/analysis/*_m.cc simulations/analysis/*_m.h simulations/analysis/*_sm.cc simulations/analysis/*_sm.h
+	$(Q)-rm -f simulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST/*_m.cc simulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST/*_m.h simulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST/*_sm.cc simulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST/*_sm.h
+	$(Q)-rm -f simulations/analysis/Old/*_m.cc simulations/analysis/Old/*_m.h simulations/analysis/Old/*_sm.cc simulations/analysis/Old/*_sm.h
+	$(Q)-rm -f simulations/analysis/Old/DB_0.5/*_m.cc simulations/analysis/Old/DB_0.5/*_m.h simulations/analysis/Old/DB_0.5/*_sm.cc simulations/analysis/Old/DB_0.5/*_sm.h
+	$(Q)-rm -f simulations/analysis/Old/EAB/*_m.cc simulations/analysis/Old/EAB/*_m.h simulations/analysis/Old/EAB/*_sm.cc simulations/analysis/Old/EAB/*_sm.h
+	$(Q)-rm -f simulations/analysis/Old/EAB_DB_0.5/*_m.cc simulations/analysis/Old/EAB_DB_0.5/*_m.h simulations/analysis/Old/EAB_DB_0.5/*_sm.cc simulations/analysis/Old/EAB_DB_0.5/*_sm.h
+	$(Q)-rm -f simulations/analysis/Old/RES_DB_0.5/*_m.cc simulations/analysis/Old/RES_DB_0.5/*_m.h simulations/analysis/Old/RES_DB_0.5/*_sm.cc simulations/analysis/Old/RES_DB_0.5/*_sm.h
+	$(Q)-rm -f simulations/analysis/RealDist/*_m.cc simulations/analysis/RealDist/*_m.h simulations/analysis/RealDist/*_sm.cc simulations/analysis/RealDist/*_sm.h
+	$(Q)-rm -f simulations/analysis/RealDist/DB_0.5_FILTER_REALDIST/*_m.cc simulations/analysis/RealDist/DB_0.5_FILTER_REALDIST/*_m.h simulations/analysis/RealDist/DB_0.5_FILTER_REALDIST/*_sm.cc simulations/analysis/RealDist/DB_0.5_FILTER_REALDIST/*_sm.h
+	$(Q)-rm -f simulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST/*_m.cc simulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST/*_m.h simulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST/*_sm.cc simulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST/*_sm.h
+	$(Q)-rm -f simulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST/*_m.cc simulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST/*_m.h simulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST/*_sm.cc simulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST/*_sm.h
+	$(Q)-rm -f simulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST/*_m.cc simulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST/*_m.h simulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST/*_sm.cc simulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST/*_sm.h
+	$(Q)-rm -f simulations/analysis/files/*_m.cc simulations/analysis/files/*_m.h simulations/analysis/files/*_sm.cc simulations/analysis/files/*_sm.h
 	$(Q)-rm -f simulations/results/*_m.cc simulations/results/*_m.h simulations/results/*_sm.cc simulations/results/*_sm.h
+	$(Q)-rm -f simulations/rv/*_m.cc simulations/rv/*_m.h simulations/rv/*_sm.cc simulations/rv/*_sm.h
+	$(Q)-rm -f simulations/rv/figs/*_m.cc simulations/rv/figs/*_m.h simulations/rv/figs/*_sm.cc simulations/rv/figs/*_sm.h
+	$(Q)-rm -f simulations/rv/files/*_m.cc simulations/rv/files/*_m.h simulations/rv/files/*_sm.cc simulations/rv/files/*_sm.h
 	$(Q)-rm -f sumoscenarios/*_m.cc sumoscenarios/*_m.h sumoscenarios/*_sm.cc sumoscenarios/*_sm.h
 
 cleanall: clean
@@ -231,7 +263,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/results/*.cc sumoscenarios/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/out/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/analysis/*.cc simulations/analysis/DB_0.5_RES_FILTER_RSSIFSDIST/*.cc simulations/analysis/Old/*.cc simulations/analysis/Old/DB_0.5/*.cc simulations/analysis/Old/EAB/*.cc simulations/analysis/Old/EAB_DB_0.5/*.cc simulations/analysis/Old/RES_DB_0.5/*.cc simulations/analysis/RealDist/*.cc simulations/analysis/RealDist/DB_0.5_FILTER_REALDIST/*.cc simulations/analysis/RealDist/DB_0.5_RES_FILTER_REALDIST/*.cc simulations/analysis/RealDist/DB_1.0_FILTER_REAL_DIST/*.cc simulations/analysis/RealDist/DB_1.0_RES_FILTER_REALDIST/*.cc simulations/analysis/files/*.cc simulations/results/*.cc simulations/rv/*.cc simulations/rv/figs/*.cc simulations/rv/files/*.cc sumoscenarios/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Types/Types.o: Types/Types.cc \

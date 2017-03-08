@@ -33,8 +33,8 @@ public:
 
     Multilateration();
     virtual ~Multilateration();
-    void DoMultilateration(std::list<AnchorNode> *anchorNodes, const int POS_TYPE, const int DIST_TYPE);
-    void LeastSquares(void);
+    bool DoMultilateration(std::list<AnchorNode> *anchorNodes, const int POS_TYPE, const int DIST_TYPE);
+    bool LeastSquares(void);
     void getDistList(std::list<AnchorNode> *anchorNodes, const int DIST_TYPE);
     void getPosList(std::list<AnchorNode> *anchorNodes, const int POS_TYPE);
 

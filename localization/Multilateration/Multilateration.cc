@@ -18,7 +18,7 @@ Multilateration::~Multilateration() {
     // TODO Auto-generated destructor stub
 }
 
-void Multilateration::LeastSquares(void){
+bool Multilateration::LeastSquares(void){
         int i;
         //Minus one because the last line of the matrix will be subtracted by the others lines
         int size = positions.size();
@@ -53,12 +53,19 @@ void Multilateration::LeastSquares(void){
         x = qrFact.solve(b);
 
         if(x.dim1() == 0){
-            std::cout << "Error in last Squares!" << endl;
+            /* If B is non-conformant, or if QR.isFullRank() is false,
+            * the routine returns a null (0-length) vector
+            *
+            */
+            std::cout << "Sistema sem solução!\n" << endl;
+            return false;
         }
 
         estPosition.x = x[0];
         estPosition.y = x[1];
-        estPosition.z = 0;
+        estPosition.z = positions[0].z;
+
+        return true;
 
         /*for(std::vector<double>::iterator it = distances.begin(); it!= distances.end(); ++it ){
             std::cout << std::setprecision(10) << *it << endl;
@@ -148,15 +155,24 @@ void Multilateration::getPosList(std::list<AnchorNode> *anchorNodes, const int P
     }
 }
 
-void Multilateration::DoMultilateration(std::list<AnchorNode> *anchorNodes, const int POS_TYPE, const int DIST_TYPE){
+bool Multilateration::DoMultilateration(std::list<AnchorNode> *anchorNodes, const int POS_TYPE, const int DIST_TYPE){
     //get distances
     getDistList(anchorNodes, DIST_TYPE);
     //get positions
     getPosList(anchorNodes, POS_TYPE);
     //Call Multilateration using LeastSquares
-    LeastSquares();
+
+    if(!LeastSquares()){
+        std::cout << simTime() << "  - Error in LS\n\n";
+        //Free memory
+        this->distances.clear();
+        this->positions.clear();
+        return false;
+    }
+
     //Free memory
     this->distances.clear();
     this->positions.clear();
+    return true;
 }
 } /* namespace Localization */
