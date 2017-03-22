@@ -88,7 +88,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
         case SEND_BEACON_EVT: {
 
             /*
-             * *BEGIN OF UPDATE OF SELF POSITIONING (GPS and DR)
+             * *BEGIN OF UPDATE SELF POSITIONING (GPS and DR)
              */
 
             //std::cout << myId<<" Send Beacon" << endl;
@@ -239,7 +239,8 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                      }
 
                  }//end while
-                 tempList.clear();//
+                 tempList.clear();
+
                  //std::cout <<"atualSUMOPos "<< atualSUMOUTMPos<< endl;
                  //std::cout <<"curPos "<< coord << endl;
                  //std::cout <<"CoopPos "<< coopPosReal << endl;
@@ -255,10 +256,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
 
                  multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->TRGI_DIST);
                  coopPosRSSITRGI = multilateration->getEstPosition();
-                 coopPosRSSITRGI.z = mobility->getCurrentPosition().z;
-                 //TODO THIS is for eliminate all beacons in every multilateration
+                 coopPosRSSITRGI.z = mobility->getCurrentPosition().z;*/
+
+                 //TODO THIS is if  you want eliminate all beacons in every multilateration
                  //anchorNodes.clear();
-                 if(myId==0){
+                 /*if(myId==0){
                      //After Remove Residuals and MULt
                      std::cout<<"BestList:\n";
                      PrintNeighborList();
@@ -269,7 +271,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
              */
 
             //TODO MAKE LOGO FILE
-            std::fstream beaconLogFile(std::to_string(myId)+'-'+std::to_string(timeSeed)+".txt", std::fstream::app);
+            std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(myId)+'-'+std::to_string(timeSeed)+".txt", std::fstream::app);
             beaconLogFile
             << std::setprecision(10) << simTime()
             <<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x
@@ -283,6 +285,12 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << drModule->getLastKnowPosUtm().y
             <<'\t'<< std::setprecision(10) << drModule->getLastKnowPosUtm().z
             <<'\t'<< std::setprecision(10) << drModule->getErrorUtm()
+            <<'\t'<< std::setprecision(10) << drModule->getAngle()
+            <<'\t'<< std::setprecision(10) << drModule->getArw()
+            <<'\t'<< std::setprecision(10) << drModule->getOffset()
+            <<'\t'<< std::setprecision(10) << drModule->getNonLinearity()
+            <<'\t'<< std::setprecision(10) << drModule->getError()
+            <<'\t'<< std::setprecision(10) << drModule->getLPFTheta().getLpf()
             <<'\t'<< std::setprecision(10) << outageModule->isInOutage()
             <<'\t'<< std::setprecision(10) << coopPosReal.x
             <<'\t'<< std::setprecision(10) << coopPosReal.y
@@ -300,7 +308,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             << endl;
             beaconLogFile.close();
 
-            string path = "rv/files/";
+            /*string path = "rv/files/";
             path+= std::to_string(simTime().dbl());
             if(myId==0){
                 std::fstream rangeVectorFile(path, std::fstream::out);
@@ -326,7 +334,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                     << std::endl;
                 }
                 rangeVectorFile.close();
-            }
+            }*/
 
 
             //Draw annotation
@@ -409,6 +417,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
 
     //If the anchorNode already exists it will be get to be update
     //otherwise the new values will gathered and push to the list
+
     AnchorNode anchorNode;
     getAnchorNode(wsm->getSenderAddress(), &anchorNode);
     anchorNode.vehID = wsm->getSenderAddress();
@@ -419,6 +428,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     // This can be CP, DR or GPS position
     // The hipotese is that as the DR will increase the error and up some threshold
     // The CP will be best to use
+
 
     anchorNode.myPosition = atualSUMOUTMPos;
 
@@ -475,6 +485,8 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     anchorNode.drRSSIDistAvgFilterTRGI = filter->getAvgFilter();*/
 
     //Verify if it is a good beacon
+    //FIXME DESCOMENTAR!!!
+
     if(IsAGoodBeacon(&anchorNode)){
         //Update new values at the list
         UpdateNeighborList(&anchorNode);

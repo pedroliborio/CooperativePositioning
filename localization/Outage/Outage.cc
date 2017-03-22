@@ -19,6 +19,7 @@ Outage::Outage(std::string outagesFile) {
     //FIXME Use one counter to know what is the correct line or take out lines read of the file
     double error;
     int i,numOutage, totalOutage;
+    char c;
     std::string date, time, line;
 
     std::string pathGPS = "../localization/GPS/outagesxy/"+outagesFile+".txt";
@@ -40,8 +41,8 @@ Outage::Outage(std::string outagesFile) {
 
     fileCount >> numOutage >> totalOutage;//read counter of outages
     //FiXME verify if numoutage reaches totoutages condicao de parada do bagui
-    if (numOutage == totalOutage){
-        numOutage = 0;
+    if (numOutage > totalOutage){
+        numOutage = 1;
     }
 
     getline(file, line); // get header GPS outages file
@@ -65,7 +66,7 @@ Outage::Outage(std::string outagesFile) {
 
     numOutage++;
 
-    fileCount << numOutage <<'\t'<< totalOutage<<'\n';
+    fileCount << numOutage <<' '<< totalOutage<<'\n';
     fileCount.close();
 
     //initialize outage recover flags

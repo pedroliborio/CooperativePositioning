@@ -70,7 +70,7 @@ def main(argv):
 		
 		
 		#.net file with network information
-		netFile = minidom.parse('../../CooperativePositioning/sumoscenarios/'+ netname +'.net.xml')
+		netFile = minidom.parse('../../sumoscenarios/'+ netname +'.net.xml')
 		#lists with xml attributes
 		edgeListNetFile = netFile.getElementsByTagName('edge')
 		junctionListNetFile = netFile.getElementsByTagName('junction')
@@ -90,14 +90,14 @@ def main(argv):
 			listEdgesRoute = [x.strip('\n') for x in listEdgesRoute]
 
 
-			with open("out/"+tunnel+way+".txt",'w') as outputFile:
+			with open("out_without_id/"+tunnel+way+".txt",'w') as outputFile:
 				
 				for edgeID in listEdgesRoute:
 					
 					for edge in edgeListNetFile:
 
 						if(edge.attributes['id'].value == edgeID):
-							outputFile.write(edgeID+'\t')
+							#outputFile.write(edgeID+'\t')
 							# fromID = edge.attributes['from'].value
 
 							# for junction in junctionListNetFile:
@@ -155,7 +155,8 @@ def main(argv):
 
 											strShape = laneXML.attributes['shape'].value
 											listCoord = strShape.split(' ')
-											outputFile.write(str(len(listCoord))+'\n')
+											
+											#outputFile.write(str(len(listCoord))+'\n')
 											for coord in listCoord:
 												xy = coord.split(',')
 												x = xy[0]

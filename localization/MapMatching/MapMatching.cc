@@ -90,7 +90,7 @@ void MapMatching::DoMapMatching(std::string edgeID, Coord pGPS){
                     break;
                 }
                 else{
-                    std::cout << "Aresta nao encontrada!\n\n";
+                    //std::cout << "Aresta nao encontrada!\n\n";
                 }
             }
             break;

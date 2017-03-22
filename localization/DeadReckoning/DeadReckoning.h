@@ -23,7 +23,7 @@ class DeadReckoning {
 protected:
     //For a frequency of 10Hz
     //FIXME After exchange for an automatic frequency given by Update Interval parameter from omnetpp.ini
-    const double ANGLE_RANDOM_WALK_NOISE = 0.063245553;// 0.02°/s/sqrt(Hz)
+    const double ANGLE_RANDOM_WALK_NOISE = 0.0063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
     const double OFFSET =  0.1;// 1°/s (0.1 in 10Hz)
     const double NON_LINEARITY = 0.1; //1/°s (0.1 in 10Hz)
     //FIXME Put sources of error of odometer

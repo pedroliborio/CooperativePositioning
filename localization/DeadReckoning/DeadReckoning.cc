@@ -53,7 +53,7 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
 
     nonLinearity = RNGCONTEXT normal(0,nonLinearity);
 
-    error += arw + offset + nonLinearity;
+    error += arw + nonLinearity - offset;
 
     lPFTheta.DoLowPassFilter(error);
 
