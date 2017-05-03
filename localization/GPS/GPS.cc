@@ -45,7 +45,7 @@ void GPS::CompPosition(Coord *realCoord){
 
     radius = realCoord->distance(position);
 
-    angle = ( RNGCONTEXT normal(0,osg::PI*2) );
+    angle = ( RNGCONTEXT normal(0,3.141592653589793*2) );
 
     position.x = realCoord->x + cos(angle)*radius;
     position.y = realCoord->y + sin(angle)*radius;

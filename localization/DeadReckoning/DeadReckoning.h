@@ -23,9 +23,9 @@ class DeadReckoning {
 protected:
     //For a frequency of 10Hz
     //FIXME After exchange for an automatic frequency given by Update Interval parameter from omnetpp.ini
-    const double ANGLE_RANDOM_WALK_NOISE = 0.0063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
-    const double OFFSET =  0.1;// 1°/s (0.1 in 10Hz)
-    const double NON_LINEARITY = 0.1; //1/°s (0.1 in 10Hz)
+    const double ANGLE_RANDOM_WALK_NOISE = 0.063245553;//0.063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
+    const double _SENSITIVITY_ = 0.02; //2% also modeled as a white noise that grows linearly with the time
+    const double FREQUENCY = 0.1; //in seconds (10 Hz)
     //FIXME Put sources of error of odometer
 private:
     LonLat lastKnowPosGeo;
@@ -38,8 +38,7 @@ private:
     //given by sumo in UTM coordinates and Geographiclib in lat lon corrdinates
     double error;
     double arw;//ARW
-    double offset;//epsilon
-    double nonLinearity;//non linearity
+    double sensitivity;
 
     //LowPassFilter for filter the error
     LowPassFilter lPFTheta;
@@ -118,28 +117,20 @@ public:
         this->arw = arw;
     }
 
-    double getNonLinearity() const {
-        return nonLinearity;
-    }
-
-    void setNonLinearity(double nonLinearity) {
-        this->nonLinearity = nonLinearity;
-    }
-
-    double getOffset() const {
-        return offset;
-    }
-
-    void setOffset(double offset) {
-        this->offset = offset;
-    }
-
     const LowPassFilter& getLPFTheta() const {
         return lPFTheta;
     }
 
     void setLPFTheta(const LowPassFilter& pfTheta) {
         lPFTheta = pfTheta;
+    }
+
+    double getSensitivity() const {
+        return sensitivity;
+    }
+
+    void setSensitivity(double sensitivity) {
+        this->sensitivity = sensitivity;
     }
 };
 

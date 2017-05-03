@@ -10,8 +10,8 @@
 namespace Localization {
 
 LowPassFilter::LowPassFilter() {
-    firstRun = false;
-    alpha = 0.7;
+    firstRun = true;
+    alpha = 0.9;
 }
 
 LowPassFilter::~LowPassFilter() {
@@ -22,9 +22,11 @@ void LowPassFilter::DoLowPassFilter(double x){
     //TODO alternate alpha with the time of usage
     if(firstRun){
         prevxLPF = x;
+        firstRun = false;
     }
     else{
         xLPF = alpha * prevxLPF + (1-alpha) * x;
+
         prevxLPF = xLPF;
     }
 

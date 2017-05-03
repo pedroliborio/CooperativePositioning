@@ -22,6 +22,10 @@ DeadReckoning::DeadReckoning(LonLat lastGPSPos) {
     this->errorGeo = 0;
     this->timeDR=0;
     this->error=0;
+    this->lPFTheta.setLpf(0);
+    this->lPFTheta.setPrevxLpf(0);
+    this->arw = 0;
+    this->sensitivity = 0;
 }
 
 DeadReckoning::~DeadReckoning() {
@@ -38,22 +42,16 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
     //gyro and odometer...
     geod.Inverse(lastSUMOPos->lat, lastSUMOPos->lon, atualSUMOPos->lat, atualSUMOPos->lon, s_12, azi_1, azi_2);
 
-    timeDR+=0.1;
+    timeDR+=FREQUENCY;
 
     //update sigma_theta with the sources of noise
     arw = ANGLE_RANDOM_WALK_NOISE * sqrt(timeDR);
 
     arw = RNGCONTEXT normal(0,arw);
 
-    offset = OFFSET * timeDR;
+    sensitivity = RNGCONTEXT normal(0,(azi_1 * _SENSITIVITY_));
 
-    offset = RNGCONTEXT normal(0,offset);
-
-    nonLinearity = NON_LINEARITY * sqrt(timeDR);
-
-    nonLinearity = RNGCONTEXT normal(0,nonLinearity);
-
-    error += arw + nonLinearity - offset;
+    error += arw + sensitivity;
 
     lPFTheta.DoLowPassFilter(error);
 
@@ -65,7 +63,7 @@ void DeadReckoning::setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos){
 
     //Put the noise on the angle (azimuth)
     //azi_1 += RNGCONTEXT normal(0,error);
-    azi_1 += lPFTheta.getLpf();
+    azi_1 += lPFTheta.getLpf(); //angle with sentivity error
 
     //calc new GDR position
     geod.Direct(lastKnowPosGeo.lat, lastKnowPosGeo.lon, azi_1, s_12, lat, lon);

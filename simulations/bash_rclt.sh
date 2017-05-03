@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for seed in {0..29}; #trafego CBR
+for seed in {0..14}; #trafego CBR
 do
-	taskset -c 2 ../CooperativePositioning -u Cmdenv -r $seed -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp_rclt.ini > saida_$seed_rclt.txt
+	taskset -c 12 ../CooperativePositioning -u Cmdenv -r $seed -c RCLT -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp.ini
 done

@@ -202,13 +202,13 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                  while(tempList.size() > 3){
                      //remove o primeiro elemento (de maior residual)
                      if(myId==0){
-                         std::cout<<"\nAntes\n";
-                         PrintNeighborList();
+                         //std::cout<<"\nAntes\n";
+                         //PrintNeighborList();
                      }
                      anchorNodes.pop_front();
                      if(myId==0){
-                         std::cout<<"\nDepois\n";
-                         PrintNeighborList();
+                         //std::cout<<"\nDepois\n";
+                         //PrintNeighborList();
                      }
                      //FIXME Verificar isso com calma
                      if(!(multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->FS_DIST)) ){
@@ -220,8 +220,8 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                      localResidual = SetResidual();
                      SortByResidual();
                      if(myId==0){
-                      std::cout << "residual" << std::setprecision(10)<< localResidual <<" "<< std::setprecision(10)<<this->residual<< endl;
-                      std::cout << "SIZE:" << anchorNodes.size() << endl;
+                      //std::cout << "residual" << std::setprecision(10)<< localResidual <<" "<< std::setprecision(10)<<this->residual<< endl;
+                      //std::cout << "SIZE:" << anchorNodes.size() << endl;
                      }
                      if(localResidual < this->residual){
                          this->residual = localResidual;
@@ -232,7 +232,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                      }
                      else{
                          if(myId==0){
-                             std::cout <<"ENOUGH!\n";
+                             //std::cout <<"ENOUGH!\n";
                          }
                          anchorNodes = tempList;
                          break;
@@ -271,7 +271,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
              */
 
             //TODO MAKE LOGO FILE
-            std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(myId)+'-'+std::to_string(timeSeed)+".txt", std::fstream::app);
+            std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(myId)+'-'+std::to_string(timeSeed)+'-'+traciVehicle->getRouteId()+".txt", std::fstream::app);
             beaconLogFile
             << std::setprecision(10) << simTime()
             <<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x
@@ -287,8 +287,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << drModule->getErrorUtm()
             <<'\t'<< std::setprecision(10) << drModule->getAngle()
             <<'\t'<< std::setprecision(10) << drModule->getArw()
-            <<'\t'<< std::setprecision(10) << drModule->getOffset()
-            <<'\t'<< std::setprecision(10) << drModule->getNonLinearity()
+            <<'\t'<< std::setprecision(10) << drModule->getSensitivity()
             <<'\t'<< std::setprecision(10) << drModule->getError()
             <<'\t'<< std::setprecision(10) << drModule->getLPFTheta().getLpf()
             <<'\t'<< std::setprecision(10) << outageModule->isInOutage()
@@ -305,6 +304,8 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             <<'\t'<< std::setprecision(10) << coopPosRSSITRGI.x
             <<'\t'<< std::setprecision(10) << coopPosRSSITRGI.y
             <<'\t'<< std::setprecision(10) << coopPosRSSITRGI.z
+            <<'\t'<< std::setprecision(10) << mobility->getSpeed()
+
             << endl;
             beaconLogFile.close();
 
@@ -448,7 +449,7 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     fsModel->setRSSI(anchorNode.realDist, this->pTx, this->alpha, this->lambda);
     anchorNode.realRSSIFS = fsModel->getRSSI();
     fsModel->setDistance(anchorNode.realRSSIFS, this->pTx, this->alpha, this->lambda);
-    anchorNode.realRSSIDistFS = fsModel->getDistance() + (RNGCONTEXT normal( 0, (fsModel->getDistance()*0.01) ) );
+    anchorNode.realRSSIDistFS = fsModel->getDistance() + (RNGCONTEXT normal( 0, (fsModel->getDistance()*0.1) ) );
 
     /*if(myId==0){
         std::cout <<"RSSI DIST FS: " << std::setprecision(10) << fsModel->getDistance() <<'\t'<< std::setprecision(10) << anchorNode.realRSSIDistFS << endl;
@@ -486,12 +487,12 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
 
     //Verify if it is a good beacon
     //FIXME DESCOMENTAR!!!
-
-    if(IsAGoodBeacon(&anchorNode)){
+    UpdateNeighborList(&anchorNode);
+   /* if(IsAGoodBeacon(&anchorNode)){
         //Update new values at the list
         UpdateNeighborList(&anchorNode);
         //PutInNeighborList(&anchorNode);
-    }
+    }*/
 
     //FIXME IMplement a mechanism to discard a beacon after some round
     //TODO Timestamp for compute the ttl of the beacon and use it for discard after some time

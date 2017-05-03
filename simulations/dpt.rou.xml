@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+<routes>
         <vType accel="1.0" decel="5.0" id="Car" length="3.5" maxSpeed="11.11" sigma="0.5" />    
 
         <route id="DPTEntranceExit" edges="100655411 22328500 22328499 4881656 4937319 4937318 129662536 4384688 55691860 4383362 4383363"/>
 
         <route id="DPTExitEntrance" edges="335075000 4383949 106130118 334873781 4383747 223780739 326974422 110935782 23007012 4384666 4937321 4937320 48290563 "/>
 		
-		<flow id="flowEntranceExit" departLane="0" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="2" number="932" />
+		<flow id="flowEntranceExit" departLane="random" Type="Car" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="1" number="5" />
+		<flow id="flowExitEntrance" departLane="random" Type="Car" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="1" number="5" />
 		
-		<flow id="flowExitEntrance" departLane="0" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="2" number="1227" />
+		
+		<!--<flow id="flowEntranceExit" departLane="random" Type="Car" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="1" number="932" />-->
+			
+		<!--<flow id="flowExitEntrance" departLane="random" Type="Car" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="1" number="1227" />-->
 		
         <!--<flow id="flowEntranceExit" departLane="0" route="DPTEntranceExit" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" /> -->
 
