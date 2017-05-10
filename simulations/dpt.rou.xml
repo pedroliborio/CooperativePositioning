@@ -7,13 +7,9 @@
 
         <route id="DPTExitEntrance" edges="335075000 4383949 106130118 334873781 4383747 223780739 326974422 110935782 23007012 4384666 4937321 4937320 48290563 "/>
 		
-		<flow id="flowEntranceExit" departLane="random" Type="Car" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="1" number="5" />
-		<flow id="flowExitEntrance" departLane="random" Type="Car" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="1" number="5" />
-		
-		
-		<!--<flow id="flowEntranceExit" departLane="random" Type="Car" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="1" number="932" />-->
+		<flow id="flowEntranceExit" departLane="random" Type="Car" route="DPTEntranceExit" begin="0.0" departSpeed="max" period="10" number="932" />
 			
-		<!--<flow id="flowExitEntrance" departLane="random" Type="Car" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="1" number="1227" />-->
+		<flow id="flowExitEntrance" departLane="random" Type="Car" route="DPTExitEntrance" begin="0.0" departSpeed="max" period="10" number="1227" />
 		
         <!--<flow id="flowEntranceExit" departLane="0" route="DPTEntranceExit" begin="0.0" end="30.0" vehsPerHour="3600" departSpeed="max" /> -->
 

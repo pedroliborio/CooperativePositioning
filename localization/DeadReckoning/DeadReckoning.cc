@@ -93,6 +93,17 @@ void DeadReckoning::setErrorUTMPos(Coord *atualSUMOPos){
     this->errorUTM = this->lastKnowPosUTM.distance(*atualSUMOPos);
 }
 
+void DeadReckoning::ReinitializeSensors(){
+    this->errorUTM = 0;
+    this->errorGeo = 0;
+    this->timeDR=0;
+    this->error=0;
+    this->lPFTheta.setLpf(0);
+    this->lPFTheta.setPrevxLpf(0);
+    this->arw = 0;
+    this->sensitivity = 0;
+}
+
 
 
 } /* namespace Localization */

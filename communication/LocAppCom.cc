@@ -73,6 +73,8 @@ void LocAppCom::initialize(int stage){
         fsModel = new FreeSpaceModel();
         trgiModel = new TwoRayInterferenceModel();
 
+        errorCPReal = 0;
+
         annotations = AnnotationManagerAccess().getIfExists();
         ASSERT(annotations);
 
@@ -183,10 +185,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
 
             DiscardOldBeacons();
             //TODO Begins the Multilateration process
+
             if(anchorNodes.size() > 3){
                  //TODO Call Multilateration Method
                  double localResidual;
-                if(multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->FS_DIST)){
+                if(multilateration->DoMultilateration(&anchorNodes,multilateration->GPS_POS, multilateration->FS_DIST)){
                     coopPosReal = multilateration->getEstPosition();
                     coopPosReal.z = atualSUMOUTMPos.z;
                     errorCPReal = coopPosReal.distance(atualSUMOUTMPos);
@@ -211,7 +214,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
                          //PrintNeighborList();
                      }
                      //FIXME Verificar isso com calma
-                     if(!(multilateration->DoMultilateration(&anchorNodes,multilateration->REAL_POS, multilateration->FS_DIST)) ){
+                     if(!(multilateration->DoMultilateration(&anchorNodes,multilateration->GPS_POS, multilateration->FS_DIST)) ){
                          //Apos retirar uma posição o sisema ficou sem solução entao nao altera
                          anchorNodes = tempList; //devolve o beacon que foi retirado
                          break;
@@ -219,10 +222,12 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
 
                      localResidual = SetResidual();
                      SortByResidual();
+
                      if(myId==0){
                       //std::cout << "residual" << std::setprecision(10)<< localResidual <<" "<< std::setprecision(10)<<this->residual<< endl;
                       //std::cout << "SIZE:" << anchorNodes.size() << endl;
                      }
+
                      if(localResidual < this->residual){
                          this->residual = localResidual;
                          coopPosReal = multilateration->getEstPosition();
@@ -269,6 +274,23 @@ void LocAppCom::handleSelfMsg(cMessage* msg){
             /*
              * *END OF UPDATE CP POSITIONING (RSSI)
              */
+
+
+            //************************
+            //**************FIXME First Approach to correct DR
+            if( (outageModule->isInOutage() && !outageModule->isInRecover()) && (errorCPReal < drModule->getErrorUtm()) && errorCPReal > 1){
+               //(errorCPReal < 20.0 && errorCPReal > 1) && )  ){
+                drModule->ReinitializeSensors();
+                //Update DR with CP position
+                drModule->setLastKnowPosUtm(coopPosReal);
+                drModule->setErrorUtm(errorCPReal);
+                //Update Geo and UTM coordinates in DR Module
+                projection->setUtmCoord(drModule->getLastKnowPosUtm());
+                projection->FromUTMToLonLat();
+                drModule->setLastKnowPosGeo(projection->getGeoCoord());
+                drModule->setErrorGeo(errorCPReal);
+            }
+
 
             //TODO MAKE LOGO FILE
             std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(myId)+'-'+std::to_string(timeSeed)+'-'+traciVehicle->getRouteId()+".txt", std::fstream::app);
@@ -419,6 +441,12 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     //If the anchorNode already exists it will be get to be update
     //otherwise the new values will gathered and push to the list
 
+    //If this beacon comes from a node in outage dont use it for multilateration
+    //FIXME Mudei hoje may 9
+    if(wsm->getInOutage()){
+        return;
+    }
+
     AnchorNode anchorNode;
     getAnchorNode(wsm->getSenderAddress(), &anchorNode);
     anchorNode.vehID = wsm->getSenderAddress();
@@ -429,8 +457,6 @@ void  LocAppCom::onBeacon(WaveShortMessage* wsm){
     // This can be CP, DR or GPS position
     // The hipotese is that as the DR will increase the error and up some threshold
     // The CP will be best to use
-
-
     anchorNode.myPosition = atualSUMOUTMPos;
 
     anchorNode.realPos = wsm->getSenderRealPos();

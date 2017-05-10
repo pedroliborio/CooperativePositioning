@@ -8,9 +8,7 @@
 
         <!--<flow id="flowEntranceExit"  departLane="random" route="RIO450EntranceExit" begin="0.0" end="60.0" vehsPerHour="1" departSpeed="max" color="1,0,0" />-->
         
-        <flow id="flowEntranceExit" departLane="random" type="Car" route="RIO450EntranceExit" begin="0.0" departSpeed="max" period="1" number="5" />
-        
-        <!--<flow id="flowEntranceExit" departLane="random" type="Car" route="RIO450EntranceExit" begin="0.0" departSpeed="max" period="1" number="2000" />-->
+        <flow id="flowEntranceExit" departLane="random" type="Car" route="RIO450EntranceExit" begin="0.0" departSpeed="max" period="10" number="2000" />
         
         <!--<flow id="flowEntranceExit" departLane="random" route="RIO450EntranceExit" begin="0.0" end="60.0" vehsPerHour="3600" departSpeed="max" color="1,0,0" />-->
 </routes>

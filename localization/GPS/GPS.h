@@ -17,10 +17,9 @@ using namespace std;
 namespace Localization {
 
 class GPS {
-protected:
+private:
     double std;
     double mean;
-private:
     Coord position;
     double error;
 public:
@@ -45,6 +44,22 @@ public:
 
     void setPosition(const Coord& position) {
         this->position = position;
+    }
+
+    double getMean() const {
+        return mean;
+    }
+
+    void setMean(double mean) {
+        this->mean = mean;
+    }
+
+    double getStd() const {
+        return std;
+    }
+
+    void setStd(double std) {
+        this->std = std;
     }
 };
 

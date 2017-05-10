@@ -7,11 +7,9 @@
 
         <route id="RCLTExitEntrance" edges="87376682 87376695 87376660#0 87376660#1 87376660#2 26938247 133376103 8921175 26938401 87297169 85644934 27050852"/>
         
-		<flow id="flowEntranceExit" departLane="random" Type="Car" route="RCLTEntranceExit" begin="0.0" departSpeed="max" period="1" number="5" />
-    	<flow id="flowExitEntrance" departLane="random" Type="Car" route="RCLTExitEntrance" begin="0.0" departSpeed="max" period="1" number="5" />
     	
-    	<!--<flow id="flowEntranceExit" departLane="random" Type="Car" route="RCLTEntranceExit" begin="0.0" departSpeed="max" period="1" number="1292" />-->
-    	<!--<flow id="flowExitEntrance" departLane="random" Type="Car" route="RCLTExitEntrance" begin="0.0" departSpeed="max" period="1" number="664" />-->
+    	<flow id="flowEntranceExit" departLane="random" Type="Car" route="RCLTEntranceExit" begin="0.0" departSpeed="max" period="10" number="1292" />
+    	<flow id="flowExitEntrance" departLane="random" Type="Car" route="RCLTExitEntrance" begin="0.0" departSpeed="max" period="10" number="664" />
     	
         <!--<flow id="flowEntranceExit" departLane="0" route="RCLTEntranceExit" begin="0.0" end="771360.0" vehsPerHour="60" departSpeed="max" />-->
 

@@ -51,6 +51,7 @@ public:
     void setUTMPos(Coord utmCoord);
     void setErrorLonLat(LonLat *atualSUMOPos);
     void setErrorUTMPos(Coord *atualSUMOPos);
+    void ReinitializeSensors();
 
 
     double getErrorGeo() const {
