@@ -31,6 +31,9 @@ void LocAppCom::initialize(int stage) {
 
         myId = getParentModule()->getId();
 
+        //Single or Multihop
+        //multihop = par("multihop").boolValue();
+
         //read parameters
         headerLength = par("headerLength").longValue();
         sendBeacons = par("sendBeacons").boolValue();
@@ -273,11 +276,23 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
 
 void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
-
-    //From here is the approach to handle positioning information when receive a beacon
-    if(bsm->getInOutage()){
+    //Mecanismo para saber se o beacon é single ou multihop...
+    if(bsm->getSenderAddress() == myId){
+    //    std::cout << "Recebi minha msg de volta! ";
+    //    std::cout << "My Id: "<< myId << " Sender Beacon:" << bsm->getSenderAddress() << endl;
+        //cancelEvent(bsm);
+        //delete bsm;
         return;
     }
+
+    /*if(bsm->getHops()){
+        std::cout << "Vehicle ID:" << myId << ", received from "<< bsm->getSenderAddress() << " Hops: "<< bsm->getHops() << endl;
+    }*/
+
+    //From here is the approach to handle positioning information when receive a beacon
+    /*if(bsm->getInOutage()){
+        return;
+    }*/
 
     AnchorNode anchorNode;
     getAnchorNode(bsm->getSenderAddress(), &anchorNode);
@@ -311,6 +326,27 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
 
     UpdateNeighborList(&anchorNode);
+
+
+    /*See: https://omnetpp.org/doc/omnetpp/manual/#sec:simple-modules:self-messages
+     * Creating and sending a copy...
+     * // (re)transmit packet:
+    cMessage *copy = packet->dup();
+    send(copy, "out");
+    and finally (when no more retransmissions will occur):
+
+    delete packet;*/
+    if(MULTIHOP){
+        //Retransmission (Multihop)
+        //Message only can be restranmited if timestamp is below of one trheshold
+        //works like a TTL
+        if( (simTime() - bsm->getTimestamp()) < 1.0){
+            BasicSafetyMessage *fwdBSM = bsm->dup();
+            //fwdBSM->setHops(bsm->getHops()+1);
+            sendDown(fwdBSM);
+            //delete(bsm);
+        }
+    }
 }
 
 void LocAppCom::onWSM(WaveShortMessage* wsm) {}
@@ -803,7 +839,7 @@ void LocAppCom::DiscardOldBeacons(){
         delta = simTime() - it->timestamp;
         if(delta >= 0.5){
             it = anchorNodes.erase(it);
-            std::cout << it->vehID <<" beacon erased\n\n";
+            //std::cout << it->vehID <<" beacon erased\n\n";
         }
     }
 }

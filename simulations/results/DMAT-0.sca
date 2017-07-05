@@ -1,14 +1,14 @@
 version 2
-run DMAT-0-20170704-21:44:39-11266
+run DMAT-0-20170705-17:14:06-29339
 attr configname DMAT
-attr datetime 20170704-21:44:39
+attr datetime 20170705-17:14:06
 attr experiment DMAT
 attr inifile omnetpp.ini
 attr iterationvars ""
 attr iterationvars2 $repetition=0
 attr measurement ""
 attr network com.liborio.cooperativepositioning.LocScenario
-attr processid 11266
+attr processid 29339
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -16,7 +16,7 @@ attr runnumber 0
 attr seedset 0
 param **.coreDebug false
 param **.debug false
-param *.annotations.draw true
+param *.annotations.draw false
 param *.connectionManager.drawMaxIntfDist true
 param *.connectionManager.maxInterfDist 510.36m
 param *.connectionManager.sendDirect true
@@ -76,21 +76,21 @@ param *.rsu[2].mobility.z 3
 
 scalar LocScenario.node[0].appl 	generatedWSMs 	0
 scalar LocScenario.node[0].appl 	receivedWSMs 	0
-scalar LocScenario.node[0].appl 	generatedBSMs 	1999
-scalar LocScenario.node[0].appl 	receivedBSMs 	379
+scalar LocScenario.node[0].appl 	generatedBSMs 	2104
+scalar LocScenario.node[0].appl 	receivedBSMs 	1963
 scalar LocScenario.node[0].appl 	generatedWSAs 	0
 scalar LocScenario.node[0].appl 	receivedWSAs 	0
-scalar LocScenario.node[0].nic.phy80211p 	busyTime 	0.00019717858929465
+scalar LocScenario.node[0].nic.phy80211p 	busyTime 	0.026548307491814
 scalar LocScenario.node[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
-scalar LocScenario.node[0].nic.mac1609_4 	ReceivedBroadcasts 	379
-scalar LocScenario.node[0].nic.mac1609_4 	SentPackets 	1999
-scalar LocScenario.node[0].nic.mac1609_4 	SNIRLostPackets 	0
-scalar LocScenario.node[0].nic.mac1609_4 	RXTXLostPackets 	0
-scalar LocScenario.node[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	ReceivedBroadcasts 	1963
+scalar LocScenario.node[0].nic.mac1609_4 	SentPackets 	2104
+scalar LocScenario.node[0].nic.mac1609_4 	SNIRLostPackets 	2591
+scalar LocScenario.node[0].nic.mac1609_4 	RXTXLostPackets 	4933
+scalar LocScenario.node[0].nic.mac1609_4 	TotalLostPackets 	7524
 scalar LocScenario.node[0].nic.mac1609_4 	DroppedPacketsInMac 	0
 scalar LocScenario.node[0].nic.mac1609_4 	TooLittleTime 	0
-scalar LocScenario.node[0].nic.mac1609_4 	TimesIntoBackoff 	1999
-scalar LocScenario.node[0].nic.mac1609_4 	SlotsBackoff 	3064
+scalar LocScenario.node[0].nic.mac1609_4 	TimesIntoBackoff 	2104
+scalar LocScenario.node[0].nic.mac1609_4 	SlotsBackoff 	3204
 scalar LocScenario.node[0].nic.mac1609_4 	NumInternalContention 	0
-scalar LocScenario.node[0].nic.mac1609_4 	totalBusyTime 	0.249311
-scalar LocScenario.node
+scalar LocScenario.node[0].nic.mac1609_4 	totalBusyTime 	0.497355037524
+scalar 

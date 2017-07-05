@@ -56,6 +56,12 @@ using namespace GeographicLib;
 #define DBG_APP EV
 #endif
 
+//For a while change here to change if singke or multihop
+//after migrate as a parameter
+#ifndef MULTIHOP
+#define MULTIHOP true
+#endif
+
 /**
  * @brief
  * WAVE application layer base class.
@@ -279,6 +285,9 @@ class LocAppCom : public BaseWaveApplLayer {
         //TraCIMobility* mobility;
         //TraCICommandInterface* traci;
         //TraCICommandInterface::Vehicle* traciVehicle;
+
+        /* Single or Multihop Approach*/
+        //bool multihop;
 
         AnnotationManager* annotations;
         WaveAppToMac1609_4Interface* mac;

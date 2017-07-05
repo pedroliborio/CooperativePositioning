@@ -1483,7 +1483,7 @@ void Outage::DMAT(std::string outagesFile){
         recoverPos.y = listLonLat[index+1][1];
     }
 
-    std::cout << index << outagesFile.c_str() << endl;
+    //std::cout << index << outagesFile.c_str() << endl;
 
 }
 
