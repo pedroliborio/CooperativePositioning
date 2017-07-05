@@ -1,0 +1,84 @@
+file 7590 1497622427                                            
+version 2
+run General-0-20170616-11:04:13-5680
+attr configname General
+attr datetime 20170616-11:04:13
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network com.liborio.cooperativepositioning.LocScenario
+attr processid 5680
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.coreDebug false
+param **.debug false
+param *.**.nic.mac1609_4.bitrate 6Mbps
+param *.**.nic.mac1609_4.txPower 20mW
+param *.**.nic.mac1609_4.useServiceChannel false
+param *.**.nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.**.nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.sensitivity -89dBm
+param *.**.nic.phy80211p.thermalNoise -110dBm
+param *.**.nic.phy80211p.usePropagationDelay true
+param *.**.nic.phy80211p.useThermalNoise true
+param *.annotations.draw true
+param *.connectionManager.drawMaxIntfDist false
+param *.connectionManager.maxInterfDist 2600m
+param *.connectionManager.sendDirect true
+param *.manager.autoShutdown true
+param *.manager.host "\"localhost\""
+param *.manager.launchConfig "xmldoc(\"dmat.launchd.xml\")"
+param *.manager.port 9999
+param *.manager.updateInterval 0.1s
+param *.node[*0].veinsmobility.accidentCount 1
+param *.node[*0].veinsmobility.accidentDuration 50s
+param *.node[*0].veinsmobility.accidentStart 75s
+param *.node[*].appl.beaconInterval 0.1s
+param *.node[*].appl.dataOnSch false
+param *.node[*].appl.headerLength "80 bit"
+param *.node[*].appl.sendBeacons true
+param *.node[*].applType "\"LocAppCom\""
+param *.node[*].veinsmobility.x 0
+param *.node[*].veinsmobility.y 0
+param *.node[*].veinsmobility.z 1.895
+param *.node[*].veinsmobilityType.debug true
+param *.playgroundSizeX 2500m
+param *.playgroundSizeY 2500m
+param *.playgroundSizeZ 50m
+param *.rsu[*].appl.beaconInterval 1s
+param *.rsu[*].appl.beaconPriority 3
+param *.rsu[*].appl.dataOnSch false
+param *.rsu[*].appl.dataPriority 2
+param *.rsu[*].appl.headerLength "80 bit"
+param *.rsu[*].appl.sendBeacons true
+param *.rsu[*].applType "\"TraCIDemoRSU11p\""
+param *.rsu[0].mobility.x 2000
+param *.rsu[0].mobility.y 2000
+param *.rsu[0].mobility.z 3
+
+vector 4  LocScenario.node[0].veinsmobility  posx  ETV
+vector 5  LocScenario.node[0].veinsmobility  posy  ETV
+vector 11  LocScenario.node[1].veinsmobility  posx  ETV
+vector 12  LocScenario.node[1].veinsmobility  posy  ETV
+vector 6  LocScenario.node[0].veinsmobility  speed  ETV
+vector 13  LocScenario.node[1].veinsmobility  speed  ETV
+vector 7  LocScenario.node[0].veinsmobility  acceleration  ETV
+vector 8  LocScenario.node[0].veinsmobility  co2emission  ETV
+vector 14  LocScenario.node[1].veinsmobility  acceleration  ETV
+vector 15  LocScenario.node[1].veinsmobility  co2emission  ETV
+4	2871 483 2 514 0.1 1.9 19 126.59749399291 128.82810985276 2424.7735325385 309458.26244711
+5	3354 485 2 514 0.1 1.9 19 2126.6197047505 2144.2006351554 40581.536412158 86677491.160922
+6	3839 463 29 514 0.2 1.9 18 10.451816861797 10.498989080044 188.48938645859 1973.795187098
+7	4302 472 56 514 0.3 1.9 17 -0.40620072185993 0.42728028725833 -0.031483695958734 0.60867528122698
+8	4774 417 56 514 0.3 1.9 17 0.973 2.8040472973888 29.291299389859 54.100235322421
+11	5191 502 2 514 0.1 1.9 19 158.42747369577 170.7028638835 3120.4034173578 512756.96704932
+12	5693 504 2 514 0.1 1.9 19 176.10678185123 189.07288049643 3462.9074406973 631466.24323329
+13	6197 479 29 514 0.2 1.9 18 10.452142242284 10.497164351214 188.51828487699 1974.4000980001
+14	6676 481 56 514 0.3 1.9 17 -0.29445680847857 0.40840218844824 0.35195748333354 0.53142873698038
+15	7157 433 56 514 0.3 1.9 17 0.973 2.7556783391793 29.965681670095 56.443673273689

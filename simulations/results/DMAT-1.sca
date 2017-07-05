@@ -1,14 +1,14 @@
 version 2
-run DMAT-1-20170412-16:54:15-16981
+run DMAT-1-20170704-20:20:40-30763
 attr configname DMAT
-attr datetime 20170412-16:54:15
+attr datetime 20170704-20:20:40
 attr experiment DMAT
 attr inifile omnetpp.ini
 attr iterationvars ""
 attr iterationvars2 $repetition=1
 attr measurement ""
 attr network com.liborio.cooperativepositioning.LocScenario
-attr processid 16981
+attr processid 30763
 attr repetition 1
 attr replication #1
 attr resultdir results
@@ -16,50 +16,170 @@ attr runnumber 1
 attr seedset 1
 param **.coreDebug false
 param **.debug false
-param *.**.nic.mac1609_4.bitrate 18Mbps
-param *.**.nic.mac1609_4.txPower 20mW
-param *.**.nic.mac1609_4.useServiceChannel false
-param *.**.nic.phy80211p.analogueModels "xmldoc(\"config_splm.xml\")"
-param *.**.nic.phy80211p.decider "xmldoc(\"config_splm.xml\")"
-param *.**.nic.phy80211p.sensitivity -89dBm
-param *.**.nic.phy80211p.thermalNoise -110dBm
-param *.**.nic.phy80211p.usePropagationDelay true
-param *.**.nic.phy80211p.useThermalNoise true
-param *.annotations.draw false
-param *.connectionManager.alpha 2.0
-param *.connectionManager.carrierFrequency "5.890e9 Hz"
-param *.connectionManager.pMax 20mW
-param *.connectionManager.sat -89dBm
+param *.annotations.draw true
+param *.connectionManager.drawMaxIntfDist true
+param *.connectionManager.maxInterfDist 510.36m
 param *.connectionManager.sendDirect true
 param *.manager.autoShutdown true
 param *.manager.host "\"localhost\""
 param *.manager.launchConfig "xmldoc(\"dmat.launchd.xml\")"
-param *.manager.margin 25
-param *.manager.moduleDisplayString "\"\""
-param *.manager.moduleName "\"node\""
-param *.manager.moduleType "\"org.car2x.veins.nodes.Car\""
 param *.manager.port 9999
 param *.manager.updateInterval 0.1s
 param *.node[*].appl.beaconInterval 0.1s
-param *.node[*].appl.beaconPriority 3
 param *.node[*].appl.dataOnSch false
-param *.node[*].appl.dataPriority 2
-param *.node[*].appl.debug false
-param *.node[*].appl.headerLength "256 bit"
-param *.node[*].appl.maxOffset 0.005s
+param *.node[*].appl.headerLength "80 bit"
 param *.node[*].appl.sendBeacons true
-param *.node[*].appl.sendData true
 param *.node[*].applType "\"LocAppCom\""
-param *.node[*].mobilityType "\"TraCIMobility\""
-param *.node[*].mobilityType.debug true
+param *.node[*].nic.mac1609_4.bitrate 6Mbps
+param *.node[*].nic.mac1609_4.txPower 20mW
+param *.node[*].nic.mac1609_4.useServiceChannel false
+param *.node[*].nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.node[*].nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.node[*].nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.node[*].nic.phy80211p.sensitivity -89dBm
+param *.node[*].nic.phy80211p.thermalNoise -110dBm
+param *.node[*].nic.phy80211p.usePropagationDelay true
+param *.node[*].nic.phy80211p.useThermalNoise true
 param *.node[*].veinsmobility.x 0
 param *.node[*].veinsmobility.y 0
 param *.node[*].veinsmobility.z 1.895
-param *.node[*].veinsmobilityType "\"org.car2x.veins.modules.mobility.traci.TraCIMobility\""
 param *.node[*].veinsmobilityType.debug true
-param *.playgroundSizeX 10000m
-param *.playgroundSizeY 10000m
+param *.playgroundSizeX 2500m
+param *.playgroundSizeY 2500m
 param *.playgroundSizeZ 50m
-param *.world.use2D false
-param *.world.useTorus false
+param *.rsu[*].appl.beaconInterval 0.1s
+param *.rsu[*].appl.beaconPriority 3
+param *.rsu[*].appl.dataOnSch false
+param *.rsu[*].appl.dataPriority 2
+param *.rsu[*].appl.headerLength "80 bit"
+param *.rsu[*].appl.sendBeacons false
+param *.rsu[*].applType "\"RSU\""
+param *.rsu[*].nic.mac1609_4.bitrate 6Mbps
+param *.rsu[*].nic.mac1609_4.txPower 20mW
+param *.rsu[*].nic.mac1609_4.useServiceChannel false
+param *.rsu[*].nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.rsu[*].nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.rsu[*].nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.rsu[*].nic.phy80211p.sensitivity -89dBm
+param *.rsu[*].nic.phy80211p.thermalNoise -110dBm
+param *.rsu[*].nic.phy80211p.usePropagationDelay true
+param *.rsu[*].nic.phy80211p.useThermalNoise true
+param *.rsu[0].mobility.x 384.566
+param *.rsu[0].mobility.y 1449.48
+param *.rsu[0].mobility.z 3
+param *.rsu[1].mobility.x 387.772
+param *.rsu[1].mobility.y 1238.66
+param *.rsu[1].mobility.z 3
+param *.rsu[2].mobility.x 387.639
+param *.rsu[2].mobility.y 1060.02
+param *.rsu[2].mobility.z 3
 
+scalar LocScenario.node[0].appl 	generatedWSMs 	0
+scalar LocScenario.node[0].appl 	receivedWSMs 	0
+scalar LocScenario.node[0].appl 	generatedBSMs 	1999
+scalar LocScenario.node[0].appl 	receivedBSMs 	379
+scalar LocScenario.node[0].appl 	generatedWSAs 	0
+scalar LocScenario.node[0].appl 	receivedWSAs 	0
+scalar LocScenario.node[0].nic.phy80211p 	busyTime 	0.00019717858929465
+scalar LocScenario.node[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	ReceivedBroadcasts 	379
+scalar LocScenario.node[0].nic.mac1609_4 	SentPackets 	1999
+scalar LocScenario.node[0].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[0].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[0].nic.mac1609_4 	TimesIntoBackoff 	1999
+scalar LocScenario.node[0].nic.mac1609_4 	SlotsBackoff 	3005
+scalar LocScenario.node[0].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[0].nic.mac1609_4 	totalBusyTime 	0.249311
+scalar LocScenario.node[0].veinsmobility 	startTime 	0.1
+scalar LocScenario.node[0].veinsmobility 	totalTime 	199.9
+scalar LocScenario.node[0].veinsmobility 	stopTime 	200
+scalar LocScenario.node[0].veinsmobility 	minSpeed 	10.450011544093
+scalar LocScenario.node[0].veinsmobility 	maxSpeed 	10.499994280946
+scalar LocScenario.node[0].veinsmobility 	totalDistance 	2097.1819009915
+scalar LocScenario.node[0].veinsmobility 	totalCO2Emission 	344.72773288761
+scalar LocScenario.node[1].appl 	generatedWSMs 	0
+scalar LocScenario.node[1].appl 	receivedWSMs 	0
+scalar LocScenario.node[1].appl 	generatedBSMs 	1999
+scalar LocScenario.node[1].appl 	receivedBSMs 	379
+scalar LocScenario.node[1].appl 	generatedWSAs 	0
+scalar LocScenario.node[1].appl 	receivedWSAs 	0
+scalar LocScenario.node[1].nic.phy80211p 	busyTime 	0.00019717858929465
+scalar LocScenario.node[1].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	ReceivedBroadcasts 	379
+scalar LocScenario.node[1].nic.mac1609_4 	SentPackets 	1999
+scalar LocScenario.node[1].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.node[1].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.node[1].nic.mac1609_4 	TimesIntoBackoff 	1999
+scalar LocScenario.node[1].nic.mac1609_4 	SlotsBackoff 	2950
+scalar LocScenario.node[1].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.node[1].nic.mac1609_4 	totalBusyTime 	0.249311
+scalar LocScenario.node[1].veinsmobility 	startTime 	0.1
+scalar LocScenario.node[1].veinsmobility 	totalTime 	199.9
+scalar LocScenario.node[1].veinsmobility 	stopTime 	200
+scalar LocScenario.node[1].veinsmobility 	minSpeed 	10.45004797423
+scalar LocScenario.node[1].veinsmobility 	maxSpeed 	10.499970544933
+scalar LocScenario.node[1].veinsmobility 	totalDistance 	2096.6898577125
+scalar LocScenario.node[1].veinsmobility 	totalCO2Emission 	344.71345068488
+scalar LocScenario.rsu[0].appl 	generatedWSMs 	0
+scalar LocScenario.rsu[0].appl 	receivedWSMs 	0
+scalar LocScenario.rsu[0].appl 	generatedBSMs 	0
+scalar LocScenario.rsu[0].appl 	receivedBSMs 	1427
+scalar LocScenario.rsu[0].appl 	generatedWSAs 	0
+scalar LocScenario.rsu[0].appl 	receivedWSAs 	0
+scalar LocScenario.rsu[0].nic.phy80211p 	busyTime 	0.00074204000000001
+scalar LocScenario.rsu[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	ReceivedBroadcasts 	1427
+scalar LocScenario.rsu[0].nic.mac1609_4 	SentPackets 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	SlotsBackoff 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.rsu[0].nic.mac1609_4 	totalBusyTime 	0.148408
+scalar LocScenario.rsu[1].appl 	generatedWSMs 	0
+scalar LocScenario.rsu[1].appl 	receivedWSMs 	0
+scalar LocScenario.rsu[1].appl 	generatedBSMs 	0
+scalar LocScenario.rsu[1].appl 	receivedBSMs 	1440
+scalar LocScenario.rsu[1].appl 	generatedWSAs 	0
+scalar LocScenario.rsu[1].appl 	receivedWSAs 	0
+scalar LocScenario.rsu[1].nic.phy80211p 	busyTime 	0.00074880000000001
+scalar LocScenario.rsu[1].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	ReceivedBroadcasts 	1440
+scalar LocScenario.rsu[1].nic.mac1609_4 	SentPackets 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	SlotsBackoff 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.rsu[1].nic.mac1609_4 	totalBusyTime 	0.14976
+scalar LocScenario.rsu[2].appl 	generatedWSMs 	0
+scalar LocScenario.rsu[2].appl 	receivedWSMs 	0
+scalar LocScenario.rsu[2].appl 	generatedBSMs 	0
+scalar LocScenario.rsu[2].appl 	receivedBSMs 	1463
+scalar LocScenario.rsu[2].appl 	generatedWSAs 	0
+scalar LocScenario.rsu[2].appl 	receivedWSAs 	0
+scalar LocScenario.rsu[2].nic.phy80211p 	busyTime 	0.00076076000000001
+scalar LocScenario.rsu[2].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	ReceivedBroadcasts 	1463
+scalar LocScenario.rsu[2].nic.mac1609_4 	SentPackets 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	SNIRLostPackets 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	RXTXLostPackets 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	TotalLostPackets 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	TooLittleTime 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	SlotsBackoff 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	NumInternalContention 	0
+scalar LocScenario.rsu[2].nic.mac1609_4 	totalBusyTime 	0.152152

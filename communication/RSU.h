@@ -13,14 +13,18 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package com.liborio.cooperativepositioning.communication;
+#ifndef __COOPERATIVEPOSITIONING_RSU_H_
+#define __COOPERATIVEPOSITIONING_RSU_H_
 
-import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
+#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 
-simple LocAppCom extends BaseWaveApplLayer
-{
-    @class(LocAppCom);
-    @display("i=block/wrxtx");
-    string appName = default("My first Veins App!");
-    
-}
+/**
+ * Small RSU Demo using 11p
+ */
+class RSU : public BaseWaveApplLayer {
+    protected:
+        virtual void onWSM(WaveShortMessage* wsm);
+        virtual void onWSA(WaveServiceAdvertisment* wsa);
+};
+
+#endif

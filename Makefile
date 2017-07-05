@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for CooperativePositioning
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -I../veins/src -I../veins/src/veins/modules/mobility/traci -L../veins/out/$$\(CONFIGNAME\)/src -lproj -lveins -KVEINS_PROJ=../veins
+#  opp_makemake -f --deep -O out -I../veins/src -L../veins/out/$$\(CONFIGNAME\)/src -lproj -lveins -KVEINS_PROJ=../veins
 #
 
 # Name of target to be created (-o option)
@@ -17,7 +17,6 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 # C++ include paths (with -I)
 INCLUDE_PATH = \
     -I../veins/src \
-    -I../veins/src/veins/modules/mobility/traci \
     -I. \
     -ITypes \
     -Icommunication \
@@ -29,6 +28,7 @@ INCLUDE_PATH = \
     -Ilocalization/GPS/outages \
     -Ilocalization/GPS/outagesxy \
     -Ilocalization/GPS/outagesxy/backup \
+    -Ilocalization/GPS/outagesxy/bare_outages \
     -Ilocalization/GeographicLib \
     -Ilocalization/GeographicLib/doc \
     -Ilocalization/GeographicLib/include \
@@ -69,8 +69,8 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cc, .msg and .sm files
 OBJS = \
     $O/Types/Types.o \
+    $O/communication/RSU.o \
     $O/communication/LocAppCom.o \
-    $O/communication/RSUCP.o \
     $O/localization/DeadReckoning/DeadReckoning.o \
     $O/localization/Filters/Filters.o \
     $O/localization/Filters/LowPassFilter.o \
@@ -218,6 +218,7 @@ clean:
 	$(Q)-rm -f localization/GPS/outages/*_m.cc localization/GPS/outages/*_m.h localization/GPS/outages/*_sm.cc localization/GPS/outages/*_sm.h
 	$(Q)-rm -f localization/GPS/outagesxy/*_m.cc localization/GPS/outagesxy/*_m.h localization/GPS/outagesxy/*_sm.cc localization/GPS/outagesxy/*_sm.h
 	$(Q)-rm -f localization/GPS/outagesxy/backup/*_m.cc localization/GPS/outagesxy/backup/*_m.h localization/GPS/outagesxy/backup/*_sm.cc localization/GPS/outagesxy/backup/*_sm.h
+	$(Q)-rm -f localization/GPS/outagesxy/bare_outages/*_m.cc localization/GPS/outagesxy/bare_outages/*_m.h localization/GPS/outagesxy/bare_outages/*_sm.cc localization/GPS/outagesxy/bare_outages/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/*_m.cc localization/GeographicLib/*_m.h localization/GeographicLib/*_sm.cc localization/GeographicLib/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/doc/*_m.cc localization/GeographicLib/doc/*_m.h localization/GeographicLib/doc/*_sm.cc localization/GeographicLib/doc/*_sm.h
 	$(Q)-rm -f localization/GeographicLib/include/*_m.cc localization/GeographicLib/include/*_m.h localization/GeographicLib/include/*_sm.cc localization/GeographicLib/include/*_sm.h
@@ -248,7 +249,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GPS/outagesxy/backup/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/Graph_Est_GPS_ErrorBar/*.cc localization/Graphs/out/*.cc localization/Graphs/out_without_id/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/DMAT/*.cc simulations/DPT/*.cc simulations/RCLT/*.cc simulations/RIO450/*.cc simulations/YBT/*.cc simulations/results/*.cc sumoscenarios/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc Types/*.cc communication/*.cc localization/*.cc localization/DeadReckoning/*.cc localization/Filters/*.cc localization/GPS/*.cc localization/GPS/mean_std_dev/*.cc localization/GPS/outages/*.cc localization/GPS/outagesxy/*.cc localization/GPS/outagesxy/backup/*.cc localization/GPS/outagesxy/bare_outages/*.cc localization/GeographicLib/*.cc localization/GeographicLib/doc/*.cc localization/GeographicLib/include/*.cc localization/GeographicLib/include/GeographicLib/*.cc localization/GeographicLib/src/*.cc localization/Graphs/*.cc localization/Graphs/Graph_Est_GPS_ErrorBar/*.cc localization/Graphs/out/*.cc localization/Graphs/out_without_id/*.cc localization/MapMatching/*.cc localization/Multilateration/*.cc localization/Outage/*.cc localization/Projections/*.cc localization/Projections/parameters/*.cc localization/RSSI/*.cc localization/jama_tnt/*.cc simulations/*.cc simulations/DMAT/*.cc simulations/DPT/*.cc simulations/RCLT/*.cc simulations/RIO450/*.cc simulations/YBT/*.cc simulations/results/*.cc sumoscenarios/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/Types/Types.o: Types/Types.cc \
@@ -314,6 +315,8 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
 	$(VEINS_PROJ)/src/veins/modules/application/ieee80211p/BaseWaveApplLayer.h \
 	$(VEINS_PROJ)/src/veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
+	$(VEINS_PROJ)/src/veins/modules/messages/BasicSafetyMessage_m.h \
+	$(VEINS_PROJ)/src/veins/modules/messages/WaveServiceAdvertisement_m.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/WaveShortMessage_m.h \
 	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIBuffer.h \
 	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIColor.h \
@@ -326,9 +329,11 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	$(VEINS_PROJ)/src/veins/modules/obstacle/ObstacleControl.h \
 	$(VEINS_PROJ)/src/veins/modules/utility/Consts80211p.h \
 	$(VEINS_PROJ)/src/veins/modules/world/annotations/AnnotationManager.h
-$O/communication/RSUCP.o: communication/RSUCP.cc \
-	communication/RSUCP.h \
+$O/communication/RSU.o: communication/RSU.cc \
+	communication/RSU.h \
+	$(VEINS_PROJ)/src/veins/base/connectionManager/BaseConnectionManager.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/ChannelAccess.h \
+	$(VEINS_PROJ)/src/veins/base/connectionManager/NicEntry.h \
 	$(VEINS_PROJ)/src/veins/base/modules/BaseApplLayer.h \
 	$(VEINS_PROJ)/src/veins/base/modules/BaseBattery.h \
 	$(VEINS_PROJ)/src/veins/base/modules/BaseLayer.h \
@@ -348,7 +353,18 @@ $O/communication/RSUCP.o: communication/RSUCP.cc \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
 	$(VEINS_PROJ)/src/veins/modules/application/ieee80211p/BaseWaveApplLayer.h \
 	$(VEINS_PROJ)/src/veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
+	$(VEINS_PROJ)/src/veins/modules/messages/BasicSafetyMessage_m.h \
+	$(VEINS_PROJ)/src/veins/modules/messages/WaveServiceAdvertisement_m.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/WaveShortMessage_m.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIBuffer.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIColor.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCICommandInterface.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIConnection.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCICoord.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIMobility.h \
+	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIScenarioManager.h \
+	$(VEINS_PROJ)/src/veins/modules/obstacle/Obstacle.h \
+	$(VEINS_PROJ)/src/veins/modules/obstacle/ObstacleControl.h \
 	$(VEINS_PROJ)/src/veins/modules/utility/Consts80211p.h \
 	$(VEINS_PROJ)/src/veins/modules/world/annotations/AnnotationManager.h
 $O/localization/DeadReckoning/DeadReckoning.o: localization/DeadReckoning/DeadReckoning.cc \

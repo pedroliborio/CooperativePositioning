@@ -1,0 +1,15 @@
+OMNeT++ Discrete Event Simulation  (C) 1992-2016 Andras Varga, OpenSim Ltd.
+Version: 5.0, build: 160414-aa4629c, edition: Academic Public License -- NOT FOR COMMERCIAL USE
+See the license for distribution terms and warranty disclaimer
+Setting up Cmdenv...
+Loading NED files from ..:  4
+Loading NED files from ../../veins/examples/veins:  1
+Loading NED files from ../../veins/src/veins:  33
+Loading NED files from /home/liborio/VehicularNetworking/workspace/CooperativePositioning/simulations:  0
+
+Preparing for running configuration DMAT, run #1...
+
+<!> Error: Scenario generator: Run number 1 is out of range for configuration `DMAT': it contains 1 run(s).
+
+
+End.

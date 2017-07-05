@@ -22,6 +22,14 @@ private:
     Coord recoverPos;
     double distOutage = std::numeric_limits<double>::max();
     double distRecover = std::numeric_limits<double>::max();
+    void LoadOutage(std::string outagesFile);
+    void RCLT(std::string outagesFile);
+    void DMAT(std::string outagesFile);
+    void YBT(std::string outagesFile);
+    void DPT(std::string outagesFile);
+    void RIO450(std::string outagesFile);
+
+
 public:
     Outage();
     Outage(std::string outagesFile);

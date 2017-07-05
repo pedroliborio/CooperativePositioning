@@ -12,14 +12,15 @@ package com.liborio.cooperativepositioning;
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
-import com.liborio.cooperativepositioning.communication.RSUCP;
+//
+import org.car2x.veins.nodes.RSU; 
 import org.car2x.veins.nodes.Scenario;
 
 network LocScenario extends Scenario
 {
-    //submodules:
-      //  rsu[1]: RSUCP {
-        //    @display("p=150,140;i=device/antennatower");
-        //}
+    submodules:
+        rsu[3]: RSU {
+            @display("p=150,140;i=device/receiverdish,blue");
+        }
+        
 }

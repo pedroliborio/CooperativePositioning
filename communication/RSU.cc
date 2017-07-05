@@ -13,14 +13,19 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package com.liborio.cooperativepositioning.communication;
+#include "RSU.h"
 
-import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
+Define_Module(RSU);
 
-simple LocAppCom extends BaseWaveApplLayer
-{
-    @class(LocAppCom);
-    @display("i=block/wrxtx");
-    string appName = default("My first Veins App!");
-    
+void RSU::onWSA(WaveServiceAdvertisment* wsa) {
+    //if this RSU receives a WSA for service 42, it will tune to the chan
+    if (wsa->getPsid() == 42) {
+        mac->changeServiceChannel(wsa->getTargetChannel());
+    }
+}
+
+void RSU::onWSM(WaveShortMessage* wsm) {
+    //this rsu repeats the received traffic update in 2 seconds plus some random delay
+    wsm->setSenderAddress(myId);
+    sendDelayedDown(wsm->dup(), 2 + uniform(0.01,0.2));
 }

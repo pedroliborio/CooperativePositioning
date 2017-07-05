@@ -15,12 +15,14 @@
 
 package com.liborio.cooperativepositioning.communication;
 
+//
+// TODO auto-generated module
+//
 import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
-simple LocAppCom extends BaseWaveApplLayer
+simple RSU extends BaseWaveApplLayer
 {
-    @class(LocAppCom);
-    @display("i=block/wrxtx");
-    string appName = default("My first Veins App!");
-    
+    @class(RSU);
+    @display("i=device/receiverdish");
 }
+
