@@ -18,7 +18,22 @@
 
 #include <map>
 #include <omnetpp.h>
-#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+#include "veins/base/modules/BaseApplLayer.h"
+#include "veins/modules/utility/Consts80211p.h"
+#include "veins/modules/messages/WaveShortMessage_m.h"
+#include "veins/modules/messages/WaveServiceAdvertisement_m.h"
+#include "veins/modules/messages/BasicSafetyMessage_m.h"
+#include "veins/base/connectionManager/ChannelAccess.h"
+#include "veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h"
+#include "veins/modules/mobility/traci/TraCIMobility.h"
+#include "veins/modules/mobility/traci/TraCICommandInterface.h"
+
+using Veins::TraCIMobility;
+using Veins::TraCICommandInterface;
+using Veins::AnnotationManager;
+using Veins::TraCIMobilityAccess;
+using Veins::AnnotationManagerAccess;
+
 
 //Utils libraries
 #include <exception>
@@ -40,12 +55,6 @@
 #include <Filters/Filters.h>
 #include <MapMatching/MapMatching.h>
 
-using Veins::TraCIMobility;
-using Veins::TraCICommandInterface;
-using Veins::AnnotationManager;
-using Veins::TraCIMobilityAccess;
-using Veins::AnnotationManagerAccess;
-
 //Localization namespace
 using namespace Localization;
 using namespace GeographicLib;
@@ -54,12 +63,6 @@ using namespace GeographicLib;
 
 #ifndef DBG_APP
 #define DBG_APP EV
-#endif
-
-//For a while change here to change if singke or multihop
-//after migrate as a parameter
-#ifndef MULTIHOP
-#define MULTIHOP true
 #endif
 
 /**
@@ -75,7 +78,7 @@ using namespace GeographicLib;
  * @see PhyLayer80211p
  * @see Decider80211p
  */
-class LocAppCom : public BaseWaveApplLayer {
+class LocAppCom : public BaseApplLayer {
 
     public:
         ~LocAppCom();
@@ -88,14 +91,10 @@ class LocAppCom : public BaseWaveApplLayer {
             SEND_BEACON_EVT,
             SEND_WSA_EVT,
             //FIXME Added by Pedro
-            //SEND_FWDBEACON_EVT
+            SEND_FWDBEACON_EVT
         };
     private:
 
-        //***************TraCI objects
-        TraCIMobility* mobility;
-        TraCICommandInterface* traci;
-        TraCICommandInterface::Vehicle* traciVehicle;
         time_t timeSeed;
         //Struct with the attributes of a neighbor node
         bool isInOutage; //Flag that indicates the begins of outage;
@@ -104,6 +103,9 @@ class LocAppCom : public BaseWaveApplLayer {
         double residual; //sum of residuals
         bool IsMultOk; //Flag that indicates success in multilateration
         time_t timer = 0;
+
+        //Lista que simula um fila FIFO para encaminhar beacons...
+        std::list<BasicSafetyMessage*> listFWDBeacons;
 
         //**************Position Variables
         Coord coopPosRSSIFS; //CP FS
@@ -152,7 +154,6 @@ class LocAppCom : public BaseWaveApplLayer {
         double hr = 1.895; //height of antenna receiver
 
     protected:
-
         static const simsignalwrap_t mobilityStateChangedSignal;
         static const simsignalwrap_t parkingStateChangedSignal;
 
@@ -254,7 +255,13 @@ class LocAppCom : public BaseWaveApplLayer {
         /**
          * @brief Write Log Files for each vehicle
          */
-        void WriteLogFiles();
+        virtual void WriteLogFiles();
+
+        bool BeaconIsDuplicated(BasicSafetyMessage*);
+        bool BeaconHaveMyId(BasicSafetyMessage*);
+        bool BeaconIsAlive(BasicSafetyMessage*);
+        void AddBeaconToForward(BasicSafetyMessage*);
+        void DeleteOldBeaconToForward();
 
 
         void PutInNeighborList(AnchorNode *anchorNode);
@@ -282,9 +289,9 @@ class LocAppCom : public BaseWaveApplLayer {
     protected:
 
         /* pointers ill be set when used with TraCIMobility */
-        //TraCIMobility* mobility;
-        //TraCICommandInterface* traci;
-        //TraCICommandInterface::Vehicle* traciVehicle;
+        TraCIMobility* mobility;
+        TraCICommandInterface* traci;
+        TraCICommandInterface::Vehicle* traciVehicle;
 
         /* Single or Multihop Approach*/
         //bool multihop;
@@ -301,6 +308,11 @@ class LocAppCom : public BaseWaveApplLayer {
         uint32_t  beaconPriority;
         simtime_t beaconInterval;
         bool sendBeacons;
+
+        /*BSM (fowarding) settings*/
+        bool forwardBeacons;
+        uint32_t numHops;
+        simtime_t forwardInterval;
 
         /* WSM (data) settings */
         uint32_t  dataLengthBits;
@@ -323,15 +335,18 @@ class LocAppCom : public BaseWaveApplLayer {
         uint32_t generatedWSMs;
         uint32_t generatedWSAs;
         uint32_t generatedBSMs;
+        uint32_t generatedFWDBSMs;
         uint32_t receivedWSMs;
         uint32_t receivedWSAs;
         uint32_t receivedBSMs;
+        uint32_t receivedFWDBSMs;
+
 
         /* messages for periodic events such as beacon and WSA transmissions */
         cMessage* sendBeaconEvt;
         cMessage* sendWSAEvt;
         //FIXME Added by Pedro
-        //cMessage* sendFWDBeaconEvt;
+        cMessage* sendFWDBeaconEvt;
 };
 
 #endif /*__LOCVANET_LOCAPPCOM_H_ */

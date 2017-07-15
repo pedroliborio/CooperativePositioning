@@ -54,6 +54,8 @@ struct AnchorNode_t{
 
             Coord myPosition;//My Position when I received this beacon
 
+            uint32_t hops;
+
 };typedef struct AnchorNode_t AnchorNode;
 
 namespace Localization {

@@ -18,9 +18,10 @@ package com.liborio.cooperativepositioning.communication;
 //
 // TODO auto-generated module
 //
-import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
+import com.liborio.cooperativepositioning.communication.LocAppCom;
+//import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
-simple RSU extends BaseWaveApplLayer
+simple RSU extends LocAppCom
 {
     @class(RSU);
     @display("i=device/receiverdish");

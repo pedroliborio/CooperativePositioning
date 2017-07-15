@@ -17,8 +17,8 @@ Outage::Outage() {
 
 Outage::Outage(std::string outagesFile) {
     //FIXME Use one counter to know what is the correct line or take out lines read of the file
-    LoadOutage(outagesFile);
-    /*double error;
+    //LoadOutage(outagesFile);
+    double error;
     int i,numOutage, totalOutage;
     std::string date, time, line;
 
@@ -51,9 +51,9 @@ Outage::Outage(std::string outagesFile) {
         file >> date >> time >> outagePos.x >> outagePos.y >> error;
         file >> date >> time >> recoverPos.x >> recoverPos.y >> error;
     }
-    std:: cout << "Outage" <<endl;
-    std::cout << outagePos << endl;
-    std::cout << recoverPos << endl;
+    //std:: cout << "Outage" <<endl;
+    //std::cout << outagePos << endl;
+    //std::cout << recoverPos << endl;
 
     fileCount.close();
     file.close();
@@ -67,7 +67,7 @@ Outage::Outage(std::string outagesFile) {
     numOutage++;
 
     fileCount << numOutage <<' '<< totalOutage<<'\n';
-    fileCount.close();*/
+    fileCount.close();
 
     //initialize outage recover flags
     inOutage = false;
@@ -667,13 +667,17 @@ void Outage::DMAT(std::string outagesFile){
         {160.668859, 214.9147273},
         {367.9929181, 1540.866715}};
 
-        index = RNGCONTEXT uniform(0,225);
 
-        outagePos.x = listLonLat[index][0];
-        outagePos.y = listLonLat[index][1];
+        do{
+            index = RNGCONTEXT uniform(0,275);
 
-        recoverPos.x = listLonLat[index+1][0];
-        recoverPos.y = listLonLat[index+1][1];
+            outagePos.x = listLonLat[index][0];
+            outagePos.y = listLonLat[index][1];
+
+            recoverPos.x = listLonLat[index+1][0];
+            recoverPos.y = listLonLat[index+1][1];
+            //std::cout << outagePos.distance(recoverPos) << endl;
+        }while(outagePos.distance(recoverPos) < 200.0 );
     }
 
     if(outagesFile=="DMATExitEntrance"){
@@ -1474,13 +1478,15 @@ void Outage::DMAT(std::string outagesFile){
         {257.2552203, 418.5045508}};
 
 
-        index = RNGCONTEXT uniform(0,397);
+        do{
+            index = RNGCONTEXT uniform(0,397);
 
-        outagePos.x = listLonLat[index][0];
-        outagePos.y = listLonLat[index][1];
+            outagePos.x = listLonLat[index][0];
+            outagePos.y = listLonLat[index][1];
 
-        recoverPos.x = listLonLat[index+1][0];
-        recoverPos.y = listLonLat[index+1][1];
+            recoverPos.x = listLonLat[index+1][0];
+            recoverPos.y = listLonLat[index+1][1];
+        }while(outagePos.distance(recoverPos) < 200.0 );
     }
 
     //std::cout << index << outagesFile.c_str() << endl;

@@ -39,7 +39,11 @@ void LocAppCom::initialize(int stage) {
         sendBeacons = par("sendBeacons").boolValue();
         beaconLengthBits = par("beaconLengthBits").longValue();
         beaconPriority = par("beaconPriority").longValue();
-        beaconInterval =  par("beaconInterval");
+        beaconInterval =  par("beaconInterval").doubleValue();
+
+        forwardBeacons = par("forwardBeacons").boolValue();
+        forwardInterval = par("forwardInterval").doubleValue();
+        numHops = par("numHops").longValue();
 
         dataLengthBits = par("dataLengthBits").longValue();
         dataOnSch = par("dataOnSch").boolValue();
@@ -57,14 +61,16 @@ void LocAppCom::initialize(int stage) {
 
         sendBeaconEvt = new cMessage("beacon evt", SEND_BEACON_EVT);
         sendWSAEvt = new cMessage("wsa evt", SEND_WSA_EVT);
-        //sendFWDBeaconEvt = new cMessage("fwd beacon evt", SEND_FWDBEACON_EVT);
+        sendFWDBeaconEvt = new cMessage("fwd beacon evt", SEND_FWDBEACON_EVT);
 
         generatedBSMs = 0;
         generatedWSAs = 0;
         generatedWSMs = 0;
+        generatedFWDBSMs = 0;
         receivedBSMs = 0;
         receivedWSAs = 0;
         receivedWSMs = 0;
+        receivedFWDBSMs = 0;
 
         /*
          * INITIALIZING LOCALIZATION MODULES...
@@ -97,6 +103,11 @@ void LocAppCom::initialize(int stage) {
 
             if (sendBeacons) {
                 scheduleAt(firstBeacon, sendBeaconEvt);
+            }
+
+            //FIXME Added By me initializing beriodic forwarding...
+            if(forwardBeacons){
+                scheduleAt(computeAsynchronousSendingTime(forwardInterval, type_CCH),sendFWDBeaconEvt);
             }
         }
     }
@@ -244,9 +255,6 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         //Improve Dead Reckoning with CP Positioning
         ImproveDeadReckoning();
 
-        //Improve Dead Reckoning with CP Positioning
-        ImproveDeadReckoning();
-
         //Write Log Files
         WriteLogFiles();
 
@@ -265,6 +273,23 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         scheduleAt(simTime() + wsaInterval, sendWSAEvt);
         break;
     }
+    case SEND_FWDBEACON_EVT:{
+        if(forwardBeacons){
+            //std::cout << "Evento de forwarding" << endl;
+            //Verificar se tem beacons com TTL expirados e deletar.
+            //DeleteOldBeaconToForward();
+            //Verificar se tem beacon na lista e fazer forwarding e depois deletar.
+            if(!listFWDBeacons.empty()){
+                //envia um beacon e o retira da lista de beacons para envio
+                sendDown(listFWDBeacons.front());
+                //std::cout << "forwarding beacon: " << listFWDBeacons.front()->getPersistentID() << endl;
+                listFWDBeacons.pop_front();
+            }
+            //agenda proximo envio periodico
+            scheduleAt(simTime()+ forwardInterval, sendFWDBeaconEvt);
+        }
+        break;
+    }
     default: {
         if (msg)
             DBG_APP << "APP: Error: Got Self Message of unknown kind! Name: " << msg->getName() << endl;
@@ -276,23 +301,18 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
 
 void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
-    //Mecanismo para saber se o beacon é single ou multihop...
-    if(bsm->getSenderAddress() == myId){
-    //    std::cout << "Recebi minha msg de volta! ";
-    //    std::cout << "My Id: "<< myId << " Sender Beacon:" << bsm->getSenderAddress() << endl;
-        //cancelEvent(bsm);
-        //delete bsm;
+    if ( BeaconIsDuplicated(bsm) || BeaconHaveMyId(bsm) || (!BeaconIsAlive(bsm)) || bsm->getInOutage() ){
+        //std::cout <<"do nothing..." << endl;
+        //delete(bsm);
         return;
     }
 
-    /*if(bsm->getHops()){
-        std::cout << "Vehicle ID:" << myId << ", received from "<< bsm->getSenderAddress() << " Hops: "<< bsm->getHops() << endl;
-    }*/
+    //Verify if it is a RSU beacon and transform to traCI/SUMO coordinates
+    if(bsm->getIsRSUBSM()){
+        bsm->setSenderRealPos( traci->getTraCIXY( bsm->getSenderPos() ) );
+    }
 
-    //From here is the approach to handle positioning information when receive a beacon
-    /*if(bsm->getInOutage()){
-        return;
-    }*/
+    //std::cout << "My Id: "<< myId << " Sender Beacon:" << bsm->getSenderAddress() << "Beacon ID:" << bsm->getId()<< endl;
 
     AnchorNode anchorNode;
     getAnchorNode(bsm->getSenderAddress(), &anchorNode);
@@ -302,7 +322,7 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
     //FIXME Here the distance need to be calculated with my best estimation
     // This can be CP, DR or GPS position
-    // The hipotese is that as the DR will increase the error and up some threshold
+    // The hypothesis is that as the DR will increase the error, and up some threshold,
     // The CP will be best to use
     anchorNode.myPosition = atualSUMOUTMPos;
 
@@ -324,6 +344,8 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
     fsModel->setDistance(anchorNode.realRSSIFS, this->pTx, this->alpha, this->lambda);
     anchorNode.realRSSIDistFS = fsModel->getDistance() + (RNGCONTEXT normal( 0, (fsModel->getDistance()*0.1) ) );
 
+    anchorNode.hops = bsm->getHops();
+
 
     UpdateNeighborList(&anchorNode);
 
@@ -336,17 +358,26 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
     and finally (when no more retransmissions will occur):
 
     delete packet;*/
-    if(MULTIHOP){
+    //if(MULTIHOP){
         //Retransmission (Multihop)
         //Message only can be restranmited if timestamp is below of one trheshold
         //works like a TTL
-        if( (simTime() - bsm->getTimestamp()) < 1.0){
-            BasicSafetyMessage *fwdBSM = bsm->dup();
-            //fwdBSM->setHops(bsm->getHops()+1);
-            sendDown(fwdBSM);
+        //if( ){
+   if(forwardBeacons){
+       BasicSafetyMessage *fwdBSM = bsm->dup();
+       fwdBSM->setPersistentID(bsm->getPersistentID());
+       fwdBSM->setHops(bsm->getHops()+1);
+       //std::cout << bsm->getPersistentID() << "<- BSM, FWDBSM ->"<< fwdBSM->getPersistentID() << endl;
+
+       //Adiciona o beacon para lista de beacons para encaminhamento...
+       AddBeaconToForward(fwdBSM);
+   }
+   //fwdBSM->setHops(bsm->getHops()+1);
+   //sendDown(fwdBSM);
+            //sendDelayedDown(fwdBSM,forwardingInterval);
             //delete(bsm);
-        }
-    }
+        //}
+   // }
 }
 
 void LocAppCom::onWSM(WaveShortMessage* wsm) {}
@@ -368,7 +399,7 @@ void LocAppCom::finish() {
 LocAppCom::~LocAppCom() {
     cancelAndDelete(sendBeaconEvt);
     cancelAndDelete(sendWSAEvt);
-    //cancelAndDelete(sendFWDBeaconEvt);
+    cancelAndDelete(sendFWDBeaconEvt);
     findHost()->unsubscribe(mobilityStateChangedSignal, this);
 }
 
@@ -427,6 +458,11 @@ void LocAppCom::InitLocModules(){
 
     timeSeed = time(0);
 
+    /*if(traciVehicle == NULL){
+        std::cout << "Why?" << endl;
+        exit(0);
+    }*/
+
     Coord coord;
     //Initialize Projections Module...
     //size of (EntranceExit or ExitEntrance ) == 12
@@ -481,6 +517,15 @@ void LocAppCom::InitLocModules(){
 
 void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
     /*BEGIN OF UPDATE SELF POSITIONING (GPS and DR)*/
+
+    //Put unique persistent ID for FORWARDING purposes
+    bsm->setPersistentID(bsm->getId());
+
+    //Initialize Hops counter with zero
+    bsm->setHops(0);
+
+    //This is a vehicle beacon
+    bsm->setIsRSUBSM(false);
 
     //Convert from OMNET to TRACI/SUMO
     Coord coord = traci->getTraCIXY(mobility->getCurrentPosition());
@@ -560,6 +605,7 @@ void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
 }
 
 void LocAppCom::UpdateCooperativePositioning(){
+
     if(anchorNodes.size() > 3){
          //TODO Call Multilateration Method
          double localResidual;
@@ -834,12 +880,15 @@ void LocAppCom::getAnchorNode(int id, AnchorNode *anchorNode){
  *
 */
 void LocAppCom::DiscardOldBeacons(){
-    simtime_t delta;
+    //simtime_t delta;
     for(std::list<AnchorNode>::iterator it=anchorNodes.begin(); it!= anchorNodes.end(); ++it){
-        delta = simTime() - it->timestamp;
-        if(delta >= 0.5){
+        //delta = simTime() - it->timestamp;
+        /*if(delta >= 0.5){
             it = anchorNodes.erase(it);
             //std::cout << it->vehID <<" beacon erased\n\n";
+        }*/
+        if (it->hops > numHops){
+            it = anchorNodes.erase(it);
         }
     }
 }
@@ -893,7 +942,7 @@ double LocAppCom::SetResidual(){
         residual+= it->residual;
     }
     if(myId==0){
-        std::cout<<"Set Residual:"<< std::setprecision(10)<< residual<< "\n";
+        //std::cout<<"Set Residual:"<< std::setprecision(10)<< residual<< "\n";
     }
 
     return residual;
@@ -926,6 +975,56 @@ void LocAppCom::RecognizeEdges(void){
         exit(0);
     }
 }
+
+
+//it = anchorNodes.erase(it);
+//std::cout << it->vehID <<" beacon erased\n\n";
+
+
+bool LocAppCom::BeaconIsDuplicated(BasicSafetyMessage* bsm){
+    //each node only retransmit exactly one time using the persistent id
+    for(std::list<BasicSafetyMessage*>::iterator it=listFWDBeacons.begin(); it!= listFWDBeacons.end(); ++it){
+        if((*it)->getPersistentID() == bsm->getPersistentID()){
+            //std::cout <<"beacon duplicated:"<<" list: "<< (*it)->getPersistentID() << " beacon: " << bsm->getPersistentID() << endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool LocAppCom::BeaconHaveMyId(BasicSafetyMessage* bsm){
+    if(bsm->getSenderAddress() == myId){
+        return true;
+    }
+    return false;
+}
+
+bool LocAppCom::BeaconIsAlive(BasicSafetyMessage* bsm){
+    if( bsm->getHops() <= numHops){
+        return true;
+    }
+    return false;
+}
+
+void LocAppCom::AddBeaconToForward(BasicSafetyMessage* fwdBSM){
+    //std::cout << myId <<" putting beacon on list: " << fwdBSM->getPersistentID() <<' '<< fwdBSM->getSenderAddress()  <<' '<< fwdBSM->getTimestamp()<< endl;
+    listFWDBeacons.push_back(fwdBSM);
+}
+
+//for a while we dont need to delete old beacons
+/*void LocAppCom::DeleteOldBeaconToForward(){
+    for(std::list<BasicSafetyMessage*>::iterator it=listFWDBeacons.begin(); it!= listFWDBeacons.end();){
+
+        if( (simTime() - (*it)->getTimestamp()) > 0.5){
+      //      std::cout <<" deleting old beacon"<< (*it)->getPersistentID() <<endl;
+            delete *it;
+            it = listFWDBeacons.erase(it);
+        }
+        else{
+            ++it;
+        }
+    }
+}*/
 
 
 

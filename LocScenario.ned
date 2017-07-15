@@ -18,10 +18,8 @@ import org.car2x.veins.nodes.Scenario;
 
 network LocScenario extends Scenario
 {
-    parameters:
-        bool multihop = default(false);
     submodules:
-        rsu[3]: RSU {
+        rsu[1]: RSU {
             @display("p=150,140;i=device/receiverdish,blue");
         }
         

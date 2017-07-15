@@ -313,7 +313,6 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	$(VEINS_PROJ)/src/veins/base/utils/PassedMessage.h \
 	$(VEINS_PROJ)/src/veins/base/utils/SimpleAddress.h \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
-	$(VEINS_PROJ)/src/veins/modules/application/ieee80211p/BaseWaveApplLayer.h \
 	$(VEINS_PROJ)/src/veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/BasicSafetyMessage_m.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/WaveServiceAdvertisement_m.h \
@@ -330,7 +329,41 @@ $O/communication/LocAppCom.o: communication/LocAppCom.cc \
 	$(VEINS_PROJ)/src/veins/modules/utility/Consts80211p.h \
 	$(VEINS_PROJ)/src/veins/modules/world/annotations/AnnotationManager.h
 $O/communication/RSU.o: communication/RSU.cc \
+	Types/Types.h \
+	communication/LocAppCom.h \
 	communication/RSU.h \
+	localization/DeadReckoning/DeadReckoning.h \
+	localization/Filters/Filters.h \
+	localization/Filters/LowPassFilter.h \
+	localization/GPS/GPS.h \
+	localization/MapMatching/MapMatching.h \
+	localization/Multilateration/Multilateration.h \
+	localization/Outage/Outage.h \
+	localization/Projections/Projection.h \
+	localization/RSSI/FreeSpaceModel.h \
+	localization/RSSI/TwoRayInterferenceModel.h \
+	localization/jama_tnt/jama_qr.h \
+	localization/jama_tnt/tnt.h \
+	localization/jama_tnt/tnt_array1d.h \
+	localization/jama_tnt/tnt_array1d_utils.h \
+	localization/jama_tnt/tnt_array2d.h \
+	localization/jama_tnt/tnt_array2d_utils.h \
+	localization/jama_tnt/tnt_array3d.h \
+	localization/jama_tnt/tnt_array3d_utils.h \
+	localization/jama_tnt/tnt_cmat.h \
+	localization/jama_tnt/tnt_fortran_array1d.h \
+	localization/jama_tnt/tnt_fortran_array1d_utils.h \
+	localization/jama_tnt/tnt_fortran_array2d.h \
+	localization/jama_tnt/tnt_fortran_array2d_utils.h \
+	localization/jama_tnt/tnt_fortran_array3d.h \
+	localization/jama_tnt/tnt_fortran_array3d_utils.h \
+	localization/jama_tnt/tnt_i_refvec.h \
+	localization/jama_tnt/tnt_math_utils.h \
+	localization/jama_tnt/tnt_sparse_matrix_csr.h \
+	localization/jama_tnt/tnt_stopwatch.h \
+	localization/jama_tnt/tnt_subscript.h \
+	localization/jama_tnt/tnt_vec.h \
+	localization/jama_tnt/tnt_version.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/BaseConnectionManager.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/ChannelAccess.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/NicEntry.h \
@@ -351,7 +384,6 @@ $O/communication/RSU.o: communication/RSU.cc \
 	$(VEINS_PROJ)/src/veins/base/utils/PassedMessage.h \
 	$(VEINS_PROJ)/src/veins/base/utils/SimpleAddress.h \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
-	$(VEINS_PROJ)/src/veins/modules/application/ieee80211p/BaseWaveApplLayer.h \
 	$(VEINS_PROJ)/src/veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/BasicSafetyMessage_m.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/WaveServiceAdvertisement_m.h \

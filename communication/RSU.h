@@ -16,15 +16,29 @@
 #ifndef __COOPERATIVEPOSITIONING_RSU_H_
 #define __COOPERATIVEPOSITIONING_RSU_H_
 
-#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+//#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+#include <communication/LocAppCom.h>
 
 /**
  * Small RSU Demo using 11p
  */
-class RSU : public BaseWaveApplLayer {
+class RSU : public LocAppCom {
+    public:
+        virtual void initialize(int stage);
+    private:
+        std::list<BasicSafetyMessage*> listFWDBeacons;
     protected:
-        virtual void onWSM(WaveShortMessage* wsm);
-        virtual void onWSA(WaveServiceAdvertisment* wsa);
+        /** @brief handle self messages */
+        virtual void handleSelfMsg(cMessage* msg);
+        virtual void onBSM(BasicSafetyMessage* bsm);
+        bool BeaconIsDuplicated(BasicSafetyMessage* bsm);
+        void PutBeaconInformation(BasicSafetyMessage* bsm);
+        void AddBeaconToForward(BasicSafetyMessage* fwdBSM);
+        BaseMobility *baseMob;
+        TraCIMobility* mobility;
+        TraCICommandInterface* traci;
+        TraCICommandInterface::Vehicle* traciVehicle;
+        //void DeleteOldBeaconToForward();
 };
 
 #endif
