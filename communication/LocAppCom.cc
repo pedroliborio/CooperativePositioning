@@ -45,6 +45,10 @@ void LocAppCom::initialize(int stage) {
         forwardInterval = par("forwardInterval").doubleValue();
         numHops = par("numHops").longValue();
 
+        logSeedPar = par("logSeedPar");
+        logDistVehPar = par("logDistVehPar");
+
+
         dataLengthBits = par("dataLengthBits").longValue();
         dataOnSch = par("dataOnSch").boolValue();
         dataPriority = par("dataPriority").longValue();
@@ -312,6 +316,10 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
         bsm->setSenderRealPos( traci->getTraCIXY( bsm->getSenderPos() ) );
     }
 
+
+    //std::cout << myId << '\t' << bsm->getRssi() << '\t' << bsm->getSenderAddress() << endl;
+
+
     //std::cout << "My Id: "<< myId << " Sender Beacon:" << bsm->getSenderAddress() << "Beacon ID:" << bsm->getId()<< endl;
 
     AnchorNode anchorNode;
@@ -336,7 +344,6 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
     anchorNode.gpsPos = bsm->getSenderGPSPos();
     anchorNode.errorGPS = bsm->getErrorGPS();
     anchorNode.gpsDist = anchorNode.gpsPos.distance(atualSUMOUTMPos);
-
 
     //Calculating RSSI using Real Distances
     fsModel->setRSSI(anchorNode.realDist, this->pTx, this->alpha, this->lambda);
@@ -488,7 +495,7 @@ void LocAppCom::InitLocModules(){
     //Initializing DR Module
     projection->setUtmCoord(gpsModule->getPosition());
     projection->FromUTMToLonLat();
-    drModule = new DeadReckoning(projection->getGeoCoord());
+    drModule = new DeadReckoning(projection->getGeoCoord(),beaconInterval.dbl());
 
     //Initializing MapMatching Module
     mapMatching = new MapMatching(traciVehicle->getRouteId());
@@ -606,7 +613,7 @@ void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
 
 void LocAppCom::UpdateCooperativePositioning(){
 
-    if(anchorNodes.size() > 3){
+    if(anchorNodes.size() > 3) {
          //TODO Call Multilateration Method
          double localResidual;
         if(multilateration->DoMultilateration(&anchorNodes,multilateration->GPS_POS, multilateration->FS_DIST)){
@@ -686,7 +693,7 @@ void LocAppCom::ImproveDeadReckoning(){
 }
 
 void LocAppCom::WriteLogFiles(){
-    std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(myId)+'-'+std::to_string(timeSeed)+'-'+traciVehicle->getRouteId()+".txt", std::fstream::app);
+    std::fstream beaconLogFile(traciVehicle->getRouteId().substr( 0,(traciVehicle->getRouteId().size() - 12) )+"/"+std::to_string(logSeedPar)+'-'+std::to_string(logDistVehPar)+'-'+std::to_string(numHops)+'-'+std::to_string(myId)+'-'+traciVehicle->getRouteId()+".txt", std::fstream::app);
     beaconLogFile
     << std::setprecision(10) << simTime()
     <<'\t'<< std::setprecision(10) << atualSUMOUTMPos.x

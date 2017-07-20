@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<routes>
+        <vType accel="1.0" decel="5.0" id="Car" length="3.5" maxSpeed="10.5" sigma="0.5" />    
+
+        <route id="DMATEntranceExit" edges="8916170 396959336 59764940 28412306 33764603 23874453 59763339 59763602 59763350 59763232 59763351"/>
+
+        <route id="DMATExitEntrance" edges="161493573 59766629 59766617 59766616 59766615 59766608 59766570 59766528 399402797 396959337 59766456"/>
+		
+		<flow id="flowEntranceExit" departLane="random" type="Car" route="DMATEntranceExit" begin="0.0" departSpeed="max" period="2.4" number="275" /> <!--number="275" />-->
+		<flow id="flowExitEntrance" departLane="random" type="Car" route="DMATExitEntrance" begin="0.0" departSpeed="max" period="2.4" number="397" /> <!--number="397" />-->
+		
+        <!--<flow id="flowEntranceExit" departLane="random" route="DMATEntranceExit" begin="0.0" end="3600.0" vehsPerHour="3600" departSpeed="max" />-->
+        
+        <!--<flow id="flowExitEntrance" departLane="random" route="DMATExitEntrance" begin="0.0" end="3600.0" vehsPerHour="3600" departSpeed="max" />-->
+</routes>

@@ -293,8 +293,9 @@ class LocAppCom : public BaseApplLayer {
         TraCICommandInterface* traci;
         TraCICommandInterface::Vehicle* traciVehicle;
 
-        /* Single or Multihop Approach*/
-        //bool multihop;
+        /* Logging Parameters*/
+        uint32_t logSeedPar;
+        uint32_t logDistVehPar;
 
         AnnotationManager* annotations;
         WaveAppToMac1609_4Interface* mac;

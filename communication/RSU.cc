@@ -179,6 +179,7 @@ void RSU::onBSM(BasicSafetyMessage* bsm){
             return;
     }
     else{
+        //std::cout << myId << '\t' << bsm->getRssi() << '\t' << bsm->getSenderAddress() << endl;
         if(forwardBeacons){
            BasicSafetyMessage *fwdBSM = bsm->dup();
            fwdBSM->setPersistentID(bsm->getPersistentID());

@@ -60,8 +60,13 @@ simple LocAppCom like IBaseApplLayer
         bool communicateWhileParked = default(false); //whether the car should communicate when it is parked in SUMO
         
         bool forwardBeacons = default(false); //forward beacons?
-        int numHops = default(1); //default number of hops is a single hop approach
+        int numHops= default(1); //default number of hops is a single hop approach
         double forwardInterval = default(1s) @unit(s);
+        
+        //Log parameters
+        int logDistVehPar = default(25);
+        int logSeedPar = default(0);
+        
 
     gates:
         input lowerLayerIn; // from mac layer

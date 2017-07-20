@@ -14,7 +14,7 @@ DeadReckoning::DeadReckoning() {
 
 }
 
-DeadReckoning::DeadReckoning(LonLat lastGPSPos) {
+DeadReckoning::DeadReckoning(LonLat lastGPSPos, double updateInterval) {
     // TODO Auto-generated constructor stub
     //Initialization of DR with last GPS Pos.
     lastKnowPosGeo = lastGPSPos;
@@ -26,6 +26,23 @@ DeadReckoning::DeadReckoning(LonLat lastGPSPos) {
     this->lPFTheta.setPrevxLpf(0);
     this->arw = 0;
     this->sensitivity = 0;
+
+    FREQUENCY = updateInterval;
+
+    //std::cout << updateInterval << endl;
+    //Initializing ARW  and SENSITIVITY constants
+    if(updateInterval <= 0.1){
+        //std::cout << "barril 0.1" << endl;
+        ANGLE_RANDOM_WALK_NOISE = 0.063245553;//0.063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
+        _SENSITIVITY_ = 0.02; //2% also modeled as a white noise that grows linearly with the time
+    }
+    else{
+        if(updateInterval >= 1.0){
+            //std::cout << "barril 1.0" << endl;
+            ANGLE_RANDOM_WALK_NOISE = 0.02;//0.063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
+            _SENSITIVITY_ = 0.02; //2% also modeled as a white noise that grows linearly with the time
+        }
+    }
 }
 
 DeadReckoning::~DeadReckoning() {

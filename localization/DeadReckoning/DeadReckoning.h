@@ -21,13 +21,14 @@ namespace Localization {
 
 class DeadReckoning {
 protected:
-    //For a frequency of 10Hz
-    //FIXME After exchange for an automatic frequency given by Update Interval parameter from omnetpp.ini
-    const double ANGLE_RANDOM_WALK_NOISE = 0.063245553;//0.063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
-    const double _SENSITIVITY_ = 0.02; //2% also modeled as a white noise that grows linearly with the time
-    const double FREQUENCY = 0.1; //in seconds (10 Hz)
-    //FIXME Put sources of error of odometer
+
 private:
+    //FIXME After exchange for an automatic frequency given by Update Interval parameter from omnetpp.ini
+    //FIXME Put sources of error of odometer
+    double ANGLE_RANDOM_WALK_NOISE;//0.063245553;// FFT 0.02°/s/sqrt(Hz) (1Hz) <-> 0.063245553 (10Hz) in 1 sec , 0.0063245553 in 0.1 sec (10Hz)
+    double _SENSITIVITY_; //2% also modeled as a white noise that grows linearly with the time
+    double FREQUENCY; //in seconds (10 Hz)
+
     LonLat lastKnowPosGeo;
     Coord lastKnowPosUTM;
     double angle;
@@ -45,7 +46,7 @@ private:
 
 public:
     DeadReckoning();
-    DeadReckoning(LonLat lastGPSPos);
+    DeadReckoning(LonLat lastGPSPos, double updateinterval);
     virtual ~DeadReckoning();
     void setGeoPos(LonLat *lastSUMOPos, LonLat *atualSUMOPos);
     void setUTMPos(Coord utmCoord);
