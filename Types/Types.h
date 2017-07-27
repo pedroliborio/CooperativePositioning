@@ -58,6 +58,11 @@ struct AnchorNode_t{
 
 };typedef struct AnchorNode_t AnchorNode;
 
+struct t_OutageCoord{
+    Coord outage;
+    Coord recover;
+};typedef t_OutageCoord OutCoord;
+
 namespace Localization {
 
 class Types {

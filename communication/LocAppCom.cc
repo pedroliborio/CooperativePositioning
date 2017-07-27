@@ -31,8 +31,7 @@ void LocAppCom::initialize(int stage) {
 
         myId = getParentModule()->getId();
 
-        //Single or Multihop
-        //multihop = par("multihop").boolValue();
+
 
         //read parameters
         headerLength = par("headerLength").longValue();
@@ -75,6 +74,10 @@ void LocAppCom::initialize(int stage) {
         receivedWSAs = 0;
         receivedWSMs = 0;
         receivedFWDBSMs = 0;
+        //for RMSE statistcs
+        rmseGPS = .0;
+        rmseDRCP = .0;
+        numRMSEs = .0;
 
         /*
          * INITIALIZING LOCALIZATION MODULES...
@@ -259,8 +262,11 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         //Improve Dead Reckoning with CP Positioning
         ImproveDeadReckoning();
 
+        //Update RMSE Statistics GPS e GPS+DR+CP
+        RMSEStatistics();
+
         //Write Log Files
-        WriteLogFiles();
+        //WriteLogFiles();
 
         //Put veins control parameters
         populateWSM(bsm);
@@ -401,6 +407,9 @@ void LocAppCom::finish() {
 
     recordScalar("generatedWSAs",generatedWSAs);
     recordScalar("receivedWSAs",receivedWSAs);
+
+    //Compute and record RMSE statistics...
+    ComputeFinalRMSE();
 }
 
 LocAppCom::~LocAppCom() {
@@ -469,7 +478,7 @@ void LocAppCom::InitLocModules(){
         std::cout << "Why?" << endl;
         exit(0);
     }*/
-
+    OutCoord outCoord;
     Coord coord;
     //Initialize Projections Module...
     //size of (EntranceExit or ExitEntrance ) == 12
@@ -479,7 +488,22 @@ void LocAppCom::InitLocModules(){
     coord = traci->getTraCIXY(mobility->getCurrentPosition());
 
     //Initialize Outage Module
-    outageModule =  new Outage(traciVehicle->getRouteId());
+
+    //Get one outage from the server of outages
+
+    outCoord = check_and_cast<Outages*>(getSimulation()->getModuleByPath("outagesServer.appl"))->getOutage(traciVehicle->getRouteId());
+
+    outageModule = new Outage();
+
+    outageModule->setOutagePos(outCoord.outage);
+    outageModule->setRecoverPos(outCoord.recover);
+
+   /*std::cout << outageModule->getOutagePos() << endl;
+    std::cout << outageModule->getRecoverPos() << endl;
+    std::cout << outageModule->isInOutage() << endl;
+    std::cout << outageModule->isInRecover() << endl;*/
+
+
     //Criar um objeto dataset que carrega o dataset e sorteia uma entrada de forma randomica
     //e passa os valores pra classe outages...
     //std::cout <<"Outage OUT: "<< outageModule->getOutagePos() << endl;
@@ -544,9 +568,14 @@ void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
     //Detect if in a outage stage...
     outageModule->ControlOutage(&atualSUMOUTMPos);
 
+    /*if(myId ==25){
+        std::cout << outageModule->getOutagePos() << '\t' << outageModule->getRecoverPos() <<'\t'<<outageModule->isInOutage() <<'\t'<< outageModule->isInRecover() <<endl;
+    }*/
+
+    //std::cout << myId <<'\t'<< outageModule->isInOutage() <<'\t'<< outageModule->isInRecover() << endl;
+
     //antes da queda
     if(!outageModule->isInOutage() && !outageModule->isInRecover()){
-
         //Put in WSM that this vehicle isn't in outage stage
        bsm->setInOutage(false);
 
@@ -1016,6 +1045,17 @@ bool LocAppCom::BeaconIsAlive(BasicSafetyMessage* bsm){
 void LocAppCom::AddBeaconToForward(BasicSafetyMessage* fwdBSM){
     //std::cout << myId <<" putting beacon on list: " << fwdBSM->getPersistentID() <<' '<< fwdBSM->getSenderAddress()  <<' '<< fwdBSM->getTimestamp()<< endl;
     listFWDBeacons.push_back(fwdBSM);
+}
+
+void LocAppCom::RMSEStatistics(){
+    rmseGPS+= gpsModule->getError();
+    rmseDRCP+= drModule->getErrorUtm();
+    numRMSEs++;
+}
+
+void LocAppCom::ComputeFinalRMSE(){
+    recordScalar("rmseGPS",rmseGPS/numRMSEs);
+    recordScalar("rmseDRCP",rmseDRCP/numRMSEs);
 }
 
 //for a while we dont need to delete old beacons

@@ -19,22 +19,8 @@ Define_Module(RSU);
 void RSU::initialize(int stage) {
     BaseApplLayer::initialize(stage);
     if (stage==0) {
-
-        //initialize pointers to other modules
-        if (FindModule<TraCIMobility*>::findSubModule(getParentModule())) {
-            mobility = TraCIMobilityAccess().get(getParentModule());
-            traci = mobility->getCommandInterface();
-            traciVehicle = mobility->getVehicleCommandInterface();
-        }
-        else {
-            traci = NULL;
-            mobility = NULL;
-            traciVehicle = NULL;
-        }
-
         //Getting pointer to access RSU coordinates
         baseMob = FindModule<BaseMobility*>::findSubModule(getParentModule());
-
 
         annotations = AnnotationManagerAccess().getIfExists();
         ASSERT(annotations);

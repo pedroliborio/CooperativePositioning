@@ -54,6 +54,7 @@ using Veins::AnnotationManagerAccess;
 #include <Outage/Outage.h>
 #include <Filters/Filters.h>
 #include <MapMatching/MapMatching.h>
+#include <OutagesServer/Outages.h>
 
 //Localization namespace
 using namespace Localization;
@@ -93,6 +94,7 @@ class LocAppCom : public BaseApplLayer {
             //FIXME Added by Pedro
             SEND_FWDBEACON_EVT
         };
+
     private:
 
         time_t timeSeed;
@@ -257,6 +259,16 @@ class LocAppCom : public BaseApplLayer {
          */
         virtual void WriteLogFiles();
 
+        /*
+         * @brief Update RMSE Statistics
+         */
+        virtual void RMSEStatistics();
+
+        /*
+         * Compute Final RMSE statistics and recod on scalar file
+         */
+        virtual void ComputeFinalRMSE();
+
         bool BeaconIsDuplicated(BasicSafetyMessage*);
         bool BeaconHaveMyId(BasicSafetyMessage*);
         bool BeaconIsAlive(BasicSafetyMessage*);
@@ -292,6 +304,8 @@ class LocAppCom : public BaseApplLayer {
         TraCIMobility* mobility;
         TraCICommandInterface* traci;
         TraCICommandInterface::Vehicle* traciVehicle;
+
+        /*Pointer to access Outages Module*/
 
         /* Logging Parameters*/
         uint32_t logSeedPar;
@@ -342,6 +356,9 @@ class LocAppCom : public BaseApplLayer {
         uint32_t receivedBSMs;
         uint32_t receivedFWDBSMs;
 
+        double rmseGPS;
+        double rmseDRCP;
+        double numRMSEs;
 
         /* messages for periodic events such as beacon and WSA transmissions */
         cMessage* sendBeaconEvt;

@@ -11,8 +11,8 @@ namespace Localization {
 
 Outage::Outage() {
     // TODO Auto-generated constructor stub
-
-
+    inOutage = false;
+    inRecover = false;
 }
 
 Outage::Outage(std::string outagesFile) {

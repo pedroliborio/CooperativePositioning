@@ -15,21 +15,76 @@ GPS::GPS() {
 }
 
 GPS::GPS(std::string outagesFile) {
-    GetDataSetMeanSTD(outagesFile);
+    //GetDataSetMeanSTD(outagesFile);
+
+    if(outagesFile == "DMATEntranceExit"){
+        this->mean = 6.19143868296;
+        this->std = 2.88459214044;
+    }
+    else{
+        if(outagesFile == "DMATExitEntrance"){
+            this->mean = 6.42315413843;
+            this->std = 2.84527635525;
+        }
+        else{
+            if(outagesFile == "DPTEntranceExit"){
+                this->mean = 6.23195053621;
+                this->std = 2.95601551205;
+            }
+            else{
+                if(outagesFile=="DPTExitEntrance"){
+                    this->mean = 7.59763440355;
+                    this->std = 3.41503134687;
+                }
+                else{
+                    if(outagesFile=="RCLTEntranceExit"){
+                        this->mean=6.97907769597;
+                        this->std = 3.30866358332;
+                    }
+                    else{
+                        if(outagesFile=="RCLTExitEntrance"){
+                            this->mean = 6.13565937547;
+                            this->std = 3.21445123213;
+                        }
+                        else{
+                            if(outagesFile=="YBTEntranceExit"){
+                                this->mean = 8.93352084142;
+                                this->std=3.41637848527;
+                            }
+                            else{
+                                if(outagesFile=="YBTExitEntrance"){
+                                    this->mean = 9.5998328591;
+                                    this->std = 2.83305514461;
+
+                                }
+                                else{
+                                    if(outagesFile=="RIO450EntranceExit"){
+                                        this->mean= 9.50330634515;
+                                        this->std=3.42732536713;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 GPS::~GPS() {
     // TODO Auto-generated destructor stub
 }
 
-void GPS::GetDataSetMeanSTD(std::string outagesFile){
+/*void GPS::GetDataSetMeanSTD(std::string outagesFile){
     std::string path = "../localization/GPS/mean_std_dev/"+outagesFile+".txt";
     std::fstream file(path);
     //std::cout << path << endl;
     file >> this->mean >> this->std;
     //std::cout << "Mean, STD:"<< this->mean <<" , "<< this->std << endl;
     file.close();
-}
+}*/
 
 
 void GPS::CompPosition(Coord *realCoord){

@@ -1,4 +1,3 @@
-package com.liborio.cooperativepositioning;
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -12,22 +11,6 @@ package com.liborio.cooperativepositioning;
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-//import org.car2x.veins.nodes.RSU;
-import org.car2x.veins.nodes.Scenario;
-import org.car2x.veins.nodes.RSU;
-import com.liborio.cooperativepositioning.localization.OutagesServer.OutagesServer;
+// 
 
-network LocScenario extends Scenario
-{
-    submodules:
-        rsu[1]: RSU {
-            @display("p=150,140;i=device/receiverdish,blue");
-        }
-
-        outagesServer : OutagesServer {
-            @display("i=abstract/db;p=68,73");
-        }
-
-
-}
+package com.liborio.cooperativepositioning.localization;

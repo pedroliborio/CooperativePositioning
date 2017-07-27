@@ -35,9 +35,6 @@ class RSU : public LocAppCom {
         void PutBeaconInformation(BasicSafetyMessage* bsm);
         void AddBeaconToForward(BasicSafetyMessage* fwdBSM);
         BaseMobility *baseMob;
-        TraCIMobility* mobility;
-        TraCICommandInterface* traci;
-        TraCICommandInterface::Vehicle* traciVehicle;
         //void DeleteOldBeaconToForward();
 };
 
