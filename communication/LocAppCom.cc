@@ -409,7 +409,7 @@ void LocAppCom::finish() {
     recordScalar("receivedWSAs",receivedWSAs);
 
     //Compute and record RMSE statistics...
-    ComputeFinalRMSE();
+    ComputeLocStats();
 }
 
 LocAppCom::~LocAppCom() {
@@ -592,6 +592,9 @@ void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
         drModule->setLastKnowPosUtm(gpsModule->getPosition());
         drModule->setErrorUtm(gpsModule->getError());
         drModule->setErrorGeo(gpsModule->getError());
+
+        //collecting stats for teh time of outage...
+        timestampOutage = simTime();
     }
     else{
         //em queda
@@ -622,6 +625,9 @@ void LocAppCom::PutBeaconInformation(BasicSafetyMessage* bsm){
 
             bsm->setSenderGPSPos(gpsModule->getPosition());
             bsm->setErrorGPS(gpsModule->getError());
+
+            //collecting stats about outage
+            timestampRecover = simTime();
         }
         else{
             //Put in WSM that this vehicle isn't in outage stage anymore
@@ -1053,13 +1059,14 @@ void LocAppCom::RMSEStatistics(){
     numRMSEs++;
 }
 
-void LocAppCom::ComputeFinalRMSE(){
+void LocAppCom::ComputeLocStats(){
     recordScalar("rmseGPS",rmseGPS/numRMSEs);
     recordScalar("rmseDRCP",rmseDRCP/numRMSEs);
+    recordScalar("timeOutage",(timestampRecover-timestampOutage).dbl());
 }
 
 //for a while we dont need to delete old beacons
-/*void LocAppCom::DeleteOldBeaconToForward(){
+void LocAppCom::DeleteOldBeaconToForward(){
     for(std::list<BasicSafetyMessage*>::iterator it=listFWDBeacons.begin(); it!= listFWDBeacons.end();){
 
         if( (simTime() - (*it)->getTimestamp()) > 0.5){
@@ -1071,7 +1078,7 @@ void LocAppCom::ComputeFinalRMSE(){
             ++it;
         }
     }
-}*/
+}
 
 
 

@@ -265,9 +265,9 @@ class LocAppCom : public BaseApplLayer {
         virtual void RMSEStatistics();
 
         /*
-         * Compute Final RMSE statistics and recod on scalar file
+         * Compute Final Localization statistics and record on scalar file
          */
-        virtual void ComputeFinalRMSE();
+        virtual void ComputeLocStats();
 
         bool BeaconIsDuplicated(BasicSafetyMessage*);
         bool BeaconHaveMyId(BasicSafetyMessage*);
@@ -359,6 +359,9 @@ class LocAppCom : public BaseApplLayer {
         double rmseGPS;
         double rmseDRCP;
         double numRMSEs;
+
+        simtime_t timestampOutage;
+        simtime_t timestampRecover;
 
         /* messages for periodic events such as beacon and WSA transmissions */
         cMessage* sendBeaconEvt;
