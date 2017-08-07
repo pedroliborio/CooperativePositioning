@@ -287,7 +287,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         if(forwardBeacons){
             //std::cout << "Evento de forwarding" << endl;
             //Verificar se tem beacons com TTL expirados e deletar.
-            //DeleteOldBeaconToForward();
+            DeleteOldBeaconToForward();
             //Verificar se tem beacon na lista e fazer forwarding e depois deletar.
             if(!listFWDBeacons.empty()){
                 //envia um beacon e o retira da lista de beacons para envio
@@ -1069,14 +1069,23 @@ void LocAppCom::ComputeLocStats(){
 void LocAppCom::DeleteOldBeaconToForward(){
     for(std::list<BasicSafetyMessage*>::iterator it=listFWDBeacons.begin(); it!= listFWDBeacons.end();){
 
-        if( (simTime() - (*it)->getTimestamp()) > 0.5){
-      //      std::cout <<" deleting old beacon"<< (*it)->getPersistentID() <<endl;
+        /*if( (simTime() - (*it)->getTimestamp()) > 0.5){
+          //      std::cout <<" deleting old beacon"<< (*it)->getPersistentID() <<endl;
+            delete *it;
+            it = listFWDBeacons.erase(it);
+        }
+        else{
+            ++it;
+        }*/
+        if( (*it)->getHops() > numHops){
             delete *it;
             it = listFWDBeacons.erase(it);
         }
         else{
             ++it;
         }
+
+
     }
 }
 
