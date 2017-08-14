@@ -266,7 +266,7 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         RMSEStatistics();
 
         //Write Log Files
-        //WriteLogFiles();
+        WriteLogFiles();
 
         //Put veins control parameters
         populateWSM(bsm);
