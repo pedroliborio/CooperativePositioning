@@ -1,0 +1,102 @@
+version 2
+run DMAT-19-20170817-12:27:12-5659
+attr configname DMAT
+attr datetime 20170817-12:27:12
+attr experiment DMAT
+attr inifile omnetpp.ini
+attr iterationvars "$logDistVehPar=150, $totHops=5"
+attr iterationvars2 "$logDistVehPar=150, $totHops=5, $repetition=0"
+attr logDistVehPar 150
+attr measurement "$logDistVehPar=150, $totHops=5"
+attr network com.liborio.cooperativepositioning.LocScenario
+attr processid 5659
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 19
+attr seedset 0
+attr totHops 5
+param **.coreDebug false
+param **.debug false
+param *.annotations.draw false
+param *.connectionManager.drawMaxIntfDist false
+param *.connectionManager.maxInterfDist 600m
+param *.connectionManager.sendDirect true
+param *.manager.autoShutdown true
+param *.manager.host "\"localhost\""
+param *.manager.launchConfig "xmldoc(\"dmat-\"+string(${logDistVehPar = 25,50, 100, 150})+\".launchd.xml\")"
+param *.manager.port 9999
+param *.manager.updateInterval 0.1s
+param *.node[*].appl.beaconInterval 0.1s
+param *.node[*].appl.dataOnSch false
+param *.node[*].appl.forwardBeacons true
+param *.node[*].appl.forwardInterval 0.1s
+param *.node[*].appl.headerLength "80 bit"
+param *.node[*].appl.logDistVehPar ${logDistVehPar}
+param *.node[*].appl.logSeedPar ${seedset}
+param *.node[*].appl.numHops ${totHops=1,2,3,4,5}
+param *.node[*].appl.sendBeacons true
+param *.node[*].applType "\"LocAppCom\""
+param *.node[*].nic.mac1609_4.bitrate 6Mbps
+param *.node[*].nic.mac1609_4.txPower 20mW
+param *.node[*].nic.mac1609_4.useServiceChannel false
+param *.node[*].nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.node[*].nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.node[*].nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.node[*].nic.phy80211p.sensitivity -84.39dBm
+param *.node[*].nic.phy80211p.thermalNoise -110dBm
+param *.node[*].nic.phy80211p.usePropagationDelay true
+param *.node[*].nic.phy80211p.useThermalNoise true
+param *.node[*].veinsmobility.x 0
+param *.node[*].veinsmobility.y 0
+param *.node[*].veinsmobility.z 1.895
+param *.node[*].veinsmobilityType.debug true
+param *.outagesServer.appl.beaconInterval 0.1s
+param *.outagesServer.appl.beaconPriority 3
+param *.outagesServer.appl.dataOnSch false
+param *.outagesServer.appl.dataPriority 2
+param *.outagesServer.appl.headerLength "80 bit"
+param *.outagesServer.appl.sendBeacons false
+param *.outagesServer.applType "\"Outages\""
+param *.outagesServer.mobility.x 5000.0
+param *.outagesServer.mobility.y 10.0
+param *.outagesServer.mobility.z 3
+param *.outagesServer.nic.mac1609_4.bitrate 6Mbps
+param *.outagesServer.nic.mac1609_4.txPower 20mW
+param *.outagesServer.nic.mac1609_4.useServiceChannel false
+param *.outagesServer.nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.outagesServer.nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.outagesServer.nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.outagesServer.nic.phy80211p.sensitivity -90.41dBm
+param *.outagesServer.nic.phy80211p.thermalNoise -110dBm
+param *.outagesServer.nic.phy80211p.usePropagationDelay true
+param *.outagesServer.nic.phy80211p.useThermalNoise true
+param *.playgroundSizeX 5500m
+param *.playgroundSizeY 5500m
+param *.playgroundSizeZ 50m
+param *.rsu[*].appl.beaconInterval 0.1s
+param *.rsu[*].appl.beaconPriority 3
+param *.rsu[*].appl.dataOnSch false
+param *.rsu[*].appl.dataPriority 2
+param *.rsu[*].appl.forwardBeacons false
+param *.rsu[*].appl.forwardInterval 0.1s
+param *.rsu[*].appl.headerLength "80 bit"
+param *.rsu[*].appl.numHops ${totHops}
+param *.rsu[*].appl.sendBeacons false
+param *.rsu[*].applType "\"RSU\""
+param *.rsu[*].nic.mac1609_4.bitrate 6Mbps
+param *.rsu[*].nic.mac1609_4.txPower 20mW
+param *.rsu[*].nic.mac1609_4.useServiceChannel false
+param *.rsu[*].nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.rsu[*].nic.phy80211p.antenna "xmldoc(\"antenna.xml\", \"/root/Antenna[@id='monopole']\")"
+param *.rsu[*].nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.rsu[*].nic.phy80211p.sensitivity -90.41dBm
+param *.rsu[*].nic.phy80211p.thermalNoise -110dBm
+param *.rsu[*].nic.phy80211p.usePropagationDelay true
+param *.rsu[*].nic.phy80211p.useThermalNoise true
+param *.rsu[0].mobility.x 385.772
+param *.rsu[0].mobility.y 1238.66
+param *.rsu[0].mobility.z 3
+
+scalar . 	logDistVehPar 	150
+scalar . 	totHops 	5
