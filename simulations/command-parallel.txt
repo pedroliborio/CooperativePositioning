@@ -1,0 +1,4 @@
+DMAT
+parallel -j2 --no-notice ../CooperativePositioning -u Cmdenv -c DMAT -r {1} -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp.ini ::: {0..80}
+DPT
+parallel -j2 --no-notice ../CooperativePositioning -u Cmdenv -c DPT -r {1} -n ..:../../veins/examples/veins:../../veins/src/veins --image-path=../../veins/images -l ../../veins/src/veins --debug-on-errors=false omnetpp.ini ::: {0..80}

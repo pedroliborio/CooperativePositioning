@@ -67,6 +67,30 @@ OutCoord Outages::getOutage(std::string routeFile){
         return coords;
     }
 
+    if(routeFile == "DPTEntranceExit"){
+        coords.outage.x = dptEntranceExit[indexEntranceExit-1][0];
+        coords.outage.y = dptEntranceExit[indexEntranceExit-1][1];
+        coords.recover.x = dptEntranceExit[indexEntranceExit][0];
+        coords.recover.y = dptEntranceExit[indexEntranceExit][1];
+        indexEntranceExit+=2;
+        if(indexEntranceExit > (DPT_SIZE)){
+            indexEntranceExit = 1;
+        }
+        return coords;
+    }
+
+    if(routeFile == "DPTExitEntrance"){
+        coords.outage.x = dptExitEntrance[indexExitEntrance-1][0];
+        coords.outage.y = dptExitEntrance[indexExitEntrance-1][1];
+        coords.recover.x = dptExitEntrance[indexExitEntrance][0];
+        coords.recover.y = dptExitEntrance[indexExitEntrance][1];
+        indexExitEntrance+=2;
+        if(indexExitEntrance > (DPT_SIZE)){
+            indexExitEntrance = 1;
+        }
+        return coords;
+    }
+
     return coords;
 }
 

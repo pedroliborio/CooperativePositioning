@@ -360,6 +360,8 @@ class LocAppCom : public BaseApplLayer {
         double rmseDRCP;
         double numRMSEs;
 
+        double delaySum;
+
         simtime_t timestampOutage;
         simtime_t timestampRecover;
 

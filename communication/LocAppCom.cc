@@ -74,6 +74,9 @@ void LocAppCom::initialize(int stage) {
         receivedWSAs = 0;
         receivedWSMs = 0;
         receivedFWDBSMs = 0;
+
+        delaySum=0;
+
         //for RMSE statistcs
         rmseGPS = .0;
         rmseDRCP = .0;
@@ -284,20 +287,20 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
         break;
     }
     case SEND_FWDBEACON_EVT:{
-        if(forwardBeacons){
+        //if(forwardBeacons){
             //std::cout << "Evento de forwarding" << endl;
             //Verificar se tem beacons com TTL expirados e deletar.
-            DeleteOldBeaconToForward();
+            //DeleteOldBeaconToForward();
             //Verificar se tem beacon na lista e fazer forwarding e depois deletar.
-            if(!listFWDBeacons.empty()){
+            //if(!listFWDBeacons.empty()){
                 //envia um beacon e o retira da lista de beacons para envio
-                sendDown(listFWDBeacons.front());
+                //sendDown(listFWDBeacons.front());
                 //std::cout << "forwarding beacon: " << listFWDBeacons.front()->getPersistentID() << endl;
-                listFWDBeacons.pop_front();
-            }
+                //listFWDBeacons.pop_front();
+            //}
             //agenda proximo envio periodico
-            scheduleAt(simTime()+ forwardInterval, sendFWDBeaconEvt);
-        }
+            //scheduleAt(simTime()+ forwardInterval, sendFWDBeaconEvt);
+        //}
         break;
     }
     default: {
@@ -362,6 +365,8 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
     UpdateNeighborList(&anchorNode);
 
+    delaySum = simTime().dbl() - bsm->getTimestamp().dbl();
+
 
     /*See: https://omnetpp.org/doc/omnetpp/manual/#sec:simple-modules:self-messages
      * Creating and sending a copy...
@@ -377,13 +382,17 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
         //works like a TTL
         //if( ){
    if(forwardBeacons){
-       BasicSafetyMessage *fwdBSM = bsm->dup();
-       fwdBSM->setPersistentID(bsm->getPersistentID());
-       fwdBSM->setHops(bsm->getHops()+1);
+       //somente nós mais distantes propagam os beacons nos com pelo menos 30%
+       if(( numHops * bsm->getSenderRealPos().distance(mobility->getCurrentPosition())) > (numHops*200)){
+           BasicSafetyMessage *fwdBSM = bsm->dup();
+           fwdBSM->setPersistentID(bsm->getPersistentID());
+           fwdBSM->setHops(bsm->getHops()+1);
+           sendDown(fwdBSM);
+       }
        //std::cout << bsm->getPersistentID() << "<- BSM, FWDBSM ->"<< fwdBSM->getPersistentID() << endl;
 
        //Adiciona o beacon para lista de beacons para encaminhamento...
-       AddBeaconToForward(fwdBSM);
+       //AddBeaconToForward(fwdBSM);
    }
    //fwdBSM->setHops(bsm->getHops()+1);
    //sendDown(fwdBSM);
@@ -408,8 +417,10 @@ void LocAppCom::finish() {
     recordScalar("generatedWSAs",generatedWSAs);
     recordScalar("receivedWSAs",receivedWSAs);
 
+    recordScalar("delaySum",delaySum);
+
     //Compute and record RMSE statistics...
-    ComputeLocStats();
+    //ComputeLocStats();
 }
 
 LocAppCom::~LocAppCom() {

@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!-- debug config -->
-<launch>
-	<copy file="dpt.net.xml" />
-	<copy file="dpt.rou.xml" />
-	<!--<copy file="erlangen.poly.xml" /> -->
-	<copy file="dpt.sumo.cfg" type="config" />
-</launch>

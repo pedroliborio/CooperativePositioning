@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!-- debug config -->
-<launch>
-	<copy file="rio.net.xml" />
-	<copy file="rio.rou.xml" />
-	<!--<copy file="erlangen.poly.xml" /> -->
-	<copy file="rio.sumo.cfg" type="config" />
-</launch>
