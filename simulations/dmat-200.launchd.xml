@@ -2,7 +2,7 @@
 <!-- debug config -->
 <launch>
 	<copy file="dmat.net.xml" />
-	<copy file="dmat-25.rou.xml" />
+	<copy file="dmat-200.rou.xml" />
 	<!--<copy file="erlangen.poly.xml" /> -->
-	<copy file="dmat-25.sumo.cfg" type="config" />
+	<copy file="dmat-200.sumo.cfg" type="config" />
 </launch>
