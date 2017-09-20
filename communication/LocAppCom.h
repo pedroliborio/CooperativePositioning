@@ -108,7 +108,7 @@ class LocAppCom : public BaseApplLayer {
 
         //Lista que simula um fila FIFO para encaminhar beacons...
         std::list<BasicSafetyMessage*> listFWDBeacons;
-        std::list<uint32_t> listIds;
+        std::list<int> listIds;
 
 
         //**************Position Variables
@@ -299,6 +299,8 @@ class LocAppCom : public BaseApplLayer {
         void SortByResidual();
 
         double SetResidual();
+
+        bool AlreadyReceivedMSG(int serialIDMSG);
 
     protected:
 

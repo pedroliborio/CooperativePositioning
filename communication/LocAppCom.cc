@@ -314,7 +314,8 @@ void LocAppCom::handleSelfMsg(cMessage* msg) {
 
 void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
 
-    if ( BeaconIsDuplicated(bsm) || BeaconHaveMyId(bsm) || (!BeaconIsAlive(bsm)) || bsm->getInOutage() ){
+    //if ( BeaconIsDuplicated(bsm) || BeaconHaveMyId(bsm) || (!BeaconIsAlive(bsm)) || bsm->getInOutage() ){
+    if((!BeaconIsAlive(bsm)) || bsm->getInOutage() || AlreadyReceivedMSG(bsm->getSerial())){
         //std::cout <<"do nothing..." << endl;
         //delete(bsm);
         return;
@@ -381,14 +382,18 @@ void LocAppCom::onBSM(BasicSafetyMessage* bsm) {
         //Message only can be restranmited if timestamp is below of one trheshold
         //works like a TTL
         //if( ){
+   //adiciona id da msg ara um lista d de ids de mensagens recebidas.
+    listIds.push_back(bsm->getSerial());
+
    if(forwardBeacons){
        //somente nós mais distantes propagam os beacons nos com pelo menos 30%
-       if(( numHops * bsm->getSenderRealPos().distance(mobility->getCurrentPosition())) > (numHops*200)){
-           BasicSafetyMessage *fwdBSM = bsm->dup();
-           fwdBSM->setPersistentID(bsm->getPersistentID());
-           fwdBSM->setHops(bsm->getHops()+1);
-           sendDown(fwdBSM);
-       }
+       //if(( numHops * bsm->getSenderRealPos().distance(mobility->getCurrentPosition())) > (numHops*200)){
+        /*BasicSafetyMessage *fwdBSM = bsm->dup();
+        fwdBSM->setPersistentID(bsm->getPersistentID());
+        fwdBSM->setHops(bsm->getHops()+1);*/
+       bsm->setHops(bsm->getHops()+1);
+       sendDelayedDown(bsm->dup(), beaconInterval);
+       //}
        //std::cout << bsm->getPersistentID() << "<- BSM, FWDBSM ->"<< fwdBSM->getPersistentID() << endl;
 
        //Adiciona o beacon para lista de beacons para encaminhamento...
@@ -1100,5 +1105,14 @@ void LocAppCom::DeleteOldBeaconToForward(){
     }
 }
 
+
+bool LocAppCom::AlreadyReceivedMSG(int serialIDMSG){
+    for(std::list<int>::iterator it=listIds.begin(); it!= listIds.end(); ++it){
+        if(*it == serialIDMSG){
+            return true;
+        }
+    }
+    return false;
+}
 
 
