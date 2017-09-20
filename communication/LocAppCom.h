@@ -108,6 +108,8 @@ class LocAppCom : public BaseApplLayer {
 
         //Lista que simula um fila FIFO para encaminhar beacons...
         std::list<BasicSafetyMessage*> listFWDBeacons;
+        std::list<uint32_t> listIds;
+
 
         //**************Position Variables
         Coord coopPosRSSIFS; //CP FS
